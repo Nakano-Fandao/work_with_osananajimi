@@ -19,11 +19,6 @@
 フリー声優の常盤はなこさんにご協力いただきました。
 
 
-## Google スライド
-
-<iframe src="https://docs.google.com/presentation/d/1bxQ6AGLWHZx9QcjvOI-KPH7xyOSC71Vy_93sML1UfU4/edit?usp=sharing" frameborder="0" width="500" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-
-
 ## :octocat:開発者たち
 
 <table>
