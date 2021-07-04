@@ -1,6 +1,8 @@
 ##work with osananajimi | kazuki-nishimura, aosatomiru
 
-![index](UI/images/logos/title.png)
+<div align="center">
+  <img src="UI/images/logos/title.png" alt="" title="タイトルロゴ">
+</div>
 
 ## 🐰このプロジェクトについて
 
