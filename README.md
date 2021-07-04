@@ -21,7 +21,7 @@
 
 ## Google スライド
 
-<iframe src="https://docs.google.com/presentation/d/1bxQ6AGLWHZx9QcjvOI-KPH7xyOSC71Vy_93sML1UfU4/edit#slide=id.ge37fd24798_8_5" frameborder="0" width="500" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe src="https://docs.google.com/presentation/d/1bxQ6AGLWHZx9QcjvOI-KPH7xyOSC71Vy_93sML1UfU4/edit?usp=sharing" frameborder="0" width="500" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
 
 ## :octocat:開発者たち
