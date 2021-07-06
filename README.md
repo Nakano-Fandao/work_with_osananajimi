@@ -18,7 +18,8 @@ App を起動すれば、幼馴染と雑談をしながら作業をやること�
 ## 👀このプロジェクトで用いられた音声ファイル
 
 フリー声優の常盤はなこさんにご協力いただきました。声データは載せていませんが、<a href="http://www.moe-v.net/shop_detail.php?id=26021">萌えボイス</a>にて購入できます。<br>
-<a href="https://twitter.com/87_tkw">Twitter</a>  <a href="https://tokiwahanakodayo.wixsite.com/mysite">個人サイト</a>
+常盤はなこさん <a href="https://twitter.com/87_tkw">Twitter</a>
+              <a href="https://tokiwahanakodayo.wixsite.com/mysite">個人サイト</a>
 
 
 ## :octocat:開発者たち
