@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -10,22 +9,14 @@ from PySide2.QtMultimedia import QSound
 
 from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
-
 from play_voice import PlayVoice
 
-## ==> MAIN WINDOW
-from chat_popup import ChatPopup
-
-## ==> INDEX SCREEN
+## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
+## ==> CHAT POPUP
+from ui_chat_popup import Ui_ChatPopup
 
-## ==> Sound Effects
-import files_rc
-
-# GUI FILE
-# from app_modules import *
-
-# YOUR APPLICATION
+# ROOM SCREEN
 class RoomScreen(QMainWindow):
     def __init__(self, mood, serif):
         QMainWindow.__init__(self)
@@ -85,31 +76,87 @@ class RoomScreen(QMainWindow):
     def change_window(self, index):
         self.ui.windowLabel.setPixmap(QPixmap(u":/image/images/windows/textbox_{}.png".format(index)))
 
-
     def show_serif(self):
         self.change_window("serif")
         self.ui.osanaText.setText(self.serif)
         print("Show serif")
 
-
     def show_timer(self):
         self.change_window("timer")
         print("Show timer")
-        chats = [
+        self.chats = [
             "えっ、よかったじゃん…お似合いだよ",
             "嫌だ嫌だ嫌だ",
             "付き合うのか、俺以外の奴と。"
         ]
         QSound.play(":voice/sounds/voices/choicechat_good_4_ask.wav")
 
-        self.popup = ChatPopup(chats)
+        self.popup = ChatPopup(self.chats)
         self.popup.show()
-
 
     def show_break(self):
         self.change_window("break")
         print("Show break")
 
-
     def show_finish(self):
         sys.exit(-1)
+
+
+class ChatPopup(QDialog):
+    def __init__(self, chats):
+        super().__init__()
+        self.ui = Ui_ChatPopup()
+        self.ui.setupUi(self)
+        self.chats = chats
+        self.setupChats()
+
+    def setupChats(self):
+        chat_length = len(self.chats)
+        height = 10 + chat_length*95
+        self.setGeometry(QRect(300, 100, 540, height))
+
+        # 1つ目のみ
+        self.ui.textBrowser_1.setMarkdown(QCoreApplication.translate("Dialog", self.chats[0], None))
+        self.ui.pushButton_1.clicked.connect(self.play_voice1)
+
+        for i in range(chat_length-1):
+            self.create_text_browser(i)
+            self.create_button(i)
+
+    def create_text_browser(self, i):
+        y_pos = 10 + 95*(i+1)
+        self.ui.textBrowser = QTextBrowser(self)
+        self.ui.textBrowser.setObjectName(u"textBrowser_{}".format(i+2))
+        self.ui.textBrowser.setGeometry(QRect(10, y_pos, 520, 85))
+        self.ui.textBrowser.setStyleSheet(u"QTextBrowser {\n"
+            "	background-color: #FFEAC9;\n"
+            "	border-radius: 15px;\n"
+            "	color: #343A40;\n"
+            "	font: 75 16pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
+            "}")
+        self.ui.textBrowser.setMarkdown(QCoreApplication.translate("Dialog", self.chats[i+1], None))
+        print(locals())
+        # self.ui.pushButton.clicked.connect(self.play_voice2)
+
+    def create_button(self, i):
+        y_pos = 10 + 95*(i+1)
+        self.ui.pushButton = QPushButton(self)
+        self.ui.pushButton.setObjectName(u"pushButton_{}".format(i+2))
+        self.ui.pushButton.setGeometry(QRect(10, y_pos, 520, 85))
+        self.ui.pushButton.setStyleSheet(u"QPushButton{background: transparent;}")
+
+
+
+    def play_voice1(self):
+        print(locals())
+        print(globals())
+        self.close()
+        QSound.play(":voice/sounds/voices/choicechat_good_4_a.wav")
+
+    def play_voice2(self):
+        self.close()
+        QSound.play(":voice/sounds/voices/choicechat_good_4_b.wav")
+
+    def play_voice3(self):
+        self.close()
+        QSound.play(":voice/sounds/voices/choicechat_good_4_c.wav")

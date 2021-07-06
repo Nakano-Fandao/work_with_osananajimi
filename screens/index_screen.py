@@ -1,10 +1,9 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
-import sys, json, os, random
+import sys
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2 import QtCore
 from PySide2.QtWidgets import QMainWindow
-from PySide2.QtMultimedia import QSound
 
 ## ==> MAIN WINDOW
 from room_screen import RoomScreen
@@ -14,13 +13,7 @@ from ui_index_screen import Ui_IndexScreen
 
 from play_voice import PlayVoice
 
-## ==> Sound Effects
-# import files_rc
-
-# GUI FILE
-# from app_modules import *
-
-# YOUR APPLICATION
+# INDEX SCREEN
 class IndexScreen(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -35,8 +28,6 @@ class IndexScreen(QMainWindow):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
         # Osananajimi arrives
-        # door_knocking = correspondence_json["door_knocking"]
-        # QSound.play(door_knocking)
         self.osana = PlayVoice()
         print("うぇ、幼馴染がきた")
 
@@ -59,8 +50,9 @@ class IndexScreen(QMainWindow):
         self.close()
 
     def finish(self):
-        # 幼馴染が帰った
+        # 幼馴染をかえらせる
         sys.exit(-1)
 
     def touch(self):
-        self.osana.play_app_voice("start", self.mood, True)
+        touched = True
+        self.osana.play_app_voice("start", self.mood, touched)
