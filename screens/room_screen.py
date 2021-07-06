@@ -10,6 +10,7 @@ from PySide2.QtMultimedia import QSound
 from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
 from play_voice import PlayVoice
+from json_files import JsonFiles
 
 ## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
@@ -18,11 +19,11 @@ from ui_chat_popup import Ui_ChatPopup
 
 # ROOM SCREEN
 class RoomScreen(QMainWindow):
-    def __init__(self, mood, serif):
+    def __init__(self, parameter, serif):
         QMainWindow.__init__(self)
         self.ui = Ui_RoomScreen()
         self.ui.setupUi(self)
-        self.mood = mood
+        self.parameter = parameter
         self.serif = serif
         self.show_serif()
 
@@ -57,7 +58,7 @@ class RoomScreen(QMainWindow):
             if not detected:
                 pass
             else:
-                self.serif = self.osana.play_voice(detected, self.mood)
+                self.serif = self.osana.play_voice(detected, self.parameter)
                 self.show_serif()
 
         if self.counter == 30:
@@ -66,11 +67,36 @@ class RoomScreen(QMainWindow):
             if not detected:
                 pass
             else:
-                self.serif = self.osana.play_voice(detected, self.mood)
+                self.serif = self.osana.play_voice(detected, self.parameter)
                 self.show_serif()
 
         print(self.counter)
         self.counter += 1
+
+    def do_choicechat(self):
+
+        self.serif, choicechat_detail = self.osana.play_choicechat_ask(self.parameter)
+        self.show_serif()
+
+        user_reply_list = choicechat_detail["user_reply"]
+        osana_reply_list = choicechat_detail["osana_reply"]
+        point_list = choicechat_detail["point"]
+
+        if self.serif == "お腹すいたな～あたしが何か作るよ！なに食べたい？":
+            osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.parameter > 55]
+            point_list = (point_list[0], point_list[1])[self.parameter > 55]
+
+        self.popup = ChatPopup(user_reply_list)
+        if self.popup.exec_()== QDialog.Accepted:
+            self.popup.show()
+            user_reply = self.popup.selected_item
+
+        index = user_reply_list.index(user_reply)
+        self.serif = osana_reply_list[index]
+        self.show_serif()
+        point = point_list[index]
+        self.osana.play_choicechat_reply(self.serif)
+        self.parameter += point
 
 
     def change_window(self, index):
@@ -84,15 +110,8 @@ class RoomScreen(QMainWindow):
     def show_timer(self):
         self.change_window("timer")
         print("Show timer")
-        self.chats = [
-            "えっ、よかったじゃん…お似合いだよ",
-            "嫌だ嫌だ嫌だ",
-            "付き合うのか、俺以外の奴と。"
-        ]
-        QSound.play(":voice/sounds/voices/choicechat_good_4_ask.wav")
 
-        self.popup = ChatPopup(self.chats)
-        self.popup.show()
+        self.do_choicechat()
 
     def show_break(self):
         self.change_window("break")
@@ -110,53 +129,19 @@ class ChatPopup(QDialog):
         self.chats = chats
         self.setupChats()
 
+        self.ui.chatList.clicked.connect(self.accept)
+
     def setupChats(self):
         chat_length = len(self.chats)
         height = 10 + chat_length*95
         self.setGeometry(QRect(300, 100, 540, height))
+        for i in range(chat_length):
+            QListWidgetItem(self.ui.chatList)
+            chatItem = self.ui.chatList.item(i)
+            chatItem.setText(QCoreApplication.translate("ChatPopup", self.chats[i], None));
 
-        # 1つ目のみ
-        self.ui.textBrowser_1.setMarkdown(QCoreApplication.translate("Dialog", self.chats[0], None))
-        self.ui.pushButton_1.clicked.connect(self.play_voice1)
-
-        for i in range(chat_length-1):
-            self.create_text_browser(i)
-            self.create_button(i)
-
-    def create_text_browser(self, i):
-        y_pos = 10 + 95*(i+1)
-        self.ui.textBrowser = QTextBrowser(self)
-        self.ui.textBrowser.setObjectName(u"textBrowser_{}".format(i+2))
-        self.ui.textBrowser.setGeometry(QRect(10, y_pos, 520, 85))
-        self.ui.textBrowser.setStyleSheet(u"QTextBrowser {\n"
-            "	background-color: #FFEAC9;\n"
-            "	border-radius: 15px;\n"
-            "	color: #343A40;\n"
-            "	font: 75 16pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
-            "}")
-        self.ui.textBrowser.setMarkdown(QCoreApplication.translate("Dialog", self.chats[i+1], None))
-        print(locals())
-        # self.ui.pushButton.clicked.connect(self.play_voice2)
-
-    def create_button(self, i):
-        y_pos = 10 + 95*(i+1)
-        self.ui.pushButton = QPushButton(self)
-        self.ui.pushButton.setObjectName(u"pushButton_{}".format(i+2))
-        self.ui.pushButton.setGeometry(QRect(10, y_pos, 520, 85))
-        self.ui.pushButton.setStyleSheet(u"QPushButton{background: transparent;}")
-
-
-
-    def play_voice1(self):
-        print(locals())
-        print(globals())
+    @property
+    def selected_item(self):
         self.close()
-        QSound.play(":voice/sounds/voices/choicechat_good_4_a.wav")
-
-    def play_voice2(self):
-        self.close()
-        QSound.play(":voice/sounds/voices/choicechat_good_4_b.wav")
-
-    def play_voice3(self):
-        self.close()
-        QSound.play(":voice/sounds/voices/choicechat_good_4_c.wav")
+        item = self.ui.chatList.selectedItems()[0].text()
+        return ("", item)[item != ""]

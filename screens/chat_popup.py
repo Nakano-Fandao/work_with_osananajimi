@@ -3,7 +3,6 @@ import sys, os
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from PySide2.QtMultimedia import QSound
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../UI"))
 from ui_chat_popup import Ui_ChatPopup
@@ -16,7 +15,7 @@ class ChatPopup(QDialog):
         self.chats = [
             "おはよう",
             "ばいばい",
-            "うんこ"
+            "やっほー"
         ]
 
         self.ui.pushButton_1.clicked.connect(self.play_voice1)

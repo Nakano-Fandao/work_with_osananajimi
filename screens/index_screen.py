@@ -10,8 +10,9 @@ from room_screen import RoomScreen
 
 ## ==> INDEX SCREEN
 from ui_index_screen import Ui_IndexScreen
-
 from play_voice import PlayVoice
+
+from settings.mood_parameter import MoodParameter
 
 # INDEX SCREEN
 class IndexScreen(QMainWindow):
@@ -21,7 +22,7 @@ class IndexScreen(QMainWindow):
         self.ui.setupUi(self)
 
         # 変数設定
-        self.mood = "normal"
+        self.parameter = 50
 
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -40,10 +41,10 @@ class IndexScreen(QMainWindow):
 
     def start(self):
 
-        serif = self.osana.play_app_voice("start", self.mood)
+        serif = self.osana.play_app_voice("start", self.parameter)
 
         # SHOW ROOM SCREEN
-        self.main = RoomScreen(self.mood, serif)
+        self.main = RoomScreen(self.parameter, serif)
         self.main.show()
 
         # CLOSE INDEX SCREEN
