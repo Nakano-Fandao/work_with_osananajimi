@@ -1,6 +1,8 @@
 import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "detect_modules"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "UI"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "screens"))
 
 from PySide2.QtWidgets import QApplication
 
