@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LogPopup</class>
+ <widget class="QWidget" name="LogPopup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QFrame" name="listFrame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame {
+	background-color: rgba(0, 0, 0, 0.4);
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="backgroundLabel">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="files.qrc">:/image/images/backgrounds/log.jpg</pixmap>
+   </property>
+  </widget>
+  <widget class="QListView" name="logList">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>35</y>
+     <width>390</width>
+     <height>560</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QListView {
+	border-radius: 10px;
+	background: transparent;
+	color: rgb(220, 220, 220);
+}
+QListView::item{
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 4px;
+	border: .3px solid white;
+	border-radius: 10px;
+	margin-top: 10px;
+	color: white;
+	font-size: 1.5em;
+}
+QListView::item:hover{
+	background-color: rgba(0, 0, 0, 0.7);
+}</string>
+   </property>
+   <property name="isWrapping" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="modelColumn">
+    <number>0</number>
+   </property>
+   <property name="uniformItemSizes">
+    <bool>false</bool>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+   <property name="selectionRectVisible">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exitButton">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>0</y>
+     <width>50</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	background-image: url(:/image/images/icons/cil-x.png);
+	background-position: center;
+	background-repeat: no-reperat;
+	border: none;
+	background-color: rgb(27, 29, 35);
+}
+QPushButton:hover {
+	background-color: rgb(60, 60, 60);
+}
+QPushButton:pressed {
+	background-color: rgb(85, 170, 255);
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="files.qrc">
+     <normaloff>:/image/images/icons/cil-x.png</normaloff>:/image/images/icons/cil-x.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="logScreenTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>350</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+	background-color: black;
+	font: 75 12pt &quot;メイリオ&quot;;
+	width: 350px;
+	color: rgb(220, 220, 220);
+}</string>
+   </property>
+   <property name="text">
+    <string>会話ログ</string>
+   </property>
+  </widget>
+  <zorder>backgroundLabel</zorder>
+  <zorder>listFrame</zorder>
+  <zorder>logList</zorder>
+  <zorder>exitButton</zorder>
+  <zorder>logScreenTitleLabel</zorder>
+ </widget>
+ <resources>
+  <include location="files.qrc"/>
+ </resources>
+ <connections/>
+</ui>

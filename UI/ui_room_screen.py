@@ -63,6 +63,16 @@ class Ui_RoomScreen(object):
         self.finishLabel.setGeometry(QRect(630, 400, 140, 81))
         self.finishLabel.setPixmap(QPixmap(u":/image/images/windows/button_finish.png"))
         self.finishLabel.setScaledContents(True)
+        self.logButton = QPushButton(self.centralwidget)
+        self.logButton.setObjectName(u"logButton")
+        self.logButton.setGeometry(QRect(700, 540, 70, 35))
+        self.logButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: transparent;\n"
+"}")
+        icon = QIcon()
+        icon.addFile(u":/image/images/icons/logButton.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.logButton.setIcon(icon)
+        self.logButton.setIconSize(QSize(70, 35))
         RoomScreen.setCentralWidget(self.centralwidget)
         self.insideRoomLabel.raise_()
         self.osanaLabel.raise_()
@@ -73,6 +83,7 @@ class Ui_RoomScreen(object):
         self.serifButton.raise_()
         self.finishButton.raise_()
         self.breakButton.raise_()
+        self.logButton.raise_()
 
         self.retranslateUi(RoomScreen)
 
@@ -82,11 +93,14 @@ class Ui_RoomScreen(object):
     def retranslateUi(self, RoomScreen):
         RoomScreen.setWindowTitle(QCoreApplication.translate("RoomScreen", u"MainWindow", None))
         self.insideRoomLabel.setText("")
+        self.osanaText.setMarkdown(QCoreApplication.translate("RoomScreen", u"\u3077\u3063\u3001\u306a\u306b\u305d\u308c\u3002\u305d\u3082\u305d\u3082\u4ed8\u304d\u5408\u3046\u6c17\u306a\u304b\u3063\u305f\u3088\u3002\u3042\u3063\u3001\u5b89\u5fc3\u3057\u3066\u308b\uff1f\u3075\u3075\u3001\u305c\u30fc\u3093\u3076\u304a\u898b\u901a\u3057\u3063\u3066\u308f\u3051\uff57\n"
+"\n"
+"", None))
         self.osanaText.setHtml(QCoreApplication.translate("RoomScreen", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'\u30e1\u30a4\u30ea\u30aa'; font-size:16pt; font-weight:72; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u304a\u306f\u3088\u3046</p></body></html>", None))
+"<p style=\" margin-top:10px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u3077\u3063\u3001\u306a\u306b\u305d\u308c\u3002\u305d\u3082\u305d\u3082\u4ed8\u304d\u5408\u3046\u6c17\u306a\u304b\u3063\u305f\u3088\u3002\u3042\u3063\u3001\u5b89\u5fc3\u3057\u3066\u308b\uff1f\u3075\u3075\u3001\u305c\u30fc\u3093\u3076\u304a\u898b\u901a\u3057\u3063\u3066\u308f\u3051\uff57</p></body></html>", None))
         self.osanaLabel.setText("")
         self.serifButton.setText("")
         self.finishButton.setText("")
@@ -94,5 +108,6 @@ class Ui_RoomScreen(object):
         self.timerButton.setText("")
         self.breakButton.setText("")
         self.finishLabel.setText("")
+        self.logButton.setText("")
     # retranslateUi
 
