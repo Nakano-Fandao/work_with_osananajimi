@@ -53,7 +53,7 @@ class RoomScreen(QMainWindow):
         # ループスタート！
         self.timer = QTimer()
         self.timer.timeout.connect(self.detect)
-        self.timer.start(1500)
+        self.timer.start(500)
 
 
     def detect(self):
@@ -65,6 +65,7 @@ class RoomScreen(QMainWindow):
             else:
                 self.serif = self.osana.play_voice(detected, self.parameter)
                 self.show_serif()
+                self.parameter -= 10
 
         if self.counter == 30:
             self.counter = 0
@@ -74,6 +75,7 @@ class RoomScreen(QMainWindow):
             else:
                 self.serif = self.osana.play_voice(detected, self.parameter)
                 self.show_serif()
+                self.parameter -= 10
 
         print(self.counter)
         self.counter += 1
