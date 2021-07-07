@@ -1,21 +1,24 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys
+import sys, os
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from PySide2.QtMultimedia import QSound
+
+add_list = ["../detect_modules", "../UI", "../screens"]
+for dir in add_list:
+    sys.path.append(os.path.join(os.path.dirname(__file__), dir))
 
 from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
 from play_voice import PlayVoice
-from json_files import JsonFiles
 
 ## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
 ## ==> CHAT POPUP
-from ui_chat_popup import Ui_ChatPopup
+from chat_popup import ChatPopup
+from log_popup import LogPopup
 
 # ROOM SCREEN
 class RoomScreen(QMainWindow):
@@ -24,6 +27,7 @@ class RoomScreen(QMainWindow):
         self.ui = Ui_RoomScreen()
         self.ui.setupUi(self)
         self.parameter = parameter
+        self.serif_list = []
         self.serif = serif
         self.show_serif()
 
@@ -41,6 +45,7 @@ class RoomScreen(QMainWindow):
         self.ui.timerButton.clicked.connect(self.show_timer)
         self.ui.breakButton.clicked.connect(self.show_break)
         self.ui.finishButton.clicked.connect(self.show_finish)
+        self.ui.logButton.clicked.connect(self.show_log)
 
         # タイマースタート！
         self.counter = -10
@@ -86,10 +91,13 @@ class RoomScreen(QMainWindow):
             osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.parameter > 55]
             point_list = (point_list[0], point_list[1])[self.parameter > 55]
 
-        self.popup = ChatPopup(user_reply_list)
-        if self.popup.exec_()== QDialog.Accepted:
-            self.popup.show()
-            user_reply = self.popup.selected_item
+        self.chat_popup = ChatPopup(user_reply_list)
+        if self.chat_popup.exec_() == QDialog.Accepted:
+            #* 世間話popup表示
+            self.chat_popup.show()
+
+            #* 世間話popupから返ってくる
+            user_reply = self.chat_popup.selected_item
 
         index = user_reply_list.index(user_reply)
         self.serif = osana_reply_list[index]
@@ -104,44 +112,37 @@ class RoomScreen(QMainWindow):
 
     def show_serif(self):
         self.change_window("serif")
+        self.ui.osanaText.show()
+        self.ui.logButton.show()
         self.ui.osanaText.setText(self.serif)
+        self.serif_list.append(self.serif)
         print("Show serif")
 
     def show_timer(self):
         self.change_window("timer")
+        self.ui.osanaText.hide()
+        self.ui.logButton.hide()
         print("Show timer")
 
         self.do_choicechat()
 
     def show_break(self):
+        self.ui.osanaText.hide()
+        self.ui.logButton.hide()
         self.change_window("break")
         print("Show break")
 
     def show_finish(self):
         sys.exit(-1)
 
+    def show_log(self):
+        self.log_popup = LogPopup(self.serif_list)
+        self.log_popup.show()
 
-class ChatPopup(QDialog):
-    def __init__(self, chats):
-        super().__init__()
-        self.ui = Ui_ChatPopup()
-        self.ui.setupUi(self)
-        self.chats = chats
-        self.setupChats()
-
-        self.ui.chatList.clicked.connect(self.accept)
-
-    def setupChats(self):
-        chat_length = len(self.chats)
-        height = 10 + chat_length*95
-        self.setGeometry(QRect(300, 100, 540, height))
-        for i in range(chat_length):
-            QListWidgetItem(self.ui.chatList)
-            chatItem = self.ui.chatList.item(i)
-            chatItem.setText(QCoreApplication.translate("ChatPopup", self.chats[i], None));
-
-    @property
-    def selected_item(self):
-        self.close()
-        item = self.ui.chatList.selectedItems()[0].text()
-        return ("", item)[item != ""]
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    parameter = 50
+    serif = "ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ"
+    window = RoomScreen(parameter, serif)
+    window.show()
+    sys.exit(app.exec_())
