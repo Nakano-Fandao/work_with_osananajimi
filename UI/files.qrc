@@ -37,6 +37,7 @@
   </qresource>
   <qresource prefix="effect">
     <file>sounds/effects/door_knocking.wav</file>
+    <file>sounds/effects/paper_flipping.wav</file>
   </qresource>
   <qresource prefix="voice">
     <file>sounds/voices/announcement_12h.wav</file>

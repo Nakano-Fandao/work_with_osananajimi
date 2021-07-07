@@ -19,8 +19,21 @@ class PlayVoice():
         """
         mood = MoodParameter(parameter).mood
 
-        common_voices = list(self.json.voice["common"][mood].values())
-        voices = list(self.json.voice[case][mood].values())
+        if mood == "great":
+            if case == "hentai":
+                voices = list(self.json.voice[case]["good"].values())
+            else:
+                voices = list(self.json.voice[case][mood].values())
+        elif mood == "bad":
+            if case == "youtube":
+                voices = []
+            else:
+                voices = list(self.json.voice[case][mood].values())
+            common_voices = list(self.json.voice["common"][mood].values())
+        else:
+            voices = list(self.json.voice[case][mood].values())
+            common_voices = list(self.json.voice["common"][mood].values())
+
         voice = random.choice(voices + common_voices)
         self.find_and_play(voice)
         return voice
