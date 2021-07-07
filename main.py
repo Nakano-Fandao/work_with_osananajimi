@@ -1,14 +1,25 @@
-import sys, os
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
 
-add_list = ["detect_modules", "UI", "screens"]
-for dir in add_list:
-    sys.path.append(os.path.join(os.path.dirname(__file__), dir))
-
+import sys
+from settings.path_setting import PathSetting
 from PySide2.QtWidgets import QApplication
 
-from splash_screen import SplashScreen
 
 if __name__ == "__main__":
+    """
+    通常よみこみ             ：LOAD = 0
+    マチカネバグキタルロード  ：LOAD = 1
+    """
+    LOAD = 0
+
+    PathSetting().__init__()
     app = QApplication(sys.argv)
+
+    if LOAD:
+        from special_splash_screen import SplashScreen
+    else:
+        from splash_screen import SplashScreen
+
     window = SplashScreen()
     sys.exit(app.exec_())
