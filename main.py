@@ -5,14 +5,7 @@ import sys
 from settings.path_setting import PathSetting
 from PySide2.QtWidgets import QApplication
 
-
-if __name__ == "__main__":
-    """
-    通常よみこみ             ：LOAD = 0
-    マチカネバグキタルロード  ：LOAD = 1
-    """
-    LOAD = 0
-
+def main(LOAD):
     PathSetting().__init__()
     app = QApplication(sys.argv)
 
@@ -23,3 +16,12 @@ if __name__ == "__main__":
 
     window = SplashScreen()
     sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    """
+    通常よみこみ             ：LOAD = 0
+    マチカネバグキタルロード  ：LOAD = 1
+    """
+    LOAD = 1
+
+    main(LOAD)
