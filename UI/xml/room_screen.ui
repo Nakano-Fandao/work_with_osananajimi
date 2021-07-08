@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>796</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="files.qrc">:/image/images/backgrounds/inside.jpg</pixmap>
+     <pixmap resource="../files.qrc">:/image/images/backgrounds/inside.jpg</pixmap>
     </property>
    </widget>
    <widget class="QTextBrowser" name="osanaText">
@@ -62,15 +62,15 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>220</x>
       <y>40</y>
-      <width>371</width>
-      <height>471</height>
+      <width>370</width>
+      <height>470</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="files.qrc">:/image/images/character/figure1.png</pixmap>
+     <pixmap resource="../files.qrc">:/image/images/character/figure1.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -124,7 +124,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="files.qrc">:/image/images/windows/textbox_serif.png</pixmap>
+     <pixmap resource="../files.qrc">:/image/images/windows/textbox_serif.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -175,7 +175,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="files.qrc">:/image/images/windows/button_finish.png</pixmap>
+     <pixmap resource="../files.qrc">:/image/images/windows/button_finish.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -199,7 +199,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="files.qrc">
+     <iconset resource="../files.qrc">
       <normaloff>:/image/images/icons/logButton.png</normaloff>:/image/images/icons/logButton.png</iconset>
     </property>
     <property name="iconSize">
@@ -209,7 +209,92 @@ p, li { white-space: pre-wrap; }
      </size>
     </property>
    </widget>
+   <widget class="QFrame" name="blackFrame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>800</width>
+      <height>600</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame {
+	background-color: rgba(0, 0, 0, 0.4);
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QListView" name="logView">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>390</y>
+      <width>160</width>
+      <height>170</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListView {
+	background: white;
+	color: rgb(220, 220, 220);
+}
+QListView::item{
+	padding: 4px;
+	border: .3px solid white;
+	border-radius: 10px;
+	margin-top: 10px;
+	color: black;
+	font-size: 1.5em;
+}
+QListView::item:hover{
+	background-color: rgba(0, 0, 0, 0.7);
+}</string>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="returnButton">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>510</y>
+      <width>70</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{background: transparent;}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../files.qrc">
+      <normaloff>:/image/images/icons/return.svg</normaloff>:/image/images/icons/return.svg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>70</width>
+      <height>70</height>
+     </size>
+    </property>
+   </widget>
    <zorder>insideRoomLabel</zorder>
+   <zorder>blackFrame</zorder>
+   <zorder>logView</zorder>
    <zorder>osanaLabel</zorder>
    <zorder>finishLabel</zorder>
    <zorder>windowLabel</zorder>
@@ -219,10 +304,11 @@ p, li { white-space: pre-wrap; }
    <zorder>finishButton</zorder>
    <zorder>breakButton</zorder>
    <zorder>logButton</zorder>
+   <zorder>returnButton</zorder>
   </widget>
  </widget>
  <resources>
-  <include location="files.qrc"/>
+  <include location="../files.qrc"/>
  </resources>
  <connections/>
 </ui>
