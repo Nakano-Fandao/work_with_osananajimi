@@ -168,7 +168,7 @@ class RoomScreen(QMainWindow):
         # タイマースタート！
         self.ui.logView.show()
         self.ui.blackFrame.show()
-        self.STAGE_NUMBER = 128 # 分割回数（多いほど滑らか）
+        self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
         self.interval = 1
         self.move_counter = 1
         self.move_timer = QTimer()
@@ -176,12 +176,6 @@ class RoomScreen(QMainWindow):
         self.move_timer.start(1)
 
     def return_log(self):
-        self.ui.finishLabel.hide()
-        self.ui.finishButton.hide()
-        self.ui.logButton.hide()
-
-        self.model.setStringList(self.serif_list)
-        self.ui.logView.setModel(self.model)
 
         # 紙をめくる音
         QSound.play(":effect/sounds/effects/paper_flipping.wav")
@@ -191,9 +185,7 @@ class RoomScreen(QMainWindow):
 
         # タイマースタート！
         self.ui.returnButton.hide()
-        self.ui.logView.show()
-        self.ui.blackFrame.show()
-        self.STAGE_NUMBER = 128 # 分割回数（多いほど滑らか）
+        self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
         self.interval = 1
         self.move_counter = 1
         self.move_timer = QTimer()
@@ -202,6 +194,7 @@ class RoomScreen(QMainWindow):
 
     def get_geometry(self):
         #* --------------------before-----------------after--------
+        blackFrame   = [[  0,   0,   0,   0], [  0,   0,   0, 0.4]]
         osanaLabel   = [[220,  40, 370, 470], [ 20,  60, 370, 470]]
         logView      = [[610, 390, 160, 170], [370,  90, 400, 430]]
         windowLabel  = [[ 20, 405, 760, 182], [ 20, 525, 760, 182]]
@@ -212,6 +205,7 @@ class RoomScreen(QMainWindow):
         finishButton = [[630, 410, 140,  45], [ 20, 670, 140,  45]]
         #* --------------------------------------------------------
         if not self.log_flag:
+            blackFrame.reverse()
             osanaLabel.reverse()
             logView.reverse()
             windowLabel.reverse()
@@ -221,35 +215,36 @@ class RoomScreen(QMainWindow):
             breakButton.reverse()
             finishButton.reverse()
 
-        self.geometry_lists = [osanaLabel]+[logView]+[windowLabel]+[osanaText]+[serifButton]+[timerButton]+[breakButton]+[finishButton]
+        self.geometry_lists = [blackFrame]+[osanaLabel]+[logView]+[windowLabel]+[osanaText]+[serifButton]+[timerButton]+[breakButton]+[finishButton]
 
     def move_log(self):
 
         current_geometry = []
-        for (before, after) in self.geometry_lists:
+        for i, (before, after) in enumerate(self.geometry_lists):
             x = (before[0] - after[0]) / self.STAGE_NUMBER
             y = (before[1] - after[1]) / self.STAGE_NUMBER
             w = (before[2] - after[2]) / self.STAGE_NUMBER
             h = (before[3] - after[3]) / self.STAGE_NUMBER
-            current_geometry.append(QRect(
-                int(before[0] - x*self.move_counter),
-                int(before[1] - y*self.move_counter),
-                int(before[2] - w*self.move_counter),
-                int(before[3] - h*self.move_counter),
-            ))
-        if self.move_counter == self.STAGE_NUMBER:
-            current_geometry = [QRect(
-                l[1][0], l[1][1], l[1][2], l[1][3]
-            ) for l in self.geometry_lists]
+            if i != 0:
+                current_geometry.append(QRect(
+                    int(before[0] - x*self.move_counter),
+                    int(before[1] - y*self.move_counter),
+                    int(before[2] - w*self.move_counter),
+                    int(before[3] - h*self.move_counter)
+                ))
+            else:
+                t_val = round(before[3] - h*self.move_counter, 2)
+                current_geometry.append("QFrame {background-color: rgba(0, 0, 0, " + str(t_val) + ");}")
 
-        self.ui.osanaLabel.setGeometry(current_geometry[0])
-        self.ui.logView.setGeometry(current_geometry[1])
-        self.ui.windowLabel.setGeometry(current_geometry[2])
-        self.ui.osanaText.setGeometry(current_geometry[3])
-        self.ui.serifButton.setGeometry(current_geometry[4])
-        self.ui.timerButton.setGeometry(current_geometry[5])
-        self.ui.breakButton.setGeometry(current_geometry[6])
-        self.ui.finishButton.setGeometry(current_geometry[7])
+        self.ui.blackFrame.setStyleSheet(current_geometry[0])
+        self.ui.osanaLabel.setGeometry(current_geometry[1])
+        self.ui.logView.setGeometry(current_geometry[2])
+        self.ui.windowLabel.setGeometry(current_geometry[3])
+        self.ui.osanaText.setGeometry(current_geometry[4])
+        self.ui.serifButton.setGeometry(current_geometry[5])
+        self.ui.timerButton.setGeometry(current_geometry[6])
+        self.ui.breakButton.setGeometry(current_geometry[7])
+        self.ui.finishButton.setGeometry(current_geometry[8])
 
         if self.move_counter == self.STAGE_NUMBER:
             self.move_timer.stop()
@@ -257,10 +252,10 @@ class RoomScreen(QMainWindow):
                 self.ui.returnButton.show()
             else:
                 self.ui.logView.hide()
-                self.ui.returnButton.hide()
                 self.ui.finishLabel.show()
                 self.ui.finishButton.show()
                 self.ui.logButton.show()
+                self.ui.blackFrame.hide()
 
         self.move_counter += 1
 
