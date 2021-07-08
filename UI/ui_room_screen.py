@@ -18,7 +18,7 @@ class Ui_RoomScreen(object):
     def setupUi(self, RoomScreen):
         if not RoomScreen.objectName():
             RoomScreen.setObjectName(u"RoomScreen")
-        RoomScreen.resize(800, 600)
+        RoomScreen.resize(796, 591)
         self.centralwidget = QWidget(RoomScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.insideRoomLabel = QLabel(self.centralwidget)
@@ -33,7 +33,7 @@ class Ui_RoomScreen(object):
 "}")
         self.osanaLabel = QLabel(self.centralwidget)
         self.osanaLabel.setObjectName(u"osanaLabel")
-        self.osanaLabel.setGeometry(QRect(220, 40, 371, 471))
+        self.osanaLabel.setGeometry(QRect(220, 40, 370, 470))
         self.osanaLabel.setPixmap(QPixmap(u":/image/images/character/figure1.png"))
         self.osanaLabel.setScaledContents(True)
         self.serifButton = QPushButton(self.centralwidget)
@@ -73,8 +73,47 @@ class Ui_RoomScreen(object):
         icon.addFile(u":/image/images/icons/logButton.png", QSize(), QIcon.Normal, QIcon.Off)
         self.logButton.setIcon(icon)
         self.logButton.setIconSize(QSize(70, 35))
+        self.blackFrame = QFrame(self.centralwidget)
+        self.blackFrame.setObjectName(u"blackFrame")
+        self.blackFrame.setEnabled(True)
+        self.blackFrame.setGeometry(QRect(0, 0, 800, 600))
+        self.blackFrame.setStyleSheet(u"QFrame {\n"
+"	background-color: rgba(0, 0, 0, 0.4);\n"
+"}")
+        self.blackFrame.setFrameShape(QFrame.StyledPanel)
+        self.blackFrame.setFrameShadow(QFrame.Raised)
+        self.logView = QListView(self.centralwidget)
+        self.logView.setObjectName(u"logView")
+        self.logView.setGeometry(QRect(610, 390, 160, 170))
+        self.logView.setFocusPolicy(Qt.NoFocus)
+        self.logView.setStyleSheet(u"QListView {\n"
+"	background: white;\n"
+"	color: rgb(220, 220, 220);\n"
+"}\n"
+"QListView::item{\n"
+"	padding: 4px;\n"
+"	border: .3px solid white;\n"
+"	border-radius: 10px;\n"
+"	margin-top: 10px;\n"
+"	color: black;\n"
+"	font-size: 1.5em;\n"
+"}\n"
+"QListView::item:hover{\n"
+"	background-color: rgba(0, 0, 0, 0.7);\n"
+"}")
+        self.logView.setWordWrap(True)
+        self.returnButton = QPushButton(self.centralwidget)
+        self.returnButton.setObjectName(u"returnButton")
+        self.returnButton.setGeometry(QRect(700, 510, 70, 70))
+        self.returnButton.setStyleSheet(u"QPushButton{background: transparent;}")
+        icon1 = QIcon()
+        icon1.addFile(u":/image/images/icons/return.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.returnButton.setIcon(icon1)
+        self.returnButton.setIconSize(QSize(70, 70))
         RoomScreen.setCentralWidget(self.centralwidget)
         self.insideRoomLabel.raise_()
+        self.blackFrame.raise_()
+        self.logView.raise_()
         self.osanaLabel.raise_()
         self.finishLabel.raise_()
         self.windowLabel.raise_()
@@ -84,6 +123,7 @@ class Ui_RoomScreen(object):
         self.finishButton.raise_()
         self.breakButton.raise_()
         self.logButton.raise_()
+        self.returnButton.raise_()
 
         self.retranslateUi(RoomScreen)
 
@@ -109,5 +149,6 @@ class Ui_RoomScreen(object):
         self.breakButton.setText("")
         self.finishLabel.setText("")
         self.logButton.setText("")
+        self.returnButton.setText("")
     # retranslateUi
 

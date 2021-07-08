@@ -2,6 +2,7 @@
   <qresource prefix="image">
     <file>images/icons/cil-x.png</file>
     <file>images/icons/logButton.png</file>
+    <file>images/icons/return.svg</file>
     <file>images/backgrounds/inside.jpg</file>
     <file>images/backgrounds/log.jpg</file>
     <file>images/backgrounds/outside.jpg</file>

@@ -5,7 +5,7 @@ import random
 from PySide2.QtMultimedia import QSound
 from json_files import JsonFiles
 
-from settings.mood_parameter import MoodParameter
+from mood_parameter import MoodParameter
 
 class PlayVoice():
     def __init__(self):
