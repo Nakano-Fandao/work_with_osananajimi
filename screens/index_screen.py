@@ -45,7 +45,6 @@ class IndexScreen(QMainWindow):
 
         # SHOW ROOM SCREEN
         self.main = RoomScreen(self.parameter, serif)
-        self.main.show()
 
         # CLOSE INDEX SCREEN
         self.close()
@@ -56,4 +55,4 @@ class IndexScreen(QMainWindow):
 
     def touch(self):
         touched = True
-        self.osana.play_app_voice("start", self.mood, touched)
+        self.osana.play_app_voice("start", self.parameter, touched)

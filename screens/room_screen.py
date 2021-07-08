@@ -5,10 +5,11 @@ import sys, os
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+from PySide2.QtMultimedia import QSound
 
-add_list = ["../detect_modules", "../UI", "../screens"]
+add_list = ["../detect_modules", "../UI", "../settings", "../screens"]
 for dir in add_list:
-    sys.path.append(os.path.join(os.path.dirname(__file__), dir))
+    sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), dir)))
 
 from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
@@ -31,6 +32,18 @@ class RoomScreen(QMainWindow):
         self.serif = serif
         self.show_serif()
 
+        self.ui.logView.hide()
+        self.ui.blackFrame.hide()
+        self.ui.returnButton.hide()
+
+        # Model作成
+        self.model = QStringListModel()
+        self.model.setStringList(self.serif_list)
+        self.ui.logView.setModel(self.model)
+
+        # Signal-Slot作成
+        self.ui.logView.clicked.connect(self.logView_clicked)
+
         # カメラオープン！
         self.detect_smapho = DetectSmaphoClass()
 
@@ -46,6 +59,7 @@ class RoomScreen(QMainWindow):
         self.ui.breakButton.clicked.connect(self.show_break)
         self.ui.finishButton.clicked.connect(self.show_finish)
         self.ui.logButton.clicked.connect(self.show_log)
+        self.ui.returnButton.clicked.connect(self.return_log)
 
         # タイマースタート！
         self.counter = -10
@@ -55,6 +69,7 @@ class RoomScreen(QMainWindow):
         self.timer.timeout.connect(self.detect)
         self.timer.start(500)
 
+        self.show()
 
     def detect(self):
 
@@ -108,7 +123,6 @@ class RoomScreen(QMainWindow):
         self.osana.play_choicechat_reply(self.serif)
         self.parameter += point
 
-
     def change_window(self, index):
         self.ui.windowLabel.setPixmap(QPixmap(u":/image/images/windows/textbox_{}.png".format(index)))
 
@@ -138,13 +152,126 @@ class RoomScreen(QMainWindow):
         sys.exit(-1)
 
     def show_log(self):
-        self.log_popup = LogPopup(self.serif_list)
-        self.log_popup.show()
+        self.ui.finishLabel.hide()
+        self.ui.finishButton.hide()
+        self.ui.logButton.hide()
+
+        self.model.setStringList(self.serif_list)
+        self.ui.logView.setModel(self.model)
+
+        # 紙をめくる音
+        QSound.play(":effect/sounds/effects/paper_flipping.wav")
+
+        self.log_flag = True
+        self.get_geometry()
+
+        # タイマースタート！
+        self.ui.logView.show()
+        self.ui.blackFrame.show()
+        self.STAGE_NUMBER = 128 # 分割回数（多いほど滑らか）
+        self.interval = 1
+        self.move_counter = 1
+        self.move_timer = QTimer()
+        self.move_timer.timeout.connect(self.move_log)
+        self.move_timer.start(1)
+
+    def return_log(self):
+        self.ui.finishLabel.hide()
+        self.ui.finishButton.hide()
+        self.ui.logButton.hide()
+
+        self.model.setStringList(self.serif_list)
+        self.ui.logView.setModel(self.model)
+
+        # 紙をめくる音
+        QSound.play(":effect/sounds/effects/paper_flipping.wav")
+
+        self.log_flag = False
+        self.get_geometry()
+
+        # タイマースタート！
+        self.ui.returnButton.hide()
+        self.ui.logView.show()
+        self.ui.blackFrame.show()
+        self.STAGE_NUMBER = 128 # 分割回数（多いほど滑らか）
+        self.interval = 1
+        self.move_counter = 1
+        self.move_timer = QTimer()
+        self.move_timer.timeout.connect(self.move_log)
+        self.move_timer.start(1)
+
+    def get_geometry(self):
+        #* --------------------before-----------------after--------
+        osanaLabel   = [[220,  40, 370, 470], [ 20,  60, 370, 470]]
+        logView      = [[610, 390, 160, 170], [370,  90, 400, 430]]
+        windowLabel  = [[ 20, 405, 760, 182], [ 20, 525, 760, 182]]
+        osanaText    = [[ 30, 470, 740, 105], [ 30, 590, 740, 105]]
+        serifButton  = [[ 20, 410, 140,  45], [ 20, 530, 140,  45]]
+        timerButton  = [[160, 410, 140,  45], [ 20, 530, 140,  45]]
+        breakButton  = [[300, 410, 140,  45], [ 20, 530, 140,  45]]
+        finishButton = [[630, 410, 140,  45], [ 20, 670, 140,  45]]
+        #* --------------------------------------------------------
+        if not self.log_flag:
+            osanaLabel.reverse()
+            logView.reverse()
+            windowLabel.reverse()
+            osanaText.reverse()
+            serifButton.reverse()
+            timerButton.reverse()
+            breakButton.reverse()
+            finishButton.reverse()
+
+        self.geometry_lists = [osanaLabel]+[logView]+[windowLabel]+[osanaText]+[serifButton]+[timerButton]+[breakButton]+[finishButton]
+
+    def move_log(self):
+
+        current_geometry = []
+        for (before, after) in self.geometry_lists:
+            x = (before[0] - after[0]) / self.STAGE_NUMBER
+            y = (before[1] - after[1]) / self.STAGE_NUMBER
+            w = (before[2] - after[2]) / self.STAGE_NUMBER
+            h = (before[3] - after[3]) / self.STAGE_NUMBER
+            current_geometry.append(QRect(
+                int(before[0] - x*self.move_counter),
+                int(before[1] - y*self.move_counter),
+                int(before[2] - w*self.move_counter),
+                int(before[3] - h*self.move_counter),
+            ))
+        if self.move_counter == self.STAGE_NUMBER:
+            current_geometry = [QRect(
+                l[1][0], l[1][1], l[1][2], l[1][3]
+            ) for l in self.geometry_lists]
+
+        self.ui.osanaLabel.setGeometry(current_geometry[0])
+        self.ui.logView.setGeometry(current_geometry[1])
+        self.ui.windowLabel.setGeometry(current_geometry[2])
+        self.ui.osanaText.setGeometry(current_geometry[3])
+        self.ui.serifButton.setGeometry(current_geometry[4])
+        self.ui.timerButton.setGeometry(current_geometry[5])
+        self.ui.breakButton.setGeometry(current_geometry[6])
+        self.ui.finishButton.setGeometry(current_geometry[7])
+
+        if self.move_counter == self.STAGE_NUMBER:
+            self.move_timer.stop()
+            if self.log_flag:
+                self.ui.returnButton.show()
+            else:
+                self.ui.logView.hide()
+                self.ui.returnButton.hide()
+                self.ui.finishLabel.show()
+                self.ui.finishButton.show()
+                self.ui.logButton.show()
+
+        self.move_counter += 1
+
+    def logView_clicked(self, index):
+        # 選択した声を再生する
+        self.osana.find_and_play(index.data())
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     parameter = 50
     serif = "ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ"
     window = RoomScreen(parameter, serif)
-    window.show()
     sys.exit(app.exec_())
