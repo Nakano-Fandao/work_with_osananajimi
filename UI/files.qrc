@@ -1,8 +1,5 @@
 <RCC>
   <qresource prefix="image">
-    <file>images/icons/cil-x.png</file>
-    <file>images/icons/logButton.png</file>
-    <file>images/icons/return.svg</file>
     <file>images/backgrounds/inside.jpg</file>
     <file>images/backgrounds/log.jpg</file>
     <file>images/backgrounds/outside.jpg</file>
@@ -30,10 +27,16 @@
     <file>images/sentences/mood_normal.png</file>
     <file>images/sentences/mood_awkward.png</file>
     <file>images/sentences/mood_bad.png</file>
-    <file>images/windows/textbox_break.png</file>
+    <file>images/sentences/breakSentence.png</file>
     <file>images/windows/textbox_serif.png</file>
-    <file>images/windows/textbox_timer.png</file>
+    <file>images/windows/button_timer.png</file>
+    <file>images/windows/button_break.png</file>
+    <file>images/windows/button_log.png</file>
     <file>images/windows/button_finish.png</file>
+    <file>images/windows/loose_leaf_timer.png</file>
+    <file>images/windows/loose_leaf_break.png</file>
+    <file>images/windows/loose_leaf_log.png</file>
+    <file>images/windows/loose_leaf_finish.png</file>
     <file>images/sentences/popupTitleLabel.png</file>
   </qresource>
   <qresource prefix="effect">
