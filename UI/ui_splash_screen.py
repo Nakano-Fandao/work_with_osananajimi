@@ -55,19 +55,17 @@ class Ui_SplashScreen(object):
         self.progressBar = QProgressBar(self.dropShadowFrame)
         self.progressBar.setObjectName(u"progressBar")
         self.progressBar.setGeometry(QRect(50, 280, 561, 23))
-        self.progressBar.setStyleSheet(u"\n"
-"										QProgressBar {\n"
-"										background-color: rgb(98, 114, 164);\n"
-"										color: rgb(200, 200, 200);\n"
-"										border-style: none;\n"
-"										border-radius: 10px;\n"
-"										text-align: center;\n"
-"										}\n"
-"										QProgressBar::chunk{\n"
-"										border-radius: 10px;\n"
-"										background-color: qlineargradient(spread:pad, x1:0, y1:0.511364, x2:1, y2:0.523, stop:0 rgba(254, 121, 199, 255), stop:1 rgba(170, 85, 255, 255));\n"
-"										}\n"
-"									")
+        self.progressBar.setStyleSheet(u"QProgressBar {\n"
+"	background-color: rgb(98, 114, 164);\n"
+"	color: rgb(200, 200, 200);\n"
+"	border-style: none;\n"
+"	border-radius: 10px;\n"
+"	text-align: center;\n"
+"}\n"
+"QProgressBar::chunk{\n"
+"    border-radius: 10px;\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0.511364, x2:1, y2:0.523, stop:0 rgba(254, 121, 199, 255), stop:1 rgba(170, 85, 255, 255));\n"
+"}")
         self.progressBar.setValue(24)
         self.label_loading = QLabel(self.dropShadowFrame)
         self.label_loading.setObjectName(u"label_loading")
