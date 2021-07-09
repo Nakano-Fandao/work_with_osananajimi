@@ -14,27 +14,37 @@ for dir in add_list:
 from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
 from play_voice import PlayVoice
+from object_geometry import Geometry
 
 ## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
 ## ==> CHAT POPUP
 from chat_popup import ChatPopup
-from log_popup import LogPopup
 
 # ROOM SCREEN
 class RoomScreen(QMainWindow):
     def __init__(self, parameter, serif):
         QMainWindow.__init__(self)
+
+        #*------ UI setting -------
         self.ui = Ui_RoomScreen()
         self.ui.setupUi(self)
+        self.ui.logView.hide()
+        self.ui.timerBackLabel.hide()
+        self.ui.breakBackLabel.hide()
+        self.ui.logBackLabel.hide()
+        self.ui.finishBackLabel.hide()
+        self.ui.blackFrame.hide()
+        self.ui.breakSentence.hide()
+        self.ui.timeEdit.hide()
+        #*-------------------------
+
+        self.move_flag = True
+
         self.parameter = parameter
         self.serif_list = []
         self.serif = serif
         self.show_serif()
-
-        self.ui.logView.hide()
-        self.ui.blackFrame.hide()
-        self.ui.returnButton.hide()
 
         # Model作成
         self.model = QStringListModel()
@@ -50,16 +60,15 @@ class RoomScreen(QMainWindow):
         self.osana = PlayVoice()
 
         ## REMOVE TITLE BAR
-        # self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
-        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
 
         # Button setting
         self.ui.serifButton.clicked.connect(self.show_serif)
-        self.ui.timerButton.clicked.connect(self.show_timer)
-        self.ui.breakButton.clicked.connect(self.show_break)
-        self.ui.finishButton.clicked.connect(self.show_finish)
-        self.ui.logButton.clicked.connect(self.show_log)
-        self.ui.returnButton.clicked.connect(self.return_log)
+        self.ui.timerButton.clicked.connect(self.operate_timer)
+        self.ui.breakButton.clicked.connect(self.operate_break)
+        self.ui.logButton.clicked.connect(self.operate_log)
+        self.ui.finishButton.clicked.connect(self.operate_finish)
 
         # タイマースタート！
         self.counter = -10
@@ -123,107 +132,102 @@ class RoomScreen(QMainWindow):
         self.osana.play_choicechat_reply(self.serif)
         self.parameter += point
 
-    def change_window(self, index):
-        self.ui.windowLabel.setPixmap(QPixmap(u":/image/images/windows/textbox_{}.png".format(index)))
-
     def show_serif(self):
-        self.change_window("serif")
         self.ui.osanaText.show()
-        self.ui.logButton.show()
         self.ui.osanaText.setText(self.serif)
         self.serif_list.append(self.serif)
         print("Show serif")
 
-    def show_timer(self):
-        self.change_window("timer")
-        self.ui.osanaText.hide()
-        self.ui.logButton.hide()
-        print("Show timer")
+    def operate_timer(self):
+        self.start = time.time()
 
-        self.do_choicechat()
+        if self.move_flag:
+            print("********Timer window opens*********")
+            self.ui.blackFrame.show()
+            self.ui.breakSentence.show()
+            self.ui.timeEdit.show()
+            self.ui.timerBackLabel.show()
+            self.ui.breakButton.hide()
+            self.ui.logButton.hide()
+            self.ui.finishButton.hide()
+        else:
+            print("********Timer window closes*********")
+            self.start = time.time()
 
-    def show_break(self):
-        self.ui.osanaText.hide()
-        self.ui.logButton.hide()
-        self.change_window("break")
-        print("Show break")
+        self.func_flag = "Timer"
+        self.start_qtimer()
 
-    def show_finish(self):
+    def operate_break(self):
+        self.start = time.time()
+
+        if self.move_flag:
+            print("********Break window opens*********")
+            self.ui.blackFrame.show()
+            self.ui.breakBackLabel.show()
+            self.ui.timerButton.hide()
+            self.ui.logButton.hide()
+            self.ui.finishButton.hide()
+        else:
+            print("********Break window closes*********")
+            self.start = time.time()
+
+        self.func_flag = "Break"
+        self.start_qtimer()
+
+    def operate_log(self):
+        self.start = time.time()
+
+        if self.move_flag:
+            print("************Log opens**************")
+
+            self.ui.logView.show()
+            self.ui.logBackLabel.show()
+            self.ui.blackFrame.show()
+            self.ui.timerButton.hide()
+            self.ui.breakButton.hide()
+            self.ui.finishButton.hide()
+
+            self.model.setStringList(self.serif_list)
+            self.ui.logView.setModel(self.model)
+        else:
+            print("************Log closes**************")
+
+        self.func_flag = "Log"
+        self.start_qtimer()
+
+    def operate_finish(self):
         sys.exit(-1)
 
-    def show_log(self):
-        print("************Log opens**************")
-        self.start = time.time()
-
-        self.ui.finishLabel.hide()
-        self.ui.finishButton.hide()
-        self.ui.logButton.hide()
-
-        self.model.setStringList(self.serif_list)
-        self.ui.logView.setModel(self.model)
-
+    def start_qtimer(self):
         # 紙をめくる音
         QSound.play(":effect/sounds/effects/paper_flipping.wav")
 
         self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
         self.interval = 1
-        self.log_flag = True
-        self.get_geometry()
+        self.set_geometry()
 
         # タイマースタート！
-        self.ui.logView.show()
-        self.ui.blackFrame.show()
         self.move_counter = 1
         self.move_timer = QTimer()
         self.move_timer.timeout.connect(self.move_log)
         self.move_timer.start(1)
 
-    def return_log(self):
-        print("************Log closes**************")
-        self.start = time.time()
+    def set_geometry(self):
+        self.obj = Geometry(self.func_flag, self.move_flag)
 
-        # 紙をめくる音
-        QSound.play(":effect/sounds/effects/paper_flipping.wav")
+        self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.serifButton, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
 
-        self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
-        self.interval = 1
-        self.log_flag = False
-        self.get_geometry()
+        if self.func_flag == "Timer":
+            self.geometryObjects.extend([self.ui.breakSentence, self.ui.timeEdit, self.ui.timerBackLabel])
 
-        # タイマースタート！
-        self.ui.returnButton.hide()
-        self.move_counter = 1
-        self.move_timer = QTimer()
-        self.move_timer.timeout.connect(self.move_log)
-        self.move_timer.start(1)
+        elif self.func_flag == "Break":
+            self.geometryObjects.extend([self.ui.breakBackLabel])
 
-    def get_geometry(self):
-        #* --------------------before-----------------after--------
-        blackFrame   = [[  0,   0,   0,   0], [  0,   0,   0, 0.4]]
-        osanaLabel   = [[220,  40, 370, 470], [ 20,  60, 370, 470]]
-        logView      = [[610, 390, 160, 170], [370,  90, 400, 430]]
-        windowLabel  = [[ 20, 405, 760, 182], [ 20, 525, 760, 182]]
-        osanaText    = [[ 30, 470, 740, 105], [ 30, 590, 740, 105]]
-        serifButton  = [[ 20, 410, 140,  45], [ 20, 530, 140,  45]]
-        timerButton  = [[160, 410, 140,  45], [ 20, 530, 140,  45]]
-        breakButton  = [[300, 410, 140,  45], [ 20, 530, 140,  45]]
-        finishButton = [[630, 410, 140,  45], [ 20, 670, 140,  45]]
-        #* --------------------------------------------------------
-        if not self.log_flag:
-            blackFrame.reverse()
-            osanaLabel.reverse()
-            logView.reverse()
-            windowLabel.reverse()
-            osanaText.reverse()
-            serifButton.reverse()
-            timerButton.reverse()
-            breakButton.reverse()
-            finishButton.reverse()
-
-        self.geometry_lists = [blackFrame]+[osanaLabel]+[logView]+[windowLabel]+[osanaText]+[serifButton]+[timerButton]+[breakButton]+[finishButton]
+        elif self.func_flag == "Log":
+            self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
 
         self.x, self.y, self.w, self.h = [], [], [], []
-        for (before, after) in self.geometry_lists:
+        for (before, after) in self.obj.geometry_lists:
             self.x.append([(before[0] - after[0]) / self.STAGE_NUMBER, before[0]])
             self.y.append([(before[1] - after[1]) / self.STAGE_NUMBER, before[1]])
             self.w.append([(before[2] - after[2]) / self.STAGE_NUMBER, before[2]])
@@ -231,42 +235,44 @@ class RoomScreen(QMainWindow):
 
     def move_log(self):
 
-        current_geometry = []
-
         t_val = round(self.h[0][1] - self.h[0][0]*self.move_counter, 2)
-        current_geometry.append("QFrame {background-color: rgba(0, 0, 0, " + str(t_val) + ");}")
+        self.geometryObjects[0].setStyleSheet("QFrame {background-color: rgba(0, 0, 0, " + str(t_val) + ");}")
 
-        for i in range(1, len(self.geometry_lists)):
-            current_geometry.append(QRect(
+        for i, object in enumerate(self.geometryObjects):
+            if i == 0: continue;
+            object.setGeometry(QRect(
                 int(self.x[i][1] - self.x[i][0]*self.move_counter),
                 int(self.y[i][1] - self.y[i][0]*self.move_counter),
                 int(self.w[i][1] - self.w[i][0]*self.move_counter),
                 int(self.h[i][1] - self.h[i][0]*self.move_counter)
             ))
 
-        self.ui.blackFrame.setStyleSheet(current_geometry[0])
-        self.ui.osanaLabel.setGeometry(current_geometry[1])
-        self.ui.logView.setGeometry(current_geometry[2])
-        self.ui.windowLabel.setGeometry(current_geometry[3])
-        self.ui.osanaText.setGeometry(current_geometry[4])
-        self.ui.serifButton.setGeometry(current_geometry[5])
-        self.ui.timerButton.setGeometry(current_geometry[6])
-        self.ui.breakButton.setGeometry(current_geometry[7])
-        self.ui.finishButton.setGeometry(current_geometry[8])
-
         if self.move_counter == self.STAGE_NUMBER:
             self.move_timer.stop()
-            elapsed_time = time.time() - self.start
-            if self.log_flag:
-                self.ui.returnButton.show()
-                print(f"takes {elapsed_time} s.")
+            if self.move_flag:
+                if self.func_flag == "Log":
+                    pass
+                elif self.func_flag == "Timer":
+                    pass
+                self.move_flag = False
+
             else:
-                self.ui.logView.hide()
-                self.ui.finishLabel.show()
-                self.ui.finishButton.show()
-                self.ui.logButton.show()
+                if self.func_flag == "Timer":
+                    self.ui.breakSentence.hide()
+                    self.ui.timeEdit.hide()
+                    self.ui.timerBackLabel.hide()
+                elif self.func_flag == "Break":
+                    self.ui.breakBackLabel.hide()
+                elif self.func_flag == "Log":
+                    self.ui.logView.hide()
+                    self.ui.logBackLabel.hide()
                 self.ui.blackFrame.hide()
-                print(f"takes {elapsed_time} s.")
+                self.ui.timerButton.show()
+                self.ui.breakButton.show()
+                self.ui.logButton.show()
+                self.ui.finishButton.show()
+                self.move_flag = True
+            print(f"takes {time.time() - self.start} s.")
 
         self.move_counter += 1
 
