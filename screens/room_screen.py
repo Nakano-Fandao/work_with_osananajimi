@@ -199,22 +199,36 @@ class RoomScreen(QMainWindow):
         sys.exit(-1)
 
     def start_qtimer(self):
-        # 紙をめくる音
+        #* 紙をめくる音
         QSound.play(":effect/sounds/effects/paper_flipping.wav")
 
+        #* -----------動作パラメータ--------------
         self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
-        self.interval = 1
+        interval = 1
         self.set_geometry()
+        #* --------------------------------------
 
         # タイマースタート！
         self.move_counter = 1
         self.move_timer = QTimer()
         self.move_timer.timeout.connect(self.move_log)
-        self.move_timer.start(1)
+        self.move_timer.start(interval)
 
     def set_geometry(self):
+        #* 動かしたいオブジェクトの移動前後の座標・寸法を取得
         self.obj = Geometry(self.func_flag, self.move_flag)
+        #* -----------------------------------------------
 
+        #* x, y座標のそれぞれの距離と幅・高さそれぞれを分割回数で割り、オブジェクトごとに保存
+        self.x, self.y, self.w, self.h = [], [], [], []
+        for (before, after) in self.obj.geometry_lists:
+            self.x.append([(before[0] - after[0]) / self.STAGE_NUMBER, before[0]])
+            self.y.append([(before[1] - after[1]) / self.STAGE_NUMBER, before[1]])
+            self.w.append([(before[2] - after[2]) / self.STAGE_NUMBER, before[2]])
+            self.h.append([(before[3] - after[3]) / self.STAGE_NUMBER, before[3]])
+        #* ------------------------------------------------------
+
+        #* 動かしたいオブジェクトをあらかじめセットしておく
         self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.serifButton, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
 
         if self.func_flag == "Timer":
@@ -225,19 +239,16 @@ class RoomScreen(QMainWindow):
 
         elif self.func_flag == "Log":
             self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
-
-        self.x, self.y, self.w, self.h = [], [], [], []
-        for (before, after) in self.obj.geometry_lists:
-            self.x.append([(before[0] - after[0]) / self.STAGE_NUMBER, before[0]])
-            self.y.append([(before[1] - after[1]) / self.STAGE_NUMBER, before[1]])
-            self.w.append([(before[2] - after[2]) / self.STAGE_NUMBER, before[2]])
-            self.h.append([(before[3] - after[3]) / self.STAGE_NUMBER, before[3]])
+        #* ------------------------------------------------------
 
     def move_log(self):
 
+        #* 黒背景の透明度の値代入
         t_val = round(self.h[0][1] - self.h[0][0]*self.move_counter, 2)
         self.geometryObjects[0].setStyleSheet("QFrame {background-color: rgba(0, 0, 0, " + str(t_val) + ");}")
+        #* ------------------------------------------------------
 
+        #* オブジェクトの座標・寸法代入（移動前後の内分点を座標・寸法とする）
         for i, object in enumerate(self.geometryObjects):
             if i == 0: continue;
             object.setGeometry(QRect(
@@ -246,16 +257,13 @@ class RoomScreen(QMainWindow):
                 int(self.w[i][1] - self.w[i][0]*self.move_counter),
                 int(self.h[i][1] - self.h[i][0]*self.move_counter)
             ))
+        #* ------------------------------------------------------
 
+        #* オブジェクトの移動終了後の処理
         if self.move_counter == self.STAGE_NUMBER:
             self.move_timer.stop()
             if self.move_flag:
-                if self.func_flag == "Log":
-                    pass
-                elif self.func_flag == "Timer":
-                    pass
                 self.move_flag = False
-
             else:
                 if self.func_flag == "Timer":
                     self.ui.breakSentence.hide()
@@ -273,6 +281,7 @@ class RoomScreen(QMainWindow):
                 self.ui.finishButton.show()
                 self.move_flag = True
             print(f"takes {time.time() - self.start} s.")
+        #* ------------------------------------------------------
 
         self.move_counter += 1
 
