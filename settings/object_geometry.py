@@ -1,5 +1,5 @@
 class Geometry:
-    def __init__(self, func, move_flag, trans_flag):
+    def __init__(self, func, move_flag, switching_flag):
 
         #* ----------------------------before-----------------after---------
         self.blackFrame       = [[  0,   0,   0,   0], [  0,   0,   0, 0.4]]
@@ -33,7 +33,22 @@ class Geometry:
         self.finishButton     = [[677, 414, 101,  40], [677, 260, 101,  60]]
         #* -----------------------------------------------------------------
 
-        if func == "Timer":
+        self.func = func
+        self.move_flag = move_flag
+        self.switching_flag = switching_flag
+
+        self.set_for_specific_cases()
+
+        if not self.move_flag: self.reverse();
+
+        self.add_objects()
+
+        if self.switching_flag: self.add_objects_for_switching_tabs();
+
+
+    def set_for_specific_cases(self):
+
+        if self.func == "Timer":
             self.breakLabel[1][1]   = 534
             self.logLabel[1][1]     = 534
             self.finishLabel[1][1]  = 534
@@ -41,7 +56,7 @@ class Geometry:
             self.logButton[1][1]    = 544
             self.finishButton[1][1] = 544
 
-        elif func == "Break":
+        elif self.func == "Break":
             self.timerLabel[1][1]   = 534
             self.logLabel[1][1]     = 534
             self.finishLabel[1][1]  = 534
@@ -49,7 +64,7 @@ class Geometry:
             self.logButton[1][1]    = 544
             self.finishButton[1][1] = 544
 
-        elif func == "Log":
+        elif self.func == "Log":
             self.osanaLabel[1]      = [20, 130, 370, 470]
             self.timerLabel[1][1]   = 534
             self.breakLabel[1][1]   = 534
@@ -58,7 +73,7 @@ class Geometry:
             self.breakButton[1][1]  = 544
             self.finishButton[1][1] = 544
 
-        elif func == "Finish":
+        elif self.func == "Finish":
             self.timerLabel[1][1]   = 534
             self.breakLabel[1][1]   = 534
             self.logLabel[1][1]     = 534
@@ -67,42 +82,45 @@ class Geometry:
             self.logButton[1][1]    = 544
 
 
-        if not move_flag:
-            self.blackFrame.reverse()
-            self.osanaLabel.reverse()
+    def reverse(self):
 
-            self.windowLabel.reverse()
-            self.osanaText.reverse()
+        self.blackFrame.reverse()
+        self.osanaLabel.reverse()
 
-            self.timerButton.reverse()
-            self.breakButton.reverse()
-            self.logButton.reverse()
-            self.finishButton.reverse()
+        self.windowLabel.reverse()
+        self.osanaText.reverse()
 
-            self.timerLabel.reverse()
-            self.breakLabel.reverse()
-            self.logLabel.reverse()
-            self.finishLabel.reverse()
+        self.timerButton.reverse()
+        self.breakButton.reverse()
+        self.logButton.reverse()
+        self.finishButton.reverse()
 
-            if trans_flag != "Timer":
-                self.timerSentence.reverse()
-                self.timerTimeEdit.reverse()
-                self.timerStartButton.reverse()
-                self.timerBackLabel.reverse()
+        self.timerLabel.reverse()
+        self.breakLabel.reverse()
+        self.logLabel.reverse()
+        self.finishLabel.reverse()
 
-            if trans_flag != "Break":
-                self.breakSentence.reverse()
-                self.breakTimeEdit.reverse()
-                self.breakStartButton.reverse()
-                self.breakBackLabel.reverse()
+        if self.switching_flag != "Timer":
+            self.timerSentence.reverse()
+            self.timerTimeEdit.reverse()
+            self.timerStartButton.reverse()
+            self.timerBackLabel.reverse()
 
-            if trans_flag != "Log":
-                self.logView.reverse()
-                self.logBackLabel.reverse()
+        if self.switching_flag != "Break":
+            self.breakSentence.reverse()
+            self.breakTimeEdit.reverse()
+            self.breakStartButton.reverse()
+            self.breakBackLabel.reverse()
 
-            if trans_flag != "Finish":
-                self.finishBackLabel.reverse()
+        if self.switching_flag != "Log":
+            self.logView.reverse()
+            self.logBackLabel.reverse()
 
+        if self.switching_flag != "Finish":
+            self.finishBackLabel.reverse()
+
+
+    def add_objects(self):
 
         self.geometry_lists = \
             [self.blackFrame]     + \
@@ -118,8 +136,7 @@ class Geometry:
             [self.logLabel]       + \
             [self.finishLabel]
 
-
-        if (func == "Timer") | (trans_flag == "Timer"):
+        if (self.func == "Timer") | (self.switching_flag == "Timer"):
             self.geometry_lists += \
                 \
                 [self.timerSentence]  + \
@@ -127,8 +144,7 @@ class Geometry:
                 [self.timerStartButton]  + \
                 [self.timerBackLabel]
 
-
-        if (func == "Break") | (trans_flag == "Break"):
+        if (self.func == "Break") | (self.switching_flag == "Break"):
             self.geometry_lists += \
                 \
                 [self.breakSentence]  + \
@@ -136,61 +152,60 @@ class Geometry:
                 [self.breakStartButton]  + \
                 [self.breakBackLabel]
 
-
-        if (func == "Log") | (trans_flag == "Log"):
+        if (self.func == "Log") | (self.switching_flag == "Log"):
             self.geometry_lists += \
                 \
                 [self.logView]      + \
                 [self.logBackLabel]
 
-
-        if (func == "Finish") | (trans_flag == "Finish"):
+        if (self.func == "Finish") | (self.switching_flag == "Finish"):
             self.geometry_lists += \
                 \
                 [self.finishBackLabel]
 
 
-        if trans_flag:
+    def add_objects_for_switching_tabs(self):
 
-            #* remove windowLabel & osanaText
-            self.geometry_lists.pop(2)
-            self.geometry_lists.pop(2)
-            #* blackFrame
-            self.geometry_lists[0][1] = [  0,  0,  0,0.4]
-            #* osanaLabel
-            self.geometry_lists[1][1] = [ 20,130,370,470]
-            #* Labels & Buttons
-            self.geometry_lists[2][1] = [377,544,101, 60]
-            self.geometry_lists[3][1] = [477,544,101, 60]
-            self.geometry_lists[4][1] = [577,544,101, 60]
-            self.geometry_lists[5][1] = [677,544,101, 60]
-            self.geometry_lists[6][1] = [377,534,108, 79]
-            self.geometry_lists[7][1] = [477,534,108, 79]
-            self.geometry_lists[8][1] = [577,534,108, 79]
-            self.geometry_lists[9][1] = [677,534,108, 79]
 
-            if func == "Timer":
+        #* remove windowLabel & osanaText
+        self.geometry_lists.pop(2)
+        self.geometry_lists.pop(2)
+        #* blackFrame
+        self.geometry_lists[0][1] = [  0,  0,  0,0.4]
+        #* osanaLabel
+        self.geometry_lists[1][1] = [ 20,130,370,470]
+        #* Labels & Buttons
+        self.geometry_lists[2][1] = [377,544,101, 60]
+        self.geometry_lists[3][1] = [477,544,101, 60]
+        self.geometry_lists[4][1] = [577,544,101, 60]
+        self.geometry_lists[5][1] = [677,544,101, 60]
+        self.geometry_lists[6][1] = [377,534,108, 79]
+        self.geometry_lists[7][1] = [477,534,108, 79]
+        self.geometry_lists[8][1] = [577,534,108, 79]
+        self.geometry_lists[9][1] = [677,534,108, 79]
+
+        if self.func == "Timer":
+            """
+            2 : timerButton
+            3 : timerLabel
+            10: timerSentence
+            11: timerTimeEdit
+            12: timerStartButton
+            13: timerBackLabel
+            """
+            self.geometry_lists[10][1] = [130, 600, 180,  50]
+            self.geometry_lists[11][1] = [300, 600, 180,  50]
+            self.geometry_lists[12][1] = [215, 600, 180,  42]
+            self.geometry_lists[13][1] = [110, 600, 400, 100]
+
+            if self.switching_flag == "Log":
                 """
-                2 : timerButton
-                3 : timerLabel
-                10: timerSentence
-                11: timerTimeEdit
-                12: timerStartButton
-                13: timerBackLabel
+                4 : logButton
+                8 : logLabel
+                14: logView
+                15: logBackLabel
                 """
-                self.geometry_lists[10][1] = [130, 600, 180,  50]
-                self.geometry_lists[11][1] = [300, 600, 180,  50]
-                self.geometry_lists[12][1] = [215, 600, 180,  42]
-                self.geometry_lists[13][1] = [110, 600, 400, 100]
-
-                if trans_flag == "Log":
-                    """
-                    4 : logButton
-                    8 : logLabel
-                    14: logView
-                    15: logBackLabel
-                    """
-                    self.geometry_lists[4][1]  = [577, 60,101, 60]
-                    self.geometry_lists[8][1]  = [577, 50,108, 79]
-                    self.geometry_lists[14][1] = [370, 90,400,560]
-                    self.geometry_lists[15][1] = [370, 90,400,560]
+                self.geometry_lists[4][1]  = [577, 60,101, 60]
+                self.geometry_lists[8][1]  = [577, 50,108, 79]
+                self.geometry_lists[14][1] = [370, 90,400,560]
+                self.geometry_lists[15][1] = [370, 90,400,560]
