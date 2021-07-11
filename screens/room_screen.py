@@ -15,6 +15,7 @@ from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
 from play_voice import PlayVoice
 from object_geometry import Geometry
+from timer import Timer
 
 ## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
@@ -27,6 +28,8 @@ class RoomScreen(QMainWindow):
         QMainWindow.__init__(self)
 
         #*------ UI setting -------
+        fonts = QFontDatabase()
+        fonts.addApplicationFont(":/font/fonts/Let_s_go_Digital_Regular.ttf")
         self.ui = Ui_RoomScreen()
         self.ui.setupUi(self)
         self.ui.logView.hide()
@@ -35,11 +38,25 @@ class RoomScreen(QMainWindow):
         self.ui.logBackLabel.hide()
         self.ui.finishBackLabel.hide()
         self.ui.blackFrame.hide()
+        self.ui.timerSentence.hide()
+        self.ui.timerTimeEdit.hide()
+        self.ui.timerStartButton.hide()
         self.ui.breakSentence.hide()
-        self.ui.timeEdit.hide()
+        self.ui.breakTimeEdit.hide()
+        self.ui.breakStartButton.hide()
+        self.ui.remainingTime.hide()
+        self.ui.remainingTimeShadow.hide()
+        #*-------------------------
+
+        #*----- font setting ------
+        self.ui.remainingTimeShadow.setText('88:88:88')
         #*-------------------------
 
         self.move_flag = True
+        self.timer_flag = False
+        self.break_flag = False
+        self.trans_flag = False
+        self.whole_seconds = 0
 
         self.parameter = parameter
         self.serif_list = []
@@ -51,38 +68,73 @@ class RoomScreen(QMainWindow):
         self.model.setStringList(self.serif_list)
         self.ui.logView.setModel(self.model)
 
-        # Signal-Slot作成
-        self.ui.logView.clicked.connect(self.logView_clicked)
-
         # カメラオープン！
-        self.detect_smapho = DetectSmaphoClass()
+        # self.detect_smapho = DetectSmaphoClass()
 
         self.osana = PlayVoice()
 
         ## REMOVE TITLE BAR
-        self.setWindowFlag(Qt.FramelessWindowHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        # self.setWindowFlag(Qt.FramelessWindowHint)
+        # self.setAttribute(Qt.WA_TranslucentBackground)
 
         # Button setting
-        self.ui.serifButton.clicked.connect(self.show_serif)
         self.ui.timerButton.clicked.connect(self.operate_timer)
         self.ui.breakButton.clicked.connect(self.operate_break)
         self.ui.logButton.clicked.connect(self.operate_log)
         self.ui.finishButton.clicked.connect(self.operate_finish)
+        self.ui.logView.clicked.connect(self.logView_clicked)
+        self.ui.timerStartButton.clicked.connect(self.start_timer)
+        self.ui.breakStartButton.clicked.connect(self.start_break)
 
-        # タイマースタート！
-        self.counter = -10
+        # # タイマースタート！
+        # self.counter = -10
 
-        # ループスタート！
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.detect)
-        self.timer.start(500)
+        # # ループスタート！
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.act_per_second)
+        # self.timer.start(1000)
 
         self.show()
 
+    def act_per_second(self):
+
+        if self.counter%15 == 0: self.detect()
+
+        if self.counter%5 == 0: print(self.counter);
+
+        #* 勉強タイマー使用中
+        if self.timer_flag:
+            #* 秒から表示用の時間の文字列を取得して、表示
+            remaining_time = self.study_timer.get_str_time(self.whole_seconds)
+            self.ui.remainingTime.setText(remaining_time)
+
+            #* 一定のタイミングで幼馴染に声をかけてもらう
+            if self.whole_seconds == 0:
+                self.serif = self.osana.play_timer_voice("finish", self.parameter)
+                self.show_serif()
+                self.ui.remainingTime.hide()
+                self.ui.remainingTimeShadow.hide()
+                self.timer_flag = False
+
+            elif self.whole_seconds == self.study_timer.ten:
+                self.serif = self.osana.play_timer_voice("mid", self.parameter, "10")
+                self.show_serif()
+            elif self.whole_seconds == self.study_timer.thirty:
+                self.serif = self.osana.play_timer_voice("mid", self.parameter, "30")
+                self.show_serif()
+            elif self.whole_seconds == self.study_timer.half:
+                self.serif = self.osana.play_timer_voice("mid", self.parameter, "half")
+                self.show_serif()
+
+
+            self.whole_seconds -= 1
+
+
+        self.counter += 1
+
     def detect(self):
 
-        if self.counter in set([0, 15]):
+        if self.counter%15 == 0:
             detected = self.detect_smapho.judge_smapho()
             if not detected:
                 pass
@@ -91,7 +143,7 @@ class RoomScreen(QMainWindow):
                 self.show_serif()
                 self.parameter -= 10
 
-        if self.counter == 30:
+        if self.counter%30 == 0:
             self.counter = 0
             detected = detect_youtube()
             if not detected:
@@ -100,9 +152,6 @@ class RoomScreen(QMainWindow):
                 self.serif = self.osana.play_voice(detected, self.parameter)
                 self.show_serif()
                 self.parameter -= 10
-
-        if self.counter%5 == 0: print(self.counter);
-        self.counter += 1
 
     def do_choicechat(self):
 
@@ -143,18 +192,28 @@ class RoomScreen(QMainWindow):
 
         if self.move_flag:
             print("********Timer window opens*********")
+            self.func_flag = "Timer"
             self.ui.blackFrame.show()
-            self.ui.breakSentence.show()
-            self.ui.timeEdit.show()
+            self.ui.timerSentence.show()
+            self.ui.timerTimeEdit.show()
+            self.ui.timerStartButton.show()
             self.ui.timerBackLabel.show()
-            self.ui.breakButton.hide()
-            self.ui.logButton.hide()
-            self.ui.finishButton.hide()
         else:
-            print("********Timer window closes*********")
-            self.start = time.time()
+            #* 通常（同じボタンを押して戻るとき）
+            if self.func_flag == "Timer":
+                print("********Timer window closes*********")
 
-        self.func_flag = "Timer"
+            #* 他のボタンを押して戻るとき
+            else:
+                self.trans_flag = "Timer"
+                self.ui.timerSentence.show()
+                self.ui.timerTimeEdit.show()
+                self.ui.timerStartButton.show()
+                self.ui.timerBackLabel.show()
+                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                self.start_qtimer()
+                return
+
         self.start_qtimer()
 
     def operate_break(self):
@@ -162,16 +221,28 @@ class RoomScreen(QMainWindow):
 
         if self.move_flag:
             print("********Break window opens*********")
+            self.func_flag = "Break"
             self.ui.blackFrame.show()
+            self.ui.breakSentence.show()
+            self.ui.breakTimeEdit.show()
             self.ui.breakBackLabel.show()
-            self.ui.timerButton.hide()
-            self.ui.logButton.hide()
-            self.ui.finishButton.hide()
+            self.ui.breakStartButton.show()
         else:
-            print("********Break window closes*********")
-            self.start = time.time()
+            #* 通常（同じボタンを押して戻るとき）
+            if self.func_flag == "Break":
+                print("********Break window closes*********")
 
-        self.func_flag = "Break"
+            #* 他のボタンを押して戻るとき
+            else:
+                self.trans_flag = "Break"
+                self.ui.breakSentence.show()
+                self.ui.breakTimeEdit.show()
+                self.ui.breakBackLabel.show()
+                self.ui.breakStartButton.show()
+                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                self.start_qtimer()
+                return
+
         self.start_qtimer()
 
     def operate_log(self):
@@ -180,23 +251,52 @@ class RoomScreen(QMainWindow):
         if self.move_flag:
             print("************Log opens**************")
 
+            self.ui.blackFrame.show()
             self.ui.logView.show()
             self.ui.logBackLabel.show()
-            self.ui.blackFrame.show()
-            self.ui.timerButton.hide()
-            self.ui.breakButton.hide()
-            self.ui.finishButton.hide()
 
             self.model.setStringList(self.serif_list)
             self.ui.logView.setModel(self.model)
+            self.trans_flag = False
         else:
-            print("************Log closes**************")
+            #* 通常（同じボタンを押して戻るとき）
+            if self.func_flag == "Log":
+                print("************Log closes**************")
+
+            #* 他のボタンを押して戻るとき
+            else:
+                self.trans_flag = "Log"
+                self.ui.logView.show()
+                self.ui.logBackLabel.show()
+                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                self.start_qtimer()
+                return
 
         self.func_flag = "Log"
         self.start_qtimer()
 
     def operate_finish(self):
-        sys.exit(-1)
+        self.start = time.time()
+
+        if self.move_flag:
+            print("********Finish window opens********")
+            self.ui.blackFrame.show()
+            self.ui.finishBackLabel.show()
+        else:
+            #* 通常（同じボタンを押して戻るとき）
+            if self.func_flag == "Finish":
+                print("********Finish window closes*********")
+
+            #* 他のボタンを押して戻るとき
+            else:
+                self.trans_flag = "Finish"
+                self.ui.finishBackLabel.show()
+                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                self.start_qtimer()
+                return
+
+        self.func_flag = "Finish"
+        self.start_qtimer()
 
     def start_qtimer(self):
         #* 紙をめくる音
@@ -211,12 +311,12 @@ class RoomScreen(QMainWindow):
         # タイマースタート！
         self.move_counter = 1
         self.move_timer = QTimer()
-        self.move_timer.timeout.connect(self.move_log)
+        self.move_timer.timeout.connect(self.move_objects)
         self.move_timer.start(interval)
 
     def set_geometry(self):
         #* 動かしたいオブジェクトの移動前後の座標・寸法を取得
-        self.obj = Geometry(self.func_flag, self.move_flag)
+        self.obj = Geometry(self.func_flag, self.move_flag, self.trans_flag)
         #* -----------------------------------------------
 
         #* x, y座標のそれぞれの距離と幅・高さそれぞれを分割回数で割り、オブジェクトごとに保存
@@ -229,19 +329,37 @@ class RoomScreen(QMainWindow):
         #* ------------------------------------------------------
 
         #* 動かしたいオブジェクトをあらかじめセットしておく
-        self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.serifButton, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
+        self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
 
-        if self.func_flag == "Timer":
-            self.geometryObjects.extend([self.ui.breakSentence, self.ui.timeEdit, self.ui.timerBackLabel])
+        if (self.func_flag == "Timer") | (self.trans_flag == "Timer"):
+            self.geometryObjects.extend([self.ui.timerSentence, self.ui.timerTimeEdit, self.ui.timerStartButton, self.ui.timerBackLabel])
 
-        elif self.func_flag == "Break":
-            self.geometryObjects.extend([self.ui.breakBackLabel])
+        if (self.func_flag == "Break") | (self.trans_flag == "Break"):
+            self.geometryObjects.extend([self.ui.breakSentence, self.ui.breakTimeEdit, self.ui.breakStartButton, self.ui.breakBackLabel])
 
-        elif self.func_flag == "Log":
+        if (self.func_flag == "Log") | (self.trans_flag == "Log"):
             self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
+
+        if (self.func_flag == "Finish") | (self.trans_flag == "Finish"):
+            self.geometryObjects.extend([self.ui.finishBackLabel])
+
+        if self.trans_flag:
+            self.geometryObjects.pop(2)
+            self.geometryObjects.pop(2)
+
+        for i in range(len(self.geometryObjects)):
+            name = str(self.geometryObjects[i]).split('name="')[1].split('") at')[0]
+            if i == 0:
+                print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t\t ---> \t{self.obj.geometry_lists[i][1]}")
+            elif len(name) < 14:
+                print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
+            else:
+                print(f"{name}: \t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
+
+
         #* ------------------------------------------------------
 
-    def move_log(self):
+    def move_objects(self):
 
         #* 黒背景の透明度の値代入
         t_val = round(self.h[0][1] - self.h[0][0]*self.move_counter, 2)
@@ -266,21 +384,35 @@ class RoomScreen(QMainWindow):
                 self.move_flag = False
             else:
                 if self.func_flag == "Timer":
-                    self.ui.breakSentence.hide()
-                    self.ui.timeEdit.hide()
+                    self.ui.timerSentence.hide()
+                    self.ui.timerTimeEdit.hide()
                     self.ui.timerBackLabel.hide()
+                    self.ui.timerStartButton.hide()
                 elif self.func_flag == "Break":
+                    self.ui.breakSentence.hide()
+                    self.ui.breakTimeEdit.hide()
                     self.ui.breakBackLabel.hide()
+                    self.ui.breakStartButton.hide()
                 elif self.func_flag == "Log":
                     self.ui.logView.hide()
                     self.ui.logBackLabel.hide()
+                elif self.func_flag == "Finish":
+                    self.ui.finishBackLabel.hide()
+                    if not self.trans_flag:
+                        sys.exit(-1)
+
+                if self.trans_flag:
+                    self.func_flag = self.trans_flag
+                    self.trans_flag = False
+                else:
+                    self.move_flag = True
+
                 self.ui.blackFrame.hide()
                 self.ui.timerButton.show()
                 self.ui.breakButton.show()
                 self.ui.logButton.show()
                 self.ui.finishButton.show()
-                self.move_flag = True
-            print(f"takes {time.time() - self.start} s.")
+            print(f"takes {time.time() - self.start} s.\n")
         #* ------------------------------------------------------
 
         self.move_counter += 1
@@ -288,6 +420,29 @@ class RoomScreen(QMainWindow):
     def logView_clicked(self, index):
         # 選択した声を再生する
         self.osana.find_and_play(index.data())
+
+    def start_timer(self):
+        self.timer_flag = True
+
+        #* 幼馴染から最初の声出しを頂く
+        self.serif = self.osana.play_timer_voice("start", self.parameter)
+        self.show_serif()
+
+        #* timeEditから時間を取得
+        self.set_time = self.ui.timerTimeEdit.time().toString()
+
+        #* 勉強タイマーを表示
+        self.study_timer = Timer(self.set_time)
+        self.ui.remainingTime.setText(self.study_timer.add_space(self.set_time))
+        self.ui.remainingTime.show()
+        self.ui.remainingTimeShadow.show()
+
+        #* 秒換算して、Timerウィンドウを下ろす
+        self.whole_seconds = self.study_timer.get_whole_seconds(self.set_time)
+        self.operate_timer()
+
+    def start_break(self):
+        pass
 
 
 if __name__ == '__main__':
