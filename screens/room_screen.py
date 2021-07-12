@@ -55,18 +55,15 @@ class RoomScreen(QMainWindow):
         self.move_flag = True
         self.timer_flag = False
         self.break_flag = False
-        self.trans_flag = False
+        self.switching_flag = False
         self.whole_seconds = 0
-
+        self.serif = serif
         self.parameter = parameter
         self.serif_list = []
-        self.serif = serif
-        self.show_serif()
 
         # Model作成
         self.model = QStringListModel()
-        self.model.setStringList(self.serif_list)
-        self.ui.logView.setModel(self.model)
+        self.show_serif()
 
         # カメラオープン！
         # self.detect_smapho = DetectSmaphoClass()
@@ -182,10 +179,15 @@ class RoomScreen(QMainWindow):
         self.parameter += point
 
     def show_serif(self):
+        #* セリフウィンドウに表示
         self.ui.osanaText.show()
         self.ui.osanaText.setText(self.serif)
-        self.serif_list.append(self.serif)
         print("Show serif")
+
+        #* ログに今までのセリフを登録
+        self.serif_list.append(self.serif)
+        self.model.setStringList(self.serif_list)
+        self.ui.logView.setModel(self.model)
 
     def operate_timer(self):
         self.start = time.time()
@@ -205,12 +207,12 @@ class RoomScreen(QMainWindow):
 
             #* 他のボタンを押して戻るとき
             else:
-                self.trans_flag = "Timer"
+                self.switching_flag = "Timer"
                 self.ui.timerSentence.show()
                 self.ui.timerTimeEdit.show()
                 self.ui.timerStartButton.show()
                 self.ui.timerBackLabel.show()
-                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
                 self.start_qtimer()
                 return
 
@@ -234,12 +236,12 @@ class RoomScreen(QMainWindow):
 
             #* 他のボタンを押して戻るとき
             else:
-                self.trans_flag = "Break"
+                self.switching_flag = "Break"
                 self.ui.breakSentence.show()
                 self.ui.breakTimeEdit.show()
                 self.ui.breakBackLabel.show()
                 self.ui.breakStartButton.show()
-                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
                 self.start_qtimer()
                 return
 
@@ -254,10 +256,7 @@ class RoomScreen(QMainWindow):
             self.ui.blackFrame.show()
             self.ui.logView.show()
             self.ui.logBackLabel.show()
-
-            self.model.setStringList(self.serif_list)
-            self.ui.logView.setModel(self.model)
-            self.trans_flag = False
+            self.switching_flag = False
         else:
             #* 通常（同じボタンを押して戻るとき）
             if self.func_flag == "Log":
@@ -265,10 +264,10 @@ class RoomScreen(QMainWindow):
 
             #* 他のボタンを押して戻るとき
             else:
-                self.trans_flag = "Log"
+                self.switching_flag = "Log"
                 self.ui.logView.show()
                 self.ui.logBackLabel.show()
-                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
                 self.start_qtimer()
                 return
 
@@ -289,9 +288,9 @@ class RoomScreen(QMainWindow):
 
             #* 他のボタンを押して戻るとき
             else:
-                self.trans_flag = "Finish"
+                self.switching_flag = "Finish"
                 self.ui.finishBackLabel.show()
-                print(f"*****{self.func_flag} ---> {self.trans_flag}*****")
+                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
                 self.start_qtimer()
                 return
 
@@ -316,7 +315,7 @@ class RoomScreen(QMainWindow):
 
     def set_geometry(self):
         #* 動かしたいオブジェクトの移動前後の座標・寸法を取得
-        self.obj = Geometry(self.func_flag, self.move_flag, self.trans_flag)
+        self.obj = Geometry(self.func_flag, self.move_flag, self.switching_flag)
         #* -----------------------------------------------
 
         #* x, y座標のそれぞれの距離と幅・高さそれぞれを分割回数で割り、オブジェクトごとに保存
@@ -331,19 +330,19 @@ class RoomScreen(QMainWindow):
         #* 動かしたいオブジェクトをあらかじめセットしておく
         self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
 
-        if (self.func_flag == "Timer") | (self.trans_flag == "Timer"):
+        if (self.func_flag == "Timer") | (self.switching_flag == "Timer"):
             self.geometryObjects.extend([self.ui.timerSentence, self.ui.timerTimeEdit, self.ui.timerStartButton, self.ui.timerBackLabel])
 
-        if (self.func_flag == "Break") | (self.trans_flag == "Break"):
+        if (self.func_flag == "Break") | (self.switching_flag == "Break"):
             self.geometryObjects.extend([self.ui.breakSentence, self.ui.breakTimeEdit, self.ui.breakStartButton, self.ui.breakBackLabel])
 
-        if (self.func_flag == "Log") | (self.trans_flag == "Log"):
+        if (self.func_flag == "Log") | (self.switching_flag == "Log"):
             self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
 
-        if (self.func_flag == "Finish") | (self.trans_flag == "Finish"):
+        if (self.func_flag == "Finish") | (self.switching_flag == "Finish"):
             self.geometryObjects.extend([self.ui.finishBackLabel])
 
-        if self.trans_flag:
+        if self.switching_flag:
             self.geometryObjects.pop(2)
             self.geometryObjects.pop(2)
 
@@ -355,8 +354,6 @@ class RoomScreen(QMainWindow):
                 print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
             else:
                 print(f"{name}: \t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
-
-
         #* ------------------------------------------------------
 
     def move_objects(self):
@@ -398,12 +395,12 @@ class RoomScreen(QMainWindow):
                     self.ui.logBackLabel.hide()
                 elif self.func_flag == "Finish":
                     self.ui.finishBackLabel.hide()
-                    if not self.trans_flag:
+                    if not self.switching_flag:
                         sys.exit(-1)
 
-                if self.trans_flag:
-                    self.func_flag = self.trans_flag
-                    self.trans_flag = False
+                if self.switching_flag:
+                    self.func_flag = self.switching_flag
+                    self.switching_flag = False
                 else:
                     self.move_flag = True
 
