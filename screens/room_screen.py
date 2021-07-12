@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys, os, time
+import sys, os, time, random
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -35,88 +35,90 @@ class RoomScreen(QMainWindow):
         self.init_objects()
         #*-------------------------
 
-        #*----- font setting ------
-        self.ui.remainingTimeShadow.setText('88:88:88')
+        #*----- Font setting ------
+        self.ui.remainingStudyTimeShadow.setText('88:88:88')
         #*-------------------------
 
-        self.move_flag = True
-        self.timer_flag = False
-        self.break_flag = False
-        self.switching_flag = False
-        self.whole_seconds = 0
+        #*----- Variable setting ------
+        #* タブ関係
+        self.move_flag = True       #* False → タブがどれか出ている
+        self.switching_flag = False #* True → タブ切り替え発生
+        #* タイマー関係
+        self.study_timer_flag = False    #* True → タイマー使用中
+        self.break_timer_flag = False    #* True → タイマー使用中
+        self.timeout_flag_for_study = False #* True → タイマー時間切れ中
+        self.timeout_flag_for_break = False #* True → タイマー時間切れ中
+        self.whole_seconds_for_study = 0 #* 残り時間（秒）
+        self.whole_seconds_for_break = 0 #* 残り時間（秒）
+        #* セリフ関係
         self.serif = serif
-        self.parameter = parameter
         self.serif_list = []
+        self.parameter = parameter
+        self.osana = PlayVoice()
+        self.choicechat_time = 15*60 #* 15分
+        #*-------------------------
 
-        # Model作成
+        #* セリフModel作成
         self.model = QStringListModel()
         self.show_serif()
+        #*-------------------------
 
-        # カメラオープン！
-        # self.detect_smapho = DetectSmaphoClass()
+        #* カメラオープン！
+        self.detect_smapho = DetectSmaphoClass()
+        #*-------------------------
 
-        self.osana = PlayVoice()
-
-        ## REMOVE TITLE BAR
+        #* REMOVE TITLE BAR
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
+        #*-------------------------
 
-        # Button setting
-        self.ui.timerButton.clicked.connect(self.operate_timer)
-        self.ui.breakButton.clicked.connect(self.operate_break)
-        self.ui.logButton.clicked.connect(self.operate_log)
-        self.ui.finishButton.clicked.connect(self.operate_finish)
+        #* Button setting
+        self.ui.timerButton.clicked.connect(self.operate_timer_tab)
+        self.ui.breakButton.clicked.connect(self.operate_break_tab)
+        self.ui.logButton.clicked.connect(self.operate_log_tab)
+        self.ui.finishButton.clicked.connect(self.operate_finish_tab)
         self.ui.logView.clicked.connect(self.logView_clicked)
-        self.ui.timerStartButton.clicked.connect(self.start_timer)
-        self.ui.breakStartButton.clicked.connect(self.start_break)
+        self.ui.timerStartButton.clicked.connect(self.start_study_timer)
+        self.ui.breakStartButton.clicked.connect(self.start_break_timer)
         self.ui.finishYesButton.clicked.connect(lambda x: sys.exit(-1))
-        # self.ui.finishNoButton.clicked.connect(self.operate_finish)
+        # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
         self.ui.finishNoButton.clicked.connect(self.do_choicechat)
-        self.ui.blackFrameButton.clicked.connect(self.back_clicked)
+        self.ui.blackFrameButton.clicked.connect(self.background_clicked)
+        #*-------------------------
 
-        # # タイマースタート！
-        # self.counter = -10
 
-        # # ループスタート！
-        # self.timer = QTimer()
-        # self.timer.timeout.connect(self.act_per_second)
-        # self.timer.start(1000)
+        #* ***************************************************
+        #* *************** メイン処理スタート！ ***************
+        #* ***************************************************
+
+        #* タイマースタート！
+        self.counter = -10
+
+        #* ループスタート！
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.act_per_second)
+        self.timer.start(1000)
 
         self.show()
 
     def act_per_second(self):
 
-        if self.counter%15 == 0: self.detect()
-
+        #* 5秒ごとに秒出力
         if self.counter%5 == 0: print(self.counter);
 
+        #* 休憩タイマー使用中
+        if self.break_timer_flag:
+            self.operate_break_timer()
+
+        else:
+            #* 世間話タイム
+            if self.counter%self.choicechat_time == 0: self.do_choicechat();
+
+            #* 15秒ごとにサボり検出
+            elif self.counter%15 == 0: self.detect()
+
         #* 勉強タイマー使用中
-        if self.timer_flag:
-            #* 秒から表示用の時間の文字列を取得して、表示
-            remaining_time = self.study_timer.get_str_time(self.whole_seconds)
-            self.ui.remainingTime.setText(remaining_time)
-
-            #* 一定のタイミングで幼馴染に声をかけてもらう
-            if self.whole_seconds == 0:
-                self.serif = self.osana.play_timer_voice("finish", self.parameter)
-                self.show_serif()
-                self.ui.remainingTime.hide()
-                self.ui.remainingTimeShadow.hide()
-                self.timer_flag = False
-
-            elif self.whole_seconds == self.study_timer.ten:
-                self.serif = self.osana.play_timer_voice("mid", self.parameter, "10")
-                self.show_serif()
-            elif self.whole_seconds == self.study_timer.thirty:
-                self.serif = self.osana.play_timer_voice("mid", self.parameter, "30")
-                self.show_serif()
-            elif self.whole_seconds == self.study_timer.half:
-                self.serif = self.osana.play_timer_voice("mid", self.parameter, "half")
-                self.show_serif()
-
-
-            self.whole_seconds -= 1
-
+        if self.study_timer_flag: self.operate_study_timer();
 
         self.counter += 1
 
@@ -143,6 +145,9 @@ class RoomScreen(QMainWindow):
 
     def do_choicechat(self):
 
+        #* 次回世間話タイム
+        self.choicechat_time += random.randint(-240, 240)
+
         self.serif, choicechat_detail = self.osana.play_choicechat_ask(self.parameter)
         self.show_serif()
 
@@ -153,7 +158,6 @@ class RoomScreen(QMainWindow):
         if self.serif == "お腹すいたな～あたしが何か作るよ！なに食べたい？":
             osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.parameter > 55]
             point_list = (point_list[0], point_list[1])[self.parameter > 55]
-
 
         print(osana_reply_list)
         print(user_reply_list)
@@ -177,24 +181,24 @@ class RoomScreen(QMainWindow):
         #* セリフウィンドウに表示
         self.ui.osanaText.show()
         self.ui.osanaText.setText(self.serif)
-        print("Show serif")
+        print("セリフを表示")
 
         #* ログに今までのセリフを登録
         self.serif_list.append(self.serif)
         self.model.setStringList(self.serif_list)
         self.ui.logView.setModel(self.model)
 
-    def back_clicked(self):
+    def background_clicked(self):
         if self.func_flag == "Timer":
-            self.operate_timer()
+            self.operate_timer_tab()
         elif self.func_flag == "Break":
-            self.operate_break()
+            self.operate_break_tab()
         elif self.func_flag == "Log":
-            self.operate_log()
+            self.operate_log_tab()
         elif self.func_flag == "Finish":
-            self.operate_finish()
+            self.operate_finish_tab()
 
-    def operate_timer(self):
+    def operate_timer_tab(self):
         self.start = time.time()
         self.switch_buttons(False)
 
@@ -224,7 +228,7 @@ class RoomScreen(QMainWindow):
 
         self.start_qtimer()
 
-    def operate_break(self):
+    def operate_break_tab(self):
         self.start = time.time()
         self.switch_buttons(False)
 
@@ -254,7 +258,7 @@ class RoomScreen(QMainWindow):
 
         self.start_qtimer()
 
-    def operate_log(self):
+    def operate_log_tab(self):
         self.start = time.time()
         self.switch_buttons(False)
 
@@ -282,7 +286,7 @@ class RoomScreen(QMainWindow):
         self.func_flag = "Log"
         self.start_qtimer()
 
-    def operate_finish(self):
+    def operate_finish_tab(self):
         self.start = time.time()
         self.switch_buttons(False)
 
@@ -394,8 +398,12 @@ class RoomScreen(QMainWindow):
         self.ui.breakSentence.hide()
         self.ui.breakTimeEdit.hide()
         self.ui.breakStartButton.hide()
-        self.ui.remainingTime.hide()
-        self.ui.remainingTimeShadow.hide()
+        self.ui.studyTimerLabel.hide()
+        self.ui.remainingStudyTime.hide()
+        self.ui.remainingStudyTimeShadow.hide()
+        self.ui.breakTimerLabel.hide()
+        self.ui.remainingBreakTime.hide()
+        self.ui.remainingBreakTimeShadow.hide()
         self.ui.finishYesButton.hide()
         self.ui.finishNoButton.hide()
 
@@ -459,28 +467,133 @@ class RoomScreen(QMainWindow):
         # 選択した声を再生する
         self.osana.find_and_play(index.data())
 
-    def start_timer(self):
-        self.timer_flag = True
+    def start_study_timer(self):
+        self.study_timer_flag = True
 
         #* 幼馴染から最初の声出しを頂く
-        self.serif = self.osana.play_timer_voice("start", self.parameter)
+        self.serif = self.osana.play_study_timer_voice("start", self.parameter)
         self.show_serif()
 
         #* timeEditから時間を取得
-        self.set_time = self.ui.timerTimeEdit.time().toString()
+        self.set_study_time = self.ui.timerTimeEdit.time().toString()
 
         #* 勉強タイマーを表示
-        self.study_timer = Timer(self.set_time)
-        self.ui.remainingTime.setText(self.study_timer.add_space(self.set_time))
-        self.ui.remainingTime.show()
-        self.ui.remainingTimeShadow.show()
+        self.study_timer = Timer(self.set_study_time)
+        self.ui.remainingStudyTime.setText(self.study_timer.add_space(self.set_study_time))
+        self.ui.studyTimerLabel.show()
+        self.ui.remainingStudyTime.show()
+        self.ui.remainingStudyTimeShadow.show()
 
         #* 秒換算して、Timerウィンドウを下ろす
-        self.whole_seconds = self.study_timer.get_whole_seconds(self.set_time)
-        self.operate_timer()
+        self.whole_seconds_for_study = self.study_timer.get_whole_seconds(self.set_study_time)
+        self.operate_timer_tab()
 
-    def start_break(self):
-        pass
+    def operate_study_timer(self):
+
+        if not self.timeout_flag_for_study:
+            #* 秒から表示用の時間の文字列を取得して、表示
+            try:
+                remaining_time = self.study_timer.get_str_time(self.whole_seconds_for_study)
+            except AttributeError:
+                self.study_timer_flag = False
+                return
+            self.ui.remainingStudyTime.setText(remaining_time)
+
+        #* 一定のタイミングで幼馴染に声をかけてもらう
+        if self.whole_seconds_for_study == 0:
+            self.serif = self.osana.play_study_timer_voice("finish", self.parameter)
+            self.show_serif()
+            self.timeout_flag_for_study = True
+
+        elif self.whole_seconds_for_study == self.study_timer.ten:
+            self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "10")
+            self.show_serif()
+        elif self.whole_seconds_for_study == self.study_timer.thirty:
+            self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "30")
+            self.show_serif()
+        elif self.whole_seconds_for_study == self.study_timer.half:
+            self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "half")
+            self.show_serif()
+
+        #* タイマー　アウト後の点滅表示
+        elif self.whole_seconds_for_study == -1:
+            self.ui.remainingStudyTime.hide()
+        elif self.whole_seconds_for_study == -2:
+            self.ui.remainingStudyTime.show()
+        elif self.whole_seconds_for_study == -3:
+            self.ui.remainingStudyTime.hide()
+        elif self.whole_seconds_for_study == -4:
+            self.ui.remainingStudyTime.show()
+        elif self.whole_seconds_for_study == -6:
+            self.ui.remainingStudyTime.hide()
+        elif self.whole_seconds_for_study == -7:
+            self.ui.remainingStudyTime.show()
+        elif self.whole_seconds_for_study == -8:
+            self.ui.studyTimerLabel.hide()
+            self.ui.remainingStudyTime.hide()
+            self.ui.remainingStudyTimeShadow.hide()
+            self.study_timer_flag = False
+            self.timeout_flag_for_study = False
+
+        self.whole_seconds_for_study -= 1
+
+    def start_break_timer(self):
+        self.break_timer_flag = True
+
+        #* 幼馴染から最初の声出しを頂く
+        self.serif = self.osana.play_break_timer_voice("start", self.parameter)
+        self.show_serif()
+
+        #* timeEditから時間を取得
+        self.set_break_time = self.ui.breakTimeEdit.time().toString()
+
+        #* 勉強タイマーを表示
+        self.break_timer = Timer(self.set_break_time)
+        self.ui.remainingBreakTime.setText(self.break_timer.add_space(self.set_break_time))
+        self.ui.breakTimerLabel.show()
+        self.ui.remainingBreakTime.show()
+        self.ui.remainingBreakTimeShadow.show()
+
+        #* 秒換算して、Timerウィンドウを下ろす
+        self.whole_seconds_for_break = self.break_timer.get_whole_seconds(self.set_break_time)
+        self.operate_break_tab()
+
+    def operate_break_timer(self):
+
+        if not self.timeout_flag_for_break:
+            #* 秒から表示用の時間の文字列を取得して、表示
+            try:
+                remaining_time = self.break_timer.get_str_time(self.whole_seconds_for_break)
+            except AttributeError:
+                self.break_timer_flag = False
+                return
+            self.ui.remainingBreakTime.setText(remaining_time)
+            self.study_timer_flag = False
+
+        #* 一定のタイミングで幼馴染に声をかけてもらう
+        if self.whole_seconds_for_break == 0:
+            self.serif = self.osana.play_break_timer_voice("finish", self.parameter)
+            self.show_serif()
+            self.timeout_flag_for_break = True
+            self.study_timer_flag = True
+
+        #* タイマー　アウト後の点滅表示
+        elif self.whole_seconds_for_break == -1:
+            self.ui.remainingBreakTime.hide()
+        elif self.whole_seconds_for_break == -2:
+            self.ui.remainingBreakTime.show()
+        elif self.whole_seconds_for_break == -3:
+            self.ui.remainingBreakTime.hide()
+        elif self.whole_seconds_for_break == -4:
+            self.ui.remainingBreakTime.show()
+        elif self.whole_seconds_for_break == -5:
+            self.ui.breakTimerLabel.hide()
+            self.ui.remainingBreakTime.hide()
+            self.ui.remainingBreakTimeShadow.hide()
+            self.break_timer_flag = False
+            self.timeout_flag_for_break = False
+
+        self.whole_seconds_for_break -= 1
 
 
 if __name__ == '__main__':
