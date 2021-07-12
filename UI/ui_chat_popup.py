@@ -12,46 +12,46 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+import files_rc
 
 class Ui_ChatPopup(object):
     def setupUi(self, ChatPopup):
         if not ChatPopup.objectName():
             ChatPopup.setObjectName(u"ChatPopup")
-        ChatPopup.resize(540, 295)
-        ChatPopup.setStyleSheet(u"background-color: #FF616D;")
-        self.horizontalLayout = QHBoxLayout(ChatPopup)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        ChatPopup.resize(540, 300)
+        ChatPopup.setStyleSheet(u"")
         self.chatList = QListWidget(ChatPopup)
         self.chatList.setObjectName(u"chatList")
+        self.chatList.setGeometry(QRect(0, 0, 540, 300))
         self.chatList.setFocusPolicy(Qt.NoFocus)
-        self.chatList.setStyleSheet(u"QListWidget::item {\n"
-"	margin: 8px;\n"
-"	padding-top: 20px;\n"
-"	padding-bottom: 20px;\n"
-"	margin-right: 8px;\n"
-"	background-color: #FFEAC9;\n"
-"	border-radius: 0px;\n"
-"	color: #343A40;\n"
-"	width: 520px;\n"
-"	height: 40px;\n"
-"	font: 75 16pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
+        self.chatList.setStyleSheet(u"QListWidget {\n"
+"	border-radius: 10px;\n"
+"	background: transparent;\n"
+"	color: rgb(220, 220, 220);\n"
+"	font: 75 14pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
 "}\n"
-"QListWidget::item:hover {\n"
+"QListWidget::item{\n"
+"	width: 520px;\n"
+"	height: 80px;\n"
+"	background-color: rgba(0, 0, 0, 0.5);\n"
+"	border: .3px solid white;\n"
+"	border-radius: 10px;\n"
 "	margin: 10px;\n"
-"	background-color: #FFFFC9;\n"
-"	border-radius: 0px;\n"
-"	color: #343A40;\n"
-"	font: 75 16pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
-"	word-wrap: true;\n"
-"	\n"
+"	color: white;\n"
+"}\n"
+"QListWidget::item:hover{\n"
+"	background-color: rgba(0, 0, 0, 0.7);\n"
 "}")
+        self.chatList.setProperty("isWrapping", False)
         self.chatList.setUniformItemSizes(False)
         self.chatList.setWordWrap(True)
-
-        self.horizontalLayout.addWidget(self.chatList)
-
+        self.backgroundLabel = QLabel(ChatPopup)
+        self.backgroundLabel.setObjectName(u"backgroundLabel")
+        self.backgroundLabel.setGeometry(QRect(0, 0, 540, 300))
+        self.backgroundLabel.setPixmap(QPixmap(u":/image/images/backgrounds/inside.jpg"))
+        self.backgroundLabel.setScaledContents(True)
+        self.backgroundLabel.raise_()
+        self.chatList.raise_()
 
         self.retranslateUi(ChatPopup)
 
@@ -60,5 +60,6 @@ class Ui_ChatPopup(object):
 
     def retranslateUi(self, ChatPopup):
         ChatPopup.setWindowTitle(QCoreApplication.translate("ChatPopup", u"Dialog", None))
+        self.backgroundLabel.setText("")
     # retranslateUi
 

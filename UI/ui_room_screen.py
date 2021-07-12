@@ -55,6 +55,10 @@ class Ui_RoomScreen(object):
 "}")
         self.blackFrame.setFrameShape(QFrame.StyledPanel)
         self.blackFrame.setFrameShadow(QFrame.Raised)
+        self.blackFrameButton = QPushButton(self.blackFrame)
+        self.blackFrameButton.setObjectName(u"blackFrameButton")
+        self.blackFrameButton.setGeometry(QRect(0, 0, 800, 600))
+        self.blackFrameButton.setStyleSheet(u"background-color: transparent;")
         self.logView = QListView(self.centralwidget)
         self.logView.setObjectName(u"logView")
         self.logView.setGeometry(QRect(370, 470, 400, 100))
@@ -138,9 +142,10 @@ class Ui_RoomScreen(object):
         self.breakBackLabel.setScaledContents(True)
         self.finishBackLabel = QLabel(self.centralwidget)
         self.finishBackLabel.setObjectName(u"finishBackLabel")
-        self.finishBackLabel.setGeometry(QRect(380, 470, 400, 100))
+        self.finishBackLabel.setGeometry(QRect(665, 470, 110, 100))
+        self.finishBackLabel.setStyleSheet(u"")
         self.finishBackLabel.setPixmap(QPixmap(u":/image/images/windows/loose_leaf_finish.png"))
-        self.finishBackLabel.setScaledContents(True)
+        self.finishBackLabel.setScaledContents(False)
         self.timerSentence = QLabel(self.centralwidget)
         self.timerSentence.setObjectName(u"timerSentence")
         self.timerSentence.setGeometry(QRect(130, 510, 180, 50))
@@ -193,6 +198,32 @@ class Ui_RoomScreen(object):
         icon1.addFile(u":/image/images/sentences/breakStartButton.png", QSize(), QIcon.Normal, QIcon.Off)
         self.breakStartButton.setIcon(icon1)
         self.breakStartButton.setIconSize(QSize(180, 50))
+        self.finishNoButton = QPushButton(self.centralwidget)
+        self.finishNoButton.setObjectName(u"finishNoButton")
+        self.finishNoButton.setGeometry(QRect(670, 520, 100, 40))
+        self.finishNoButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: transparent;\n"
+"	font: 75 20pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+"	color: black;\n"
+"	border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover {\n"
+"	background-color: rgba(0,0,0,0.7);\n"
+"	color: white;\n"
+"}")
+        self.finishYesButton = QPushButton(self.centralwidget)
+        self.finishYesButton.setObjectName(u"finishYesButton")
+        self.finishYesButton.setGeometry(QRect(670, 470, 100, 40))
+        self.finishYesButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: transparent;\n"
+"	font: 75 20pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+"	color: black;\n"
+"	border-radius: 10px;\n"
+"}\n"
+"QPushButton::hover {\n"
+"	background-color: rgba(0,0,0,0.7);\n"
+"	color: white;\n"
+"}")
         RoomScreen.setCentralWidget(self.centralwidget)
         self.insideRoomLabel.raise_()
         self.blackFrame.raise_()
@@ -205,21 +236,23 @@ class Ui_RoomScreen(object):
         self.breakSentence.raise_()
         self.timerTimeEdit.raise_()
         self.timerSentence.raise_()
-        self.finishBackLabel.raise_()
         self.logBackLabel.raise_()
         self.logView.raise_()
-        self.finishLabel.raise_()
         self.logLabel.raise_()
         self.breakLabel.raise_()
         self.timerLabel.raise_()
+        self.remainingTimeShadow.raise_()
+        self.remainingTime.raise_()
+        self.finishBackLabel.raise_()
+        self.finishLabel.raise_()
+        self.finishYesButton.raise_()
+        self.finishNoButton.raise_()
         self.windowLabel.raise_()
         self.osanaText.raise_()
         self.breakButton.raise_()
         self.finishButton.raise_()
         self.logButton.raise_()
         self.timerButton.raise_()
-        self.remainingTimeShadow.raise_()
-        self.remainingTime.raise_()
 
         self.retranslateUi(RoomScreen)
 
@@ -240,6 +273,7 @@ class Ui_RoomScreen(object):
         self.osanaLabel.setText("")
         self.finishButton.setText("")
         self.windowLabel.setText("")
+        self.blackFrameButton.setText(QCoreApplication.translate("RoomScreen", u"PushButton", None))
         self.timerTimeEdit.setDisplayFormat(QCoreApplication.translate("RoomScreen", u"hh:mm:ss", None))
         self.logButton.setText("")
         self.breakButton.setText("")
@@ -259,5 +293,7 @@ class Ui_RoomScreen(object):
         self.breakSentence.setText("")
         self.timerStartButton.setText("")
         self.breakStartButton.setText("")
+        self.finishNoButton.setText(QCoreApplication.translate("RoomScreen", u"\u3044\u3044\u3048", None))
+        self.finishYesButton.setText(QCoreApplication.translate("RoomScreen", u"\u306f\u3044", None))
     # retranslateUi
 
