@@ -11,6 +11,7 @@ class PlayVoice():
     def __init__(self):
         self.json = JsonFiles()
         print("Loading 幼馴染の声 completed")
+        self.voice = QSound("")
 
     # サボりを検知したとき
     def play_voice(self, case, parameter):
@@ -68,10 +69,10 @@ class PlayVoice():
         self.find_and_play(app_voice)
         return app_voice
 
-    # タイマー関係
-    def play_timer_voice(self, when, parameter, timing=None):
+    # 勉強タイマー関係
+    def play_study_timer_voice(self, when, parameter, timing=None):
         """
-        timer
+        study_timer
         """
         mood = MoodParameter(parameter).mood
         if mood == "great": mood = "good";
@@ -88,12 +89,27 @@ class PlayVoice():
                     if mood == "awkward": mood = "normal";
 
         if when == "mid":
-            timer_voices = list(self.json.voice["timer"][when][timing][mood].values())
+            study_timer_voices = list(self.json.voice["timer"][when][timing][mood].values())
         else:
-            timer_voices = list(self.json.voice["timer"][when][mood].values())
-        timer_voice = random.choice(timer_voices)
-        self.find_and_play(timer_voice)
-        return timer_voice      # TODO :: 世間話に対応
+            study_timer_voices = list(self.json.voice["timer"][when][mood].values())
+        study_timer_voice = random.choice(study_timer_voices)
+        self.find_and_play(study_timer_voice)
+        return study_timer_voice      # TODO :: 世間話に対応
+
+    # 休憩タイマー関係
+    def play_break_timer_voice(self, when, parameter):
+        """
+        break_timer
+        """
+        mood = MoodParameter(parameter).mood
+        if mood == "great": mood = "good";
+        if (when == "finish") & (mood == "bad"):
+            mood = "awkward"
+
+        break_timer_voices = list(self.json.voice["break"][when][mood].values())
+        break_timer_voice = random.choice(break_timer_voices)
+        self.find_and_play(break_timer_voice)
+        return break_timer_voice
 
     # 選択肢のある世間話
     def play_choicechat_ask(self, parameter):
@@ -117,7 +133,9 @@ class PlayVoice():
 
 
     # 声を再生する関数
-    def find_and_play(self, voice):
-        voice_path = self.json.correspondence[voice]
-        QSound.play(voice_path)
-        print(voice)
+    def find_and_play(self, serif):
+        self.voice.stop()
+        voice_path = self.json.correspondence[serif]
+        self.voice = QSound(voice_path)
+        self.voice.play()
+        print(serif)
