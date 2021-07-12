@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>796</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -462,10 +462,10 @@ QListView::item:hover{
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="remainingTime">
+   <widget class="QLabel" name="remainingStudyTime">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>110</x>
       <y>10</y>
       <width>300</width>
       <height>60</height>
@@ -488,10 +488,10 @@ color: red;</string>
      <string>0 1:00: 12</string>
     </property>
    </widget>
-   <widget class="QLabel" name="remainingTimeShadow">
+   <widget class="QLabel" name="remainingStudyTimeShadow">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>110</x>
       <y>10</y>
       <width>300</width>
       <height>60</height>
@@ -675,6 +675,98 @@ QPushButton::hover {
      <string>はい</string>
     </property>
    </widget>
+   <widget class="QLabel" name="remainingBreakTime">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>70</y>
+      <width>300</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Let's go Digital</family>
+      <pointsize>36</pointsize>
+      <weight>9</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+color: skyblue;</string>
+    </property>
+    <property name="text">
+     <string>0 1:00: 12</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="remainingBreakTimeShadow">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>70</y>
+      <width>300</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Let's go Digital</family>
+      <pointsize>36</pointsize>
+      <weight>9</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+color: rgb(58, 58, 58);</string>
+    </property>
+    <property name="text">
+     <string>88:88:88</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="studyTimerLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>12</y>
+      <width>90</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 24pt &quot;UD デジタル 教科書体 N-B&quot;;
+color: pink;</string>
+    </property>
+    <property name="text">
+     <string>勉強</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="breakTimerLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>73</y>
+      <width>90</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 24pt &quot;UD デジタル 教科書体 N-B&quot;;
+color: pink;</string>
+    </property>
+    <property name="text">
+     <string>休憩</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>insideRoomLabel</zorder>
    <zorder>blackFrame</zorder>
    <zorder>osanaLabel</zorder>
@@ -691,8 +783,8 @@ QPushButton::hover {
    <zorder>logLabel</zorder>
    <zorder>breakLabel</zorder>
    <zorder>timerLabel</zorder>
-   <zorder>remainingTimeShadow</zorder>
-   <zorder>remainingTime</zorder>
+   <zorder>remainingStudyTimeShadow</zorder>
+   <zorder>remainingStudyTime</zorder>
    <zorder>finishBackLabel</zorder>
    <zorder>finishLabel</zorder>
    <zorder>finishYesButton</zorder>
@@ -703,6 +795,10 @@ QPushButton::hover {
    <zorder>finishButton</zorder>
    <zorder>logButton</zorder>
    <zorder>timerButton</zorder>
+   <zorder>remainingBreakTimeShadow</zorder>
+   <zorder>remainingBreakTime</zorder>
+   <zorder>studyTimerLabel</zorder>
+   <zorder>breakTimerLabel</zorder>
   </widget>
  </widget>
  <resources>
