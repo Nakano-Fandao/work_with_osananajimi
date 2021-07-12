@@ -5,7 +5,7 @@ class Geometry:
         self.blackFrame       = [[  0,   0,   0,   0], [  0,   0,   0, 0.4]]
         self.osanaLabel       = [[220,  40, 370, 470], [220,   0, 370, 470]]
         self.windowLabel      = [[ 20, 405, 760, 182], [ 20, 525, 760, 182]]
-        self.osanaText        = [[ 30, 470, 740, 105], [ 30, 590, 740, 105]]
+        self.osanaText        = [[ 30, 470, 740, 105], [ 30, 600, 740, 105]]
 
         self.logView          = [[370, 470, 400, 100], [370,  90, 400, 560]]
 
@@ -173,21 +173,21 @@ class Geometry:
         #* blackFrame
         self.geometry_lists[0][1] = [  0,  0,  0,0.4]
         #* osanaLabel
-        self.geometry_lists[1][1] = [ 20,130,370,470]
+        self.geometry_lists[1][1] = [220,  0,370,470]
         #* Labels & Buttons
         self.geometry_lists[2][1] = [377,544,101, 60]
         self.geometry_lists[3][1] = [477,544,101, 60]
         self.geometry_lists[4][1] = [577,544,101, 60]
         self.geometry_lists[5][1] = [677,544,101, 60]
-        self.geometry_lists[6][1] = [377,534,108, 79]
-        self.geometry_lists[7][1] = [477,534,108, 79]
-        self.geometry_lists[8][1] = [577,534,108, 79]
-        self.geometry_lists[9][1] = [677,534,108, 79]
+        self.geometry_lists[6][1] = [370,534,108, 79]
+        self.geometry_lists[7][1] = [470,534,108, 79]
+        self.geometry_lists[8][1] = [570,534,108, 79]
+        self.geometry_lists[9][1] = [670,534,108, 79]
 
         if self.func == "Timer":
             """
             2 : timerButton
-            3 : timerLabel
+            6 : timerLabel
             10: timerSentence
             11: timerTimeEdit
             12: timerStartButton
@@ -198,14 +198,225 @@ class Geometry:
             self.geometry_lists[12][1] = [215, 600, 180,  42]
             self.geometry_lists[13][1] = [110, 600, 400, 100]
 
-            if self.switching_flag == "Log":
+            if self.switching_flag == "Break":
                 """
+                3 : breakButton
+                7 : breakLabel
+                14: breakSentence
+                15: breakTimeEdit
+                16: breakStartButton
+                17: breakBackLabel
+                """
+                self.geometry_lists[3][1]  = [477,260,101, 60]
+                self.geometry_lists[7][1]  = [470,250,108, 79]
+                self.geometry_lists[14][1] = [230,380,180, 50]
+                self.geometry_lists[15][1] = [400,380,180, 50]
+                self.geometry_lists[16][1] = [315,470,180, 50]
+                self.geometry_lists[17][0] = [210,600,400,560]
+                self.geometry_lists[17][1] = [210,290,400,560]
+
+            elif self.switching_flag == "Log":
+                """
+                1 : osanaLabel
                 4 : logButton
                 8 : logLabel
                 14: logView
                 15: logBackLabel
                 """
+                self.geometry_lists[1][1]  = [ 20,130,370,470]
                 self.geometry_lists[4][1]  = [577, 60,101, 60]
-                self.geometry_lists[8][1]  = [577, 50,108, 79]
+                self.geometry_lists[8][1]  = [570, 50,108, 79]
                 self.geometry_lists[14][1] = [370, 90,400,560]
+                self.geometry_lists[15][0] = [370,600,400,560]
                 self.geometry_lists[15][1] = [370, 90,400,560]
+
+            elif self.switching_flag == "Finish":
+                """
+                5 : finishButton
+                9 : finishLabel
+                14: finishBackLabel
+                """
+                self.geometry_lists[5][1]  = [677,260,101, 60]
+                self.geometry_lists[9][1]  = [670,250,108, 79]
+                self.geometry_lists[14][0] = [380,600,400,560]
+                self.geometry_lists[14][1] = [380,290,400,560]
+
+        elif (self.func == "Break") & (self.switching_flag == "Timer"):
+            """
+            2 : timerButton
+            3 : breakButton
+            6 : timerLabel
+            7 : breakLabel
+            10: timerSentence
+            11: timerTimeEdit
+            12: timerStartButton
+            13: timerBackLabel
+            14: breakSentence
+            15: breakTimeEdit
+            16: breakStartButton
+            17: breakBackLabel
+            """
+            self.geometry_lists[2][1]  = [377,260,101, 60]
+            self.geometry_lists[6][1]  = [370,250,108, 79]
+            self.geometry_lists[10][1] = [130,380,180, 50]
+            self.geometry_lists[11][1] = [300,380,180, 50]
+            self.geometry_lists[12][1] = [215,470,180, 42]
+            self.geometry_lists[13][0] = [110,600,400,560]
+            self.geometry_lists[13][1] = [110,290,400,560]
+            self.geometry_lists[14][1] = [230,600,180, 50]
+            self.geometry_lists[15][1] = [400,600,180, 50]
+            self.geometry_lists[16][1] = [315,600,180, 50]
+            self.geometry_lists[17][1] = [210,600,400,100]
+
+        elif self.func == "Break":
+            """
+            3 : breakButton
+            7 : breakLabel
+            10: breakSentence
+            11: breakTimeEdit
+            12: breakStartButton
+            13: breakBackLabel
+            """
+            self.geometry_lists[10][1] = [230,600,180, 50]
+            self.geometry_lists[11][1] = [400,600,180, 50]
+            self.geometry_lists[12][1] = [315,600,180, 50]
+            self.geometry_lists[13][1] = [210,600,400,100]
+
+            if self.switching_flag == "Log":
+                """
+                1 : osanaLabel
+                4 : logButton
+                8 : logLabel
+                14: logView
+                15: logBackLabel
+                """
+                self.geometry_lists[1][1]  = [ 20,130,370,470]
+                self.geometry_lists[4][1]  = [577, 60,101, 60]
+                self.geometry_lists[8][1]  = [570, 50,108, 79]
+                self.geometry_lists[14][1] = [370, 90,400,560]
+                self.geometry_lists[15][0] = [370,600,400,560]
+                self.geometry_lists[15][1] = [370, 90,400,560]
+
+            elif self.switching_flag == "Finish":
+                """
+                5 : finishButton
+                9 : finishLabel
+                14: finishBackLabel
+                """
+                self.geometry_lists[5][1]  = [677,260,101, 60]
+                self.geometry_lists[9][1]  = [670,250,108, 79]
+                self.geometry_lists[14][0] = [380,600,400,560]
+                self.geometry_lists[14][1] = [380,290,400,560]
+
+        elif (self.func == "Log") & (self.switching_flag == "Timer"):
+            """
+            2 : timerButton
+            6 : timerLabel
+            10: timerSentence
+            11: timerTimeEdit
+            12: timerStartButton
+            13: timerBackLabel
+            14: logView
+            15: logBackLabel
+            """
+            self.geometry_lists[2][1]  = [377,260,101, 60]
+            self.geometry_lists[6][1]  = [370,250,108, 79]
+            self.geometry_lists[10][1] = [130,380,180, 50]
+            self.geometry_lists[11][1] = [300,380,180, 50]
+            self.geometry_lists[12][1] = [215,470,180, 42]
+            self.geometry_lists[13][0] = [110,600,400,560]
+            self.geometry_lists[13][1] = [110,290,400,560]
+            self.geometry_lists[14][1] = [370,600,400,560]
+            self.geometry_lists[15][1] = [370,600,400,560]
+
+        elif (self.func == "Log") & (self.switching_flag == "Break"):
+            """
+            3 : breakButton
+            7 : breakLabel
+            10: breakSentence
+            11: breakTimeEdit
+            12: breakStartButton
+            13: breakBackLabel
+            14: logView
+            15: logBackLabel
+            """
+            self.geometry_lists[3][1]  = [477,260,101, 60]
+            self.geometry_lists[7][1]  = [470,250,108, 79]
+            self.geometry_lists[10][1] = [230,380,180, 50]
+            self.geometry_lists[11][1] = [400,380,180, 50]
+            self.geometry_lists[12][1] = [315,470,180, 50]
+            self.geometry_lists[13][0] = [210,600,400,560]
+            self.geometry_lists[13][1] = [210,290,400,560]
+            self.geometry_lists[14][1] = [370,600,400,560]
+            self.geometry_lists[15][1] = [370,600,400,560]
+
+        elif (self.func == "Log") & (self.switching_flag == "Finish"):
+            """
+            5 : finishButton
+            9 : finishLabel
+            10: logView
+            11: logBackLabel
+            12: finishBackLabel
+            """
+            self.geometry_lists[5][1]  = [677,260,101, 60]
+            self.geometry_lists[9][1]  = [670,250,108, 79]
+            self.geometry_lists[10][1] = [370,600,400,560]
+            self.geometry_lists[11][1] = [370,600,400,560]
+            self.geometry_lists[12][0] = [380,600,400,560]
+            self.geometry_lists[12][1] = [380,290,400,560]
+
+
+        elif (self.func == "Finish") & (self.switching_flag == "Timer"):
+            """
+            2 : timerButton
+            6 : timerLabel
+            10: timerSentence
+            11: timerTimeEdit
+            12: timerStartButton
+            13: timerBackLabel
+            14: FinishBackLabel
+            """
+            self.geometry_lists[2][1]  = [377,260,101, 60]
+            self.geometry_lists[6][1]  = [370,250,108, 79]
+            self.geometry_lists[10][1] = [130,380,180, 50]
+            self.geometry_lists[11][1] = [300,380,180, 50]
+            self.geometry_lists[12][1] = [215,470,180, 42]
+            self.geometry_lists[13][0] = [110,600,400,560]
+            self.geometry_lists[13][1] = [110,290,400,560]
+            self.geometry_lists[14][1] = [380,600,400,560]
+
+        elif (self.func == "Finish") & (self.switching_flag == "Break"):
+            """
+            3 : breakButton
+            7 : breakLabel
+            10: breakSentence
+            11: breakTimeEdit
+            12: breakStartButton
+            13: breakBackLabel
+            14: finishBackLabel
+            """
+            self.geometry_lists[3][1]  = [477,260,101, 60]
+            self.geometry_lists[7][1]  = [470,250,108, 79]
+            self.geometry_lists[10][1] = [230,380,180, 50]
+            self.geometry_lists[11][1] = [400,380,180, 50]
+            self.geometry_lists[12][1] = [315,470,180, 50]
+            self.geometry_lists[13][0] = [210,600,400,560]
+            self.geometry_lists[13][1] = [210,290,400,560]
+            self.geometry_lists[14][1] = [380,600,400,560]
+
+        elif (self.func == "Finish") & (self.switching_flag == "Log"):
+            """
+            1 : osanaLabel
+            4 : logButton
+            8 : logLabel
+            10: logView
+            11: logBackLabel
+            12: finishBackLabel
+            """
+            self.geometry_lists[1][1]  = [ 20,130,370,470]
+            self.geometry_lists[4][1]  = [577, 60,101, 60]
+            self.geometry_lists[8][1]  = [570, 50,108, 79]
+            self.geometry_lists[10][1] = [370, 90,400,560]
+            self.geometry_lists[11][0] = [370,600,400,560]
+            self.geometry_lists[11][1] = [370, 90,400,560]
+            self.geometry_lists[12][1] = [380,600,400,560]
