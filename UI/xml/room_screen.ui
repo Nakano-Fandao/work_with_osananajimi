@@ -142,6 +142,22 @@ p, li { white-space: pre-wrap; }
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QPushButton" name="blackFrameButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>800</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QListView" name="logView">
     <property name="geometry">
@@ -408,11 +424,14 @@ QListView::item:hover{
    <widget class="QLabel" name="finishBackLabel">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>665</x>
       <y>470</y>
-      <width>400</width>
+      <width>110</width>
       <height>100</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
@@ -421,7 +440,7 @@ QListView::item:hover{
      <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_finish.png</pixmap>
     </property>
     <property name="scaledContents">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="timerSentence">
@@ -606,6 +625,56 @@ color: rgb(58, 58, 58);</string>
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="finishNoButton">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>520</y>
+      <width>100</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	background-color: transparent;
+	font: 75 20pt &quot;UD デジタル 教科書体 N-B&quot;;
+	color: black;
+	border-radius: 10px;
+}
+QPushButton::hover {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+}</string>
+    </property>
+    <property name="text">
+     <string>いいえ</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="finishYesButton">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>470</y>
+      <width>100</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+	background-color: transparent;
+	font: 75 20pt &quot;UD デジタル 教科書体 N-B&quot;;
+	color: black;
+	border-radius: 10px;
+}
+QPushButton::hover {
+	background-color: rgba(0,0,0,0.7);
+	color: white;
+}</string>
+    </property>
+    <property name="text">
+     <string>はい</string>
+    </property>
+   </widget>
    <zorder>insideRoomLabel</zorder>
    <zorder>blackFrame</zorder>
    <zorder>osanaLabel</zorder>
@@ -617,21 +686,23 @@ color: rgb(58, 58, 58);</string>
    <zorder>breakSentence</zorder>
    <zorder>timerTimeEdit</zorder>
    <zorder>timerSentence</zorder>
-   <zorder>finishBackLabel</zorder>
    <zorder>logBackLabel</zorder>
    <zorder>logView</zorder>
-   <zorder>finishLabel</zorder>
    <zorder>logLabel</zorder>
    <zorder>breakLabel</zorder>
    <zorder>timerLabel</zorder>
+   <zorder>remainingTimeShadow</zorder>
+   <zorder>remainingTime</zorder>
+   <zorder>finishBackLabel</zorder>
+   <zorder>finishLabel</zorder>
+   <zorder>finishYesButton</zorder>
+   <zorder>finishNoButton</zorder>
    <zorder>windowLabel</zorder>
    <zorder>osanaText</zorder>
    <zorder>breakButton</zorder>
    <zorder>finishButton</zorder>
    <zorder>logButton</zorder>
    <zorder>timerButton</zorder>
-   <zorder>remainingTimeShadow</zorder>
-   <zorder>remainingTime</zorder>
   </widget>
  </widget>
  <resources>
