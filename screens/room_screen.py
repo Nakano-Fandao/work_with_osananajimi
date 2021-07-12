@@ -32,20 +32,7 @@ class RoomScreen(QMainWindow):
         fonts.addApplicationFont(":/font/fonts/Let_s_go_Digital_Regular.ttf")
         self.ui = Ui_RoomScreen()
         self.ui.setupUi(self)
-        self.ui.logView.hide()
-        self.ui.timerBackLabel.hide()
-        self.ui.breakBackLabel.hide()
-        self.ui.logBackLabel.hide()
-        self.ui.finishBackLabel.hide()
-        self.ui.blackFrame.hide()
-        self.ui.timerSentence.hide()
-        self.ui.timerTimeEdit.hide()
-        self.ui.timerStartButton.hide()
-        self.ui.breakSentence.hide()
-        self.ui.breakTimeEdit.hide()
-        self.ui.breakStartButton.hide()
-        self.ui.remainingTime.hide()
-        self.ui.remainingTimeShadow.hide()
+        self.init_objects()
         #*-------------------------
 
         #*----- font setting ------
@@ -71,8 +58,8 @@ class RoomScreen(QMainWindow):
         self.osana = PlayVoice()
 
         ## REMOVE TITLE BAR
-        # self.setWindowFlag(Qt.FramelessWindowHint)
-        # self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
 
         # Button setting
         self.ui.timerButton.clicked.connect(self.operate_timer)
@@ -82,6 +69,10 @@ class RoomScreen(QMainWindow):
         self.ui.logView.clicked.connect(self.logView_clicked)
         self.ui.timerStartButton.clicked.connect(self.start_timer)
         self.ui.breakStartButton.clicked.connect(self.start_break)
+        self.ui.finishYesButton.clicked.connect(lambda x: sys.exit(-1))
+        # self.ui.finishNoButton.clicked.connect(self.operate_finish)
+        self.ui.finishNoButton.clicked.connect(self.do_choicechat)
+        self.ui.blackFrameButton.clicked.connect(self.back_clicked)
 
         # # タイマースタート！
         # self.counter = -10
@@ -163,7 +154,11 @@ class RoomScreen(QMainWindow):
             osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.parameter > 55]
             point_list = (point_list[0], point_list[1])[self.parameter > 55]
 
+
+        print(osana_reply_list)
+        print(user_reply_list)
         self.chat_popup = ChatPopup(user_reply_list)
+        user_reply = ""
         if self.chat_popup.exec_() == QDialog.Accepted:
             #* 世間話popup表示
             self.chat_popup.show()
@@ -189,8 +184,19 @@ class RoomScreen(QMainWindow):
         self.model.setStringList(self.serif_list)
         self.ui.logView.setModel(self.model)
 
+    def back_clicked(self):
+        if self.func_flag == "Timer":
+            self.operate_timer()
+        elif self.func_flag == "Break":
+            self.operate_break()
+        elif self.func_flag == "Log":
+            self.operate_log()
+        elif self.func_flag == "Finish":
+            self.operate_finish()
+
     def operate_timer(self):
         self.start = time.time()
+        self.switch_buttons(False)
 
         if self.move_flag:
             print("********Timer window opens*********")
@@ -220,6 +226,7 @@ class RoomScreen(QMainWindow):
 
     def operate_break(self):
         self.start = time.time()
+        self.switch_buttons(False)
 
         if self.move_flag:
             print("********Break window opens*********")
@@ -249,6 +256,7 @@ class RoomScreen(QMainWindow):
 
     def operate_log(self):
         self.start = time.time()
+        self.switch_buttons(False)
 
         if self.move_flag:
             print("************Log opens**************")
@@ -276,10 +284,13 @@ class RoomScreen(QMainWindow):
 
     def operate_finish(self):
         self.start = time.time()
+        self.switch_buttons(False)
 
         if self.move_flag:
             print("********Finish window opens********")
             self.ui.blackFrame.show()
+            self.ui.finishYesButton.show()
+            self.ui.finishNoButton.show()
             self.ui.finishBackLabel.show()
         else:
             #* 通常（同じボタンを押して戻るとき）
@@ -289,6 +300,8 @@ class RoomScreen(QMainWindow):
             #* 他のボタンを押して戻るとき
             else:
                 self.switching_flag = "Finish"
+                self.ui.finishYesButton.show()
+                self.ui.finishNoButton.show()
                 self.ui.finishBackLabel.show()
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
                 self.start_qtimer()
@@ -340,7 +353,7 @@ class RoomScreen(QMainWindow):
             self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
 
         if (self.func_flag == "Finish") | (self.switching_flag == "Finish"):
-            self.geometryObjects.extend([self.ui.finishBackLabel])
+            self.geometryObjects.extend([self.ui.finishYesButton, self.ui.finishNoButton, self.ui.finishBackLabel])
 
         if self.switching_flag:
             self.geometryObjects.pop(2)
@@ -355,6 +368,36 @@ class RoomScreen(QMainWindow):
             else:
                 print(f"{name}: \t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
         #* ------------------------------------------------------
+
+    def switch_buttons(self, flag):
+        if flag:
+            self.ui.timerButton.show()
+            self.ui.breakButton.show()
+            self.ui.logButton.show()
+            self.ui.finishButton.show()
+        else:
+            self.ui.timerButton.hide()
+            self.ui.breakButton.hide()
+            self.ui.logButton.hide()
+            self.ui.finishButton.hide()
+
+    def init_objects(self):
+        self.ui.logView.hide()
+        self.ui.timerBackLabel.hide()
+        self.ui.breakBackLabel.hide()
+        self.ui.logBackLabel.hide()
+        self.ui.finishBackLabel.hide()
+        self.ui.blackFrame.hide()
+        self.ui.timerSentence.hide()
+        self.ui.timerTimeEdit.hide()
+        self.ui.timerStartButton.hide()
+        self.ui.breakSentence.hide()
+        self.ui.breakTimeEdit.hide()
+        self.ui.breakStartButton.hide()
+        self.ui.remainingTime.hide()
+        self.ui.remainingTimeShadow.hide()
+        self.ui.finishYesButton.hide()
+        self.ui.finishNoButton.hide()
 
     def move_objects(self):
 
@@ -379,6 +422,7 @@ class RoomScreen(QMainWindow):
             self.move_timer.stop()
             if self.move_flag:
                 self.move_flag = False
+                self.ui.blackFrameButton.show()
             else:
                 if self.func_flag == "Timer":
                     self.ui.timerSentence.hide()
@@ -394,21 +438,18 @@ class RoomScreen(QMainWindow):
                     self.ui.logView.hide()
                     self.ui.logBackLabel.hide()
                 elif self.func_flag == "Finish":
+                    self.ui.finishYesButton.hide()
+                    self.ui.finishNoButton.hide()
                     self.ui.finishBackLabel.hide()
-                    if not self.switching_flag:
-                        sys.exit(-1)
 
                 if self.switching_flag:
                     self.func_flag = self.switching_flag
                     self.switching_flag = False
                 else:
                     self.move_flag = True
+                    self.ui.blackFrameButton.hide()
 
-                self.ui.blackFrame.hide()
-                self.ui.timerButton.show()
-                self.ui.breakButton.show()
-                self.ui.logButton.show()
-                self.ui.finishButton.show()
+            self.switch_buttons(True)
             print(f"takes {time.time() - self.start} s.\n")
         #* ------------------------------------------------------
 
