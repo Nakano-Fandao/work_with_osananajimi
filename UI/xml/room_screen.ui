@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>796</width>
-    <height>591</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,9 +40,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTextBrowser {
-	font: 75 16pt &quot;メイリオ&quot;;
-}</string>
+     <string notr="true">font: 75 16pt &quot;メイリオ&quot;;
+</string>
     </property>
     <property name="markdown">
      <string>ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ
@@ -76,29 +75,13 @@ p, li { white-space: pre-wrap; }
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="serifButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>410</y>
-      <width>140</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{background: transparent;}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="finishButton">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>410</y>
-      <width>140</width>
-      <height>45</height>
+      <x>677</x>
+      <y>414</y>
+      <width>101</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -106,6 +89,12 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>108</width>
+      <height>79</height>
+     </size>
     </property>
    </widget>
    <widget class="QLabel" name="windowLabel">
@@ -128,85 +117,6 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="scaledContents">
      <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="timerButton">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>410</y>
-      <width>140</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{background: transparent;}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="breakButton">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>410</y>
-      <width>140</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{background: transparent;}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="finishLabel">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>400</y>
-      <width>140</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../files.qrc">:/image/images/windows/button_finish.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="logButton">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>540</y>
-      <width>70</width>
-      <height>35</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
-	background-color: transparent;
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../files.qrc">
-      <normaloff>:/image/images/icons/logButton.png</normaloff>:/image/images/icons/logButton.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>70</width>
-      <height>35</height>
-     </size>
     </property>
    </widget>
    <widget class="QFrame" name="blackFrame">
@@ -236,10 +146,10 @@ p, li { white-space: pre-wrap; }
    <widget class="QListView" name="logView">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>390</y>
-      <width>160</width>
-      <height>170</height>
+      <x>370</x>
+      <y>470</y>
+      <width>400</width>
+      <height>100</height>
      </rect>
     </property>
     <property name="focusPolicy">
@@ -247,32 +157,74 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="styleSheet">
      <string notr="true">QListView {
-	background: white;
-	color: rgb(220, 220, 220);
+	background: transparent;
+	font-size: 20px;
+	line-height: 25px;
+	padding-top: 70px;
 }
 QListView::item{
-	padding: 4px;
+	width: 325px;
+	padding: 0px 8px -1px;
 	border: .3px solid white;
-	border-radius: 10px;
-	margin-top: 10px;
+	border-radius: 5px;
+	margin: 1px 30px 1px 35px;
 	color: black;
-	font-size: 1.5em;
 }
 QListView::item:hover{
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(255, 225, 148, 0.3);
 }</string>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="returnButton">
+   <widget class="QTimeEdit" name="timerTimeEdit">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>300</x>
       <y>510</y>
-      <width>70</width>
-      <height>70</height>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gill Sans MT</family>
+      <pointsize>26</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>UpArrowCursor</cursorShape>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>5</minute>
+      <second>0</second>
+      <year>2000</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="displayFormat">
+     <string>hh:mm:ss</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="logButton">
+    <property name="geometry">
+     <rect>
+      <x>577</x>
+      <y>414</y>
+      <width>101</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -281,30 +233,405 @@ QListView::item:hover{
     <property name="text">
      <string/>
     </property>
-    <property name="icon">
-     <iconset resource="../files.qrc">
-      <normaloff>:/image/images/icons/return.svg</normaloff>:/image/images/icons/return.svg</iconset>
+    <property name="iconSize">
+     <size>
+      <width>108</width>
+      <height>79</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="breakButton">
+    <property name="geometry">
+     <rect>
+      <x>477</x>
+      <y>414</y>
+      <width>101</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{background: transparent;}</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
     <property name="iconSize">
      <size>
-      <width>70</width>
-      <height>70</height>
+      <width>108</width>
+      <height>79</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="timerButton">
+    <property name="geometry">
+     <rect>
+      <x>377</x>
+      <y>414</y>
+      <width>101</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{background: transparent;}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>108</width>
+      <height>79</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logBackLabel">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>470</y>
+      <width>400</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_log.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="finishLabel">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>410</y>
+      <width>108</width>
+      <height>79</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/button_finish.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="logLabel">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>410</y>
+      <width>108</width>
+      <height>79</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/button_log.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="breakLabel">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>410</y>
+      <width>108</width>
+      <height>79</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/button_break.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerLabel">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>410</y>
+      <width>108</width>
+      <height>79</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/button_timer.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerBackLabel">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>470</y>
+      <width>400</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_timer.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="breakBackLabel">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>470</y>
+      <width>400</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_break.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="finishBackLabel">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>470</y>
+      <width>400</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_finish.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerSentence">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>510</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/sentences/breakSentence.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="remainingTime">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>300</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Let's go Digital</family>
+      <pointsize>36</pointsize>
+      <weight>9</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+color: red;</string>
+    </property>
+    <property name="text">
+     <string>0 1:00: 12</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="remainingTimeShadow">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>300</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Let's go Digital</family>
+      <pointsize>36</pointsize>
+      <weight>9</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+color: rgb(58, 58, 58);</string>
+    </property>
+    <property name="text">
+     <string>88:88:88</string>
+    </property>
+   </widget>
+   <widget class="QTimeEdit" name="breakTimeEdit">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>510</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gill Sans MT</family>
+      <pointsize>26</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>UpArrowCursor</cursorShape>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>5</minute>
+      <second>0</second>
+      <year>2000</year>
+      <month>1</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="displayFormat">
+     <string>mm:ss</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="breakSentence">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>510</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../files.qrc">:/image/images/sentences/breakSentence.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="timerStartButton">
+    <property name="geometry">
+     <rect>
+      <x>215</x>
+      <y>510</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../files.qrc">
+      <normaloff>:/image/images/sentences/timerStartButton.png</normaloff>:/image/images/sentences/timerStartButton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>180</width>
+      <height>50</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="breakStartButton">
+    <property name="geometry">
+     <rect>
+      <x>315</x>
+      <y>510</y>
+      <width>180</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../files.qrc">
+      <normaloff>:/image/images/sentences/breakStartButton.png</normaloff>:/image/images/sentences/breakStartButton.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>180</width>
+      <height>50</height>
      </size>
     </property>
    </widget>
    <zorder>insideRoomLabel</zorder>
    <zorder>blackFrame</zorder>
-   <zorder>logView</zorder>
    <zorder>osanaLabel</zorder>
+   <zorder>timerBackLabel</zorder>
+   <zorder>timerStartButton</zorder>
+   <zorder>breakBackLabel</zorder>
+   <zorder>breakStartButton</zorder>
+   <zorder>breakTimeEdit</zorder>
+   <zorder>breakSentence</zorder>
+   <zorder>timerTimeEdit</zorder>
+   <zorder>timerSentence</zorder>
+   <zorder>finishBackLabel</zorder>
+   <zorder>logBackLabel</zorder>
+   <zorder>logView</zorder>
    <zorder>finishLabel</zorder>
+   <zorder>logLabel</zorder>
+   <zorder>breakLabel</zorder>
+   <zorder>timerLabel</zorder>
    <zorder>windowLabel</zorder>
    <zorder>osanaText</zorder>
-   <zorder>timerButton</zorder>
-   <zorder>serifButton</zorder>
-   <zorder>finishButton</zorder>
    <zorder>breakButton</zorder>
+   <zorder>finishButton</zorder>
    <zorder>logButton</zorder>
-   <zorder>returnButton</zorder>
+   <zorder>timerButton</zorder>
+   <zorder>remainingTimeShadow</zorder>
+   <zorder>remainingTime</zorder>
   </widget>
  </widget>
  <resources>
