@@ -68,6 +68,33 @@ class PlayVoice():
         self.find_and_play(app_voice)
         return app_voice
 
+    # タイマー関係
+    def play_timer_voice(self, when, parameter, timing=None):
+        """
+        timer
+        """
+        mood = MoodParameter(parameter).mood
+        if mood == "great": mood = "good";
+        if when == "start":
+            pass
+        else:
+            if mood == "bad": mood = "awkward";
+            if when == "finish":
+                pass
+            else:
+                if timing in set(["10", "30"]):
+                    if mood == "good": mood = "normal";
+                else:
+                    if mood == "awkward": mood = "normal";
+
+        if when == "mid":
+            timer_voices = list(self.json.voice["timer"][when][timing][mood].values())
+        else:
+            timer_voices = list(self.json.voice["timer"][when][mood].values())
+        timer_voice = random.choice(timer_voices)
+        self.find_and_play(timer_voice)
+        return timer_voice      # TODO :: 世間話に対応
+
     # 選択肢のある世間話
     def play_choicechat_ask(self, parameter):
         """
