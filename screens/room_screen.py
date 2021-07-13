@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys, os, time, random
+from datetime import datetime
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -55,7 +56,7 @@ class RoomScreen(QMainWindow):
         self.serif_list = []
         self.parameter = parameter
         self.osana = PlayVoice()
-        self.choicechat_time = 15*60 #* 15分
+        self.chat_time = 15*60 #* 15分
         #*-------------------------
 
         #* セリフModel作成
@@ -64,7 +65,7 @@ class RoomScreen(QMainWindow):
         #*-------------------------
 
         #* カメラオープン！
-        # self.detect_smapho = DetectSmaphoClass()
+        self.detect_smapho = DetectSmaphoClass()
         #*-------------------------
 
         #* REMOVE TITLE BAR
@@ -80,7 +81,7 @@ class RoomScreen(QMainWindow):
         self.ui.logView.clicked.connect(self.logView_clicked)
         self.ui.timerStartButton.clicked.connect(self.start_study_timer)
         self.ui.breakStartButton.clicked.connect(self.start_break_timer)
-        self.ui.finishYesButton.clicked.connect(lambda x: sys.exit(-1))
+        self.ui.finishYesButton.clicked.connect(self.finish_app)
         # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
         self.ui.finishNoButton.clicked.connect(self.do_choicechat)
         self.ui.blackFrameButton.clicked.connect(self.background_clicked)
@@ -91,13 +92,13 @@ class RoomScreen(QMainWindow):
         #* *************** メイン処理スタート！ ***************
         #* ***************************************************
 
-        # #* タイマースタート！
-        # self.counter = 1
+        #* タイマースタート！
+        self.counter = 1
 
-        # #* ループスタート！
-        # self.timer = QTimer()
-        # self.timer.timeout.connect(self.act_per_second)
-        # self.timer.start(1000)
+        #* ループスタート！
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.act_per_second)
+        self.timer.start(1000)
 
         self.show()
 
@@ -107,18 +108,25 @@ class RoomScreen(QMainWindow):
         if self.counter%5 == 0: print(self.counter);
 
         #* 休憩タイマー使用中
-        if self.break_timer_flag:
-            self.operate_break_timer()
+        if self.break_timer_flag: self.operate_break_timer();
 
         else:
             #* 世間話タイム
-            if self.counter%self.choicechat_time == 0: self.do_choicechat();
+            if self.counter%self.chat_time == 0:
+                chat_functions = [self.do_chat, self.do_choicechat]
+                random.choices(chat_functions)[0]()
 
             #* 15秒ごとにサボり検出
             elif self.counter%15 == 0: self.detect()
 
         #* 勉強タイマー使用中
         if self.study_timer_flag: self.operate_study_timer();
+
+        now = datetime.now()
+        if now.second == 0:
+            if (now.minute == 0) & (now.hour in set([0, 3, 6, 9, 12, 15, 18, 21])):
+                self.serif = self.osana.play_annoucement(str(now.hour))
+                self.show_serif()
 
         self.counter += 1
 
@@ -143,10 +151,20 @@ class RoomScreen(QMainWindow):
                 self.show_serif()
                 self.parameter -= 10
 
+    def do_chat(self):
+
+        #* 次回世間話タイムを設定
+        self.chat_time += random.randint(-240, 240)
+        #* -----------------------------------------------
+
+        #* ランダムに世間話を選択肢し、声だし
+        self.serif = self.osana.play_chat_voice(self.parameter)
+        self.show_serif()
+
     def do_choicechat(self):
 
         #* 次回世間話タイムを設定
-        self.choicechat_time += random.randint(-240, 240)
+        self.chat_time += random.randint(-240, 240)
         #* -----------------------------------------------
 
         #* ランダムに世間話を選択肢し、声だし
@@ -183,7 +201,7 @@ class RoomScreen(QMainWindow):
 
         #* popupで選択した返答で、機嫌のパラメータが変わる
         point = point_list[index]
-        self.osana.play_choicechat_reply(self.serif)
+        self.osana.play_chat_reply(self.serif)
         self.parameter += point
         #* -----------------------------------------------
 
@@ -479,6 +497,7 @@ class RoomScreen(QMainWindow):
 
     def start_study_timer(self):
         self.study_timer_flag = True
+        self.timeout_flag_for_study = False
 
         #* 幼馴染から最初の声出しを頂く
         self.serif = self.osana.play_study_timer_voice("start", self.parameter)
@@ -513,19 +532,49 @@ class RoomScreen(QMainWindow):
         if self.whole_seconds_for_study == 0:
             self.serif = self.osana.play_study_timer_voice("finish", self.parameter)
             self.show_serif()
-            self.timeout_flag_for_study = True
 
+            #* この場合だけpopupを出す
+            if self.serif == "もう終わりか～。もうちょっとだけ一緒にしない？":
+                user_reply_dict = {
+                    "おっけー": "さっすがー！君わかってるぅー！じゃあ30分だけ延長ね！",
+                    "無理。疲れた。": "えーノリ悪いよ～。じゃあまた今度ね。お疲れさま！"
+                }
+                self.chat_popup = ChatPopup(list(user_reply_dict.keys()))
+                user_reply = ""
+                if self.chat_popup.exec_() == QDialog.Accepted:
+                    #* 世間話popup表示
+                    self.chat_popup.show()
+
+                    #* 世間話popupから返ってくる
+                    user_reply = self.chat_popup.selected_item
+                self.serif = user_reply_dict[user_reply]
+                self.show_serif()
+                self.osana.play_chat_reply(self.serif)
+                #* 30分延長
+                if user_reply == "おっけー":
+                    self.whole_seconds_for_study = 60*30
+                #* タイマー終了
+                else:
+                    self.timeout_flag_for_study = True
+
+            #* 普通にタイマー終了
+            else:
+                self.timeout_flag_for_study = True
+
+        #* 10分前
         elif self.whole_seconds_for_study == self.study_timer.ten:
             self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "10")
             self.show_serif()
+        #* 30分前
         elif self.whole_seconds_for_study == self.study_timer.thirty:
             self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "30")
             self.show_serif()
+        #* 半分経過
         elif self.whole_seconds_for_study == self.study_timer.half:
             self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "half")
             self.show_serif()
 
-        #* タイマー　アウト後の点滅表示
+        #* タイムアウト後の点滅表示
         elif self.whole_seconds_for_study == -1:
             self.ui.remainingStudyTime.hide()
         elif self.whole_seconds_for_study == -2:
@@ -534,11 +583,7 @@ class RoomScreen(QMainWindow):
             self.ui.remainingStudyTime.hide()
         elif self.whole_seconds_for_study == -4:
             self.ui.remainingStudyTime.show()
-        elif self.whole_seconds_for_study == -6:
-            self.ui.remainingStudyTime.hide()
-        elif self.whole_seconds_for_study == -7:
-            self.ui.remainingStudyTime.show()
-        elif self.whole_seconds_for_study == -8:
+        elif self.whole_seconds_for_study == -5:
             self.ui.studyTimerLabel.hide()
             self.ui.remainingStudyTime.hide()
             self.ui.remainingStudyTimeShadow.hide()
@@ -549,6 +594,7 @@ class RoomScreen(QMainWindow):
 
     def start_break_timer(self):
         self.break_timer_flag = True
+        self.timeout_flag_for_break = False
 
         #* 幼馴染から最初の声出しを頂く
         self.serif = self.osana.play_break_timer_voice("start", self.parameter)
@@ -587,7 +633,7 @@ class RoomScreen(QMainWindow):
             self.timeout_flag_for_break = True
             self.study_timer_flag = True
 
-        #* タイマー　アウト後の点滅表示
+        #* タイムアウト後の点滅表示
         elif self.whole_seconds_for_break == -1:
             self.ui.remainingBreakTime.hide()
         elif self.whole_seconds_for_break == -2:
@@ -605,10 +651,15 @@ class RoomScreen(QMainWindow):
 
         self.whole_seconds_for_break -= 1
 
+    def finish_app(self):
+        self.timer.stop()
+        QTimer.singleShot(10000, lambda: sys.exit(-1))
+        self.osana.play_app_voice("finish", self.parameter)
+        self.hide()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    parameter = 50
+    parameter = 80
     serif = "ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ"
     window = RoomScreen(parameter, serif)
     sys.exit(app.exec_())
