@@ -18,7 +18,7 @@ class Ui_RoomScreen(object):
     def setupUi(self, RoomScreen):
         if not RoomScreen.objectName():
             RoomScreen.setObjectName(u"RoomScreen")
-        RoomScreen.resize(800, 600)
+        RoomScreen.resize(804, 609)
         self.centralwidget = QWidget(RoomScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.insideRoomLabel = QLabel(self.centralwidget)
@@ -28,8 +28,7 @@ class Ui_RoomScreen(object):
         self.osanaText = QTextBrowser(self.centralwidget)
         self.osanaText.setObjectName(u"osanaText")
         self.osanaText.setGeometry(QRect(30, 470, 740, 105))
-        self.osanaText.setStyleSheet(u"font: 75 16pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
-"")
+        self.osanaText.setStyleSheet(u"font: 75 24px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";")
         self.osanaLabel = QLabel(self.centralwidget)
         self.osanaLabel.setObjectName(u"osanaLabel")
         self.osanaLabel.setGeometry(QRect(220, 40, 370, 470))
@@ -61,7 +60,7 @@ class Ui_RoomScreen(object):
         self.blackFrameButton.setStyleSheet(u"background-color: transparent;")
         self.logView = QListView(self.centralwidget)
         self.logView.setObjectName(u"logView")
-        self.logView.setGeometry(QRect(370, 470, 400, 100))
+        self.logView.setGeometry(QRect(410, 470, 330, 100))
         self.logView.setFocusPolicy(Qt.NoFocus)
         self.logView.setContextMenuPolicy(Qt.NoContextMenu)
         self.logView.setStyleSheet(u"QListView {\n"
@@ -81,6 +80,7 @@ class Ui_RoomScreen(object):
 "QListView::item:hover{\n"
 "	background-color: rgba(255, 225, 148, 0.3);\n"
 "}")
+        self.logView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.logView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.logView.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.logView.setWordWrap(True)
@@ -159,18 +159,17 @@ class Ui_RoomScreen(object):
         self.remainingStudyTime.setGeometry(QRect(110, 10, 300, 60))
         font1 = QFont()
         font1.setFamily(u"Let's go Digital")
-        font1.setPointSize(36)
         font1.setBold(False)
         font1.setItalic(True)
         font1.setWeight(9)
         self.remainingStudyTime.setFont(font1)
-        self.remainingStudyTime.setStyleSheet(u"font: 75 italic 36pt \"Let's go Digital\";\n"
+        self.remainingStudyTime.setStyleSheet(u"font: 75 italic 48px \"Let's go Digital\";\n"
 "color: red;")
         self.remainingStudyTimeShadow = QLabel(self.centralwidget)
         self.remainingStudyTimeShadow.setObjectName(u"remainingStudyTimeShadow")
         self.remainingStudyTimeShadow.setGeometry(QRect(110, 10, 300, 60))
         self.remainingStudyTimeShadow.setFont(font1)
-        self.remainingStudyTimeShadow.setStyleSheet(u"font: 75 italic 36pt \"Let's go Digital\";\n"
+        self.remainingStudyTimeShadow.setStyleSheet(u"font: 75 italic 48px \"Let's go Digital\";\n"
 "color: rgb(58, 58, 58);")
         self.breakTimeEdit = QTimeEdit(self.centralwidget)
         self.breakTimeEdit.setObjectName(u"breakTimeEdit")
@@ -206,7 +205,7 @@ class Ui_RoomScreen(object):
         self.finishNoButton.setGeometry(QRect(670, 520, 100, 40))
         self.finishNoButton.setStyleSheet(u"QPushButton {\n"
 "	background-color: transparent;\n"
-"	font: 75 20pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+"	font: 75 27px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
 "	color: black;\n"
 "	border-radius: 10px;\n"
 "}\n"
@@ -219,7 +218,7 @@ class Ui_RoomScreen(object):
         self.finishYesButton.setGeometry(QRect(670, 470, 100, 40))
         self.finishYesButton.setStyleSheet(u"QPushButton {\n"
 "	background-color: transparent;\n"
-"	font: 75 20pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+"	font: 75 27px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
 "	color: black;\n"
 "	border-radius: 10px;\n"
 "}\n"
@@ -231,24 +230,24 @@ class Ui_RoomScreen(object):
         self.remainingBreakTime.setObjectName(u"remainingBreakTime")
         self.remainingBreakTime.setGeometry(QRect(110, 70, 300, 60))
         self.remainingBreakTime.setFont(font1)
-        self.remainingBreakTime.setStyleSheet(u"font: 75 italic 36pt \"Let's go Digital\";\n"
+        self.remainingBreakTime.setStyleSheet(u"font: 75 italic 48px \"Let's go Digital\";\n"
 "color: skyblue;")
         self.remainingBreakTimeShadow = QLabel(self.centralwidget)
         self.remainingBreakTimeShadow.setObjectName(u"remainingBreakTimeShadow")
         self.remainingBreakTimeShadow.setGeometry(QRect(110, 70, 300, 60))
         self.remainingBreakTimeShadow.setFont(font1)
-        self.remainingBreakTimeShadow.setStyleSheet(u"font: 75 italic 36pt \"Let's go Digital\";\n"
+        self.remainingBreakTimeShadow.setStyleSheet(u"font: 75 italic 48px \"Let's go Digital\";\n"
 "color: rgb(58, 58, 58);")
         self.studyTimerLabel = QLabel(self.centralwidget)
         self.studyTimerLabel.setObjectName(u"studyTimerLabel")
         self.studyTimerLabel.setGeometry(QRect(10, 12, 90, 60))
-        self.studyTimerLabel.setStyleSheet(u"font: 75 24pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+        self.studyTimerLabel.setStyleSheet(u"font: 75 32px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
 "color: pink;")
         self.studyTimerLabel.setAlignment(Qt.AlignCenter)
         self.breakTimerLabel = QLabel(self.centralwidget)
         self.breakTimerLabel.setObjectName(u"breakTimerLabel")
         self.breakTimerLabel.setGeometry(QRect(10, 73, 90, 60))
-        self.breakTimerLabel.setStyleSheet(u"font: 75 24pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+        self.breakTimerLabel.setStyleSheet(u"font: 75 32px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
 "color: pink;")
         self.breakTimerLabel.setAlignment(Qt.AlignCenter)
         RoomScreen.setCentralWidget(self.centralwidget)
@@ -299,8 +298,8 @@ class Ui_RoomScreen(object):
         self.osanaText.setHtml(QCoreApplication.translate("RoomScreen", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'\u30e1\u30a4\u30ea\u30aa'; font-size:16pt; font-weight:72; font-style:normal;\">\n"
-"<p style=\" margin-top:10px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\u3077\u3063\u3001\u306a\u306b\u305d\u308c\u3002\u305d\u3082\u305d\u3082\u4ed8\u304d\u5408\u3046\u6c17\u306a\u304b\u3063\u305f\u3088\u3002\u3042\u3063\u3001\u5b89\u5fc3\u3057\u3066\u308b\uff1f\u3075\u3075\u3001\u305c\u30fc\u3093\u3076\u304a\u898b\u901a\u3057\u3063\u3066\u308f\u3051\uff57</p></body></html>", None))
+"</style></head><body style=\" font-family:'UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B'; font-size:24px; font-weight:72; font-style:normal;\">\n"
+"<p style=\" margin-top:10px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'\u30e1\u30a4\u30ea\u30aa'; font-size:16pt;\">\u3077\u3063\u3001\u306a\u306b\u305d\u308c\u3002\u305d\u3082\u305d\u3082\u4ed8\u304d\u5408\u3046\u6c17\u306a\u304b\u3063\u305f\u3088\u3002\u3042\u3063\u3001\u5b89\u5fc3\u3057\u3066\u308b\uff1f\u3075\u3075\u3001\u305c\u30fc\u3093\u3076\u304a\u898b\u901a\u3057\u3063\u3066\u308f\u3051\uff57</span></p></body></html>", None))
         self.osanaLabel.setText("")
         self.finishButton.setText("")
         self.windowLabel.setText("")

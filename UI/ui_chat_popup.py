@@ -28,7 +28,7 @@ class Ui_ChatPopup(object):
 "	border-radius: 10px;\n"
 "	background: transparent;\n"
 "	color: rgb(220, 220, 220);\n"
-"	font: 75 14pt \"\u30e1\u30a4\u30ea\u30aa\";\n"
+"	font: 75 20px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
 "}\n"
 "QListWidget::item{\n"
 "	width: 520px;\n"
