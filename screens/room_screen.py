@@ -238,6 +238,7 @@ class RoomScreen(QMainWindow):
             self.ui.timerTimeEdit.show()
             self.ui.timerStartButton.show()
             self.ui.timerBackLabel.show()
+            self.raise_objects("Timer")
         else:
             #* 通常（同じボタンを押して戻るとき）
             if self.func_flag == "Timer":
@@ -250,9 +251,8 @@ class RoomScreen(QMainWindow):
                 self.ui.timerTimeEdit.show()
                 self.ui.timerStartButton.show()
                 self.ui.timerBackLabel.show()
+                self.raise_objects("Timer")
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-                self.start_qtimer()
-                return
 
         self.start_qtimer()
 
@@ -268,6 +268,7 @@ class RoomScreen(QMainWindow):
             self.ui.breakTimeEdit.show()
             self.ui.breakBackLabel.show()
             self.ui.breakStartButton.show()
+            self.raise_objects("Break")
         else:
             #* 通常（同じボタンを押して戻るとき）
             if self.func_flag == "Break":
@@ -280,9 +281,8 @@ class RoomScreen(QMainWindow):
                 self.ui.breakTimeEdit.show()
                 self.ui.breakBackLabel.show()
                 self.ui.breakStartButton.show()
+                self.raise_objects("Break")
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-                self.start_qtimer()
-                return
 
         self.start_qtimer()
 
@@ -292,11 +292,11 @@ class RoomScreen(QMainWindow):
 
         if self.move_flag:
             print("************Log opens**************")
-
+            self.func_flag = "Log"
             self.ui.blackFrame.show()
             self.ui.logView.show()
             self.ui.logBackLabel.show()
-            self.switching_flag = False
+            self.raise_objects("Log")
         else:
             #* 通常（同じボタンを押して戻るとき）
             if self.func_flag == "Log":
@@ -307,11 +307,9 @@ class RoomScreen(QMainWindow):
                 self.switching_flag = "Log"
                 self.ui.logView.show()
                 self.ui.logBackLabel.show()
+                self.raise_objects("Log")
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-                self.start_qtimer()
-                return
 
-        self.func_flag = "Log"
         self.start_qtimer()
 
     def operate_finish_tab(self):
@@ -320,10 +318,12 @@ class RoomScreen(QMainWindow):
 
         if self.move_flag:
             print("********Finish window opens********")
+            self.func_flag = "Finish"
             self.ui.blackFrame.show()
             self.ui.finishYesButton.show()
             self.ui.finishNoButton.show()
             self.ui.finishBackLabel.show()
+            self.raise_objects("Finish")
         else:
             #* 通常（同じボタンを押して戻るとき）
             if self.func_flag == "Finish":
@@ -335,11 +335,9 @@ class RoomScreen(QMainWindow):
                 self.ui.finishYesButton.show()
                 self.ui.finishNoButton.show()
                 self.ui.finishBackLabel.show()
+                self.raise_objects("Finish")
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-                self.start_qtimer()
-                return
 
-        self.func_flag = "Finish"
         self.start_qtimer()
 
     def start_qtimer(self):
@@ -434,6 +432,55 @@ class RoomScreen(QMainWindow):
         self.ui.remainingBreakTimeShadow.hide()
         self.ui.finishYesButton.hide()
         self.ui.finishNoButton.hide()
+
+        #* オブジェクトのレイヤー順
+        self.ui.insideRoomLabel.raise_()
+        self.ui.blackFrame.raise_()
+        self.ui.osanaLabel.raise_()
+
+        self.ui.remainingStudyTimeShadow.raise_()
+        self.ui.remainingBreakTimeShadow.raise_()
+        self.ui.remainingStudyTime.raise_()
+        self.ui.remainingBreakTime.raise_()
+        self.ui.studyTimerLabel.raise_()
+        self.ui.breakTimerLabel.raise_()
+
+        self.raise_objects("")
+
+    def raise_objects(self, func):
+        if func == "Timer":
+            self.ui.timerBackLabel.raise_()
+            self.ui.timerStartButton.raise_()
+            self.ui.timerTimeEdit.raise_()
+            self.ui.timerSentence.raise_()
+
+        elif func == "Break":
+            self.ui.breakBackLabel.raise_()
+            self.ui.breakStartButton.raise_()
+            self.ui.breakTimeEdit.raise_()
+            self.ui.breakSentence.raise_()
+
+        elif func == "Log":
+            self.ui.logBackLabel.raise_()
+            self.ui.logView.raise_()
+
+        elif func == "Finish":
+            self.ui.finishBackLabel.raise_()
+            self.ui.finishYesButton.raise_()
+            self.ui.finishNoButton.raise_()
+
+        self.ui.timerLabel.raise_()
+        self.ui.breakLabel.raise_()
+        self.ui.logLabel.raise_()
+        self.ui.finishLabel.raise_()
+
+        self.ui.windowLabel.raise_()
+        self.ui.osanaText.raise_()
+
+        self.ui.timerButton.raise_()
+        self.ui.breakButton.raise_()
+        self.ui.logButton.raise_()
+        self.ui.finishButton.raise_()
 
     def move_objects(self):
 
