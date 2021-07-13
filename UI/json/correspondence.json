@@ -137,7 +137,7 @@
 
 	"おしまい。お疲れ様。次はもっと頑張ろうね。期待してるよ。": ":voice/sounds/voices/timer_finish_awkward_1.wav",
 	"あたしすっごい進んだよ！ほらほら見てみて～。君は君は！？ふーん、なかなかやるじゃん！": ":voice/sounds/voices/timer_finish_good_1.wav",
-	"もう終わりか～。もうちょっとだけ一緒にしない？": ":voice/sounds/voices/timer_finish_good_2.wav",
+	"もう終わりか～。もうちょっとだけ一緒にしない？": ":voice/sounds/voices/timer_finish_good_2_ask.wav",
 	"さっすがー！君わかってるぅー！じゃあ30分だけ延長ね！": ":voice/sounds/voices/timer_finish_good_2_a.wav",
 	"えーノリ悪いよ～。じゃあまた今度ね。お疲れさま！": ":voice/sounds/voices/timer_finish_good_2_b.wav",
 	"お疲れさま！やればできるじゃん！！あたしはまだまだできるけどね～": ":voice/sounds/voices/timer_finish_normal_1.wav",
