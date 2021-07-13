@@ -64,7 +64,7 @@ class RoomScreen(QMainWindow):
         #*-------------------------
 
         #* カメラオープン！
-        self.detect_smapho = DetectSmaphoClass()
+        # self.detect_smapho = DetectSmaphoClass()
         #*-------------------------
 
         #* REMOVE TITLE BAR
@@ -91,13 +91,13 @@ class RoomScreen(QMainWindow):
         #* *************** メイン処理スタート！ ***************
         #* ***************************************************
 
-        #* タイマースタート！
-        self.counter = 1
+        # #* タイマースタート！
+        # self.counter = 1
 
-        #* ループスタート！
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.act_per_second)
-        self.timer.start(1000)
+        # #* ループスタート！
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.act_per_second)
+        # self.timer.start(1000)
 
         self.show()
 
@@ -145,9 +145,11 @@ class RoomScreen(QMainWindow):
 
     def do_choicechat(self):
 
-        #* 次回世間話タイム
+        #* 次回世間話タイムを設定
         self.choicechat_time += random.randint(-240, 240)
+        #* -----------------------------------------------
 
+        #* ランダムに世間話を選択肢し、声だし
         self.serif, choicechat_detail = self.osana.play_choicechat_ask(self.parameter)
         self.show_serif()
 
@@ -158,9 +160,11 @@ class RoomScreen(QMainWindow):
         if self.serif == "お腹すいたな～あたしが何か作るよ！なに食べたい？":
             osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.parameter > 55]
             point_list = (point_list[0], point_list[1])[self.parameter > 55]
-
         print(osana_reply_list)
         print(user_reply_list)
+        #* -----------------------------------------------
+
+        #* ランダム選択した世間話で、popupを出す
         self.chat_popup = ChatPopup(user_reply_list)
         user_reply = ""
         if self.chat_popup.exec_() == QDialog.Accepted:
@@ -169,13 +173,19 @@ class RoomScreen(QMainWindow):
 
             #* 世間話popupから返ってくる
             user_reply = self.chat_popup.selected_item
+        #* -----------------------------------------------
 
+        #* popupで選択した返答に対し、幼馴染が答える
         index = user_reply_list.index(user_reply)
         self.serif = osana_reply_list[index]
         self.show_serif()
+        #* -----------------------------------------------
+
+        #* popupで選択した返答で、機嫌のパラメータが変わる
         point = point_list[index]
         self.osana.play_choicechat_reply(self.serif)
         self.parameter += point
+        #* -----------------------------------------------
 
     def show_serif(self):
         #* セリフウィンドウに表示
