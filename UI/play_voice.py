@@ -13,7 +13,7 @@ class PlayVoice():
         print("Loading 幼馴染の声 completed")
         self.voice = QSound("")
 
-    # サボりを検知したとき
+    #* サボりを検知したとき
     def play_voice(self, case, parameter):
         """
         smapho, youtube, hentai, common
@@ -39,7 +39,7 @@ class PlayVoice():
         self.find_and_play(voice)
         return voice
 
-    # 時報
+    #* 時報
     def play_annoucement(self, when):
         """
         annoucements
@@ -48,15 +48,14 @@ class PlayVoice():
         self.find_and_play(annoucement)
         return annoucement
 
-    # 作業を始めたとき
+    #* 作業を始めたとき、アプリ終了時
     def play_app_voice(self, when, parameter, touched=False):
         """
         app
         """
         mood = MoodParameter(parameter).mood
 
-        if (when == "start") & (mood == "great"):
-            mood = "good"
+        if (when == "start") & (mood == "great"): mood = "good";
 
         app_voices = list(self.json.voice["app"][when][mood].values())
 
@@ -69,7 +68,7 @@ class PlayVoice():
         self.find_and_play(app_voice)
         return app_voice
 
-    # 勉強タイマー関係
+    #* 勉強タイマー関係
     def play_study_timer_voice(self, when, parameter, timing=None):
         """
         study_timer
@@ -92,11 +91,14 @@ class PlayVoice():
             study_timer_voices = list(self.json.voice["timer"][when][timing][mood].values())
         else:
             study_timer_voices = list(self.json.voice["timer"][when][mood].values())
-        study_timer_voice = random.choice(study_timer_voices)
-        self.find_and_play(study_timer_voice)
-        return study_timer_voice      # TODO :: 世間話に対応
 
-    # 休憩タイマー関係
+        study_timer_voice = random.choice(study_timer_voices)
+        if str(type(study_timer_voice)) == "<class 'dict'>":
+            study_timer_voice = study_timer_voice["ask"]
+        self.find_and_play(study_timer_voice)
+        return study_timer_voice
+
+    #* 休憩タイマー関係
     def play_break_timer_voice(self, when, parameter):
         """
         break_timer
@@ -111,29 +113,41 @@ class PlayVoice():
         self.find_and_play(break_timer_voice)
         return break_timer_voice
 
-    # 選択肢のある世間話
+    #* 世間話
+    def play_chat_voice(self, parameter):
+        """
+        chats
+        """
+        mood = MoodParameter(parameter).mood
+        if mood in set(["bad", "awkward"]): mood = "normal";
+
+        chats = list(self.json.voice["chat"][mood].values())
+        chat = random.choice(chats)
+        self.find_and_play(chat)
+        return chat
+
+    #* 選択肢のある世間話
     def play_choicechat_ask(self, parameter):
         """
         choicechats
         """
         mood = MoodParameter(parameter).mood
-
+        if mood == "bad": mood = "awkward";
         choicechats = list(self.json.voice["choicechat"][mood].values())
         choicechat = random.choice(choicechats)["ask"]
-        choicechat = "スマホって電子レンジで充電できるらしいよ" #TODO
         choicechat_detail = self.json.choicechat[choicechat]
         self.find_and_play(choicechat)
         return choicechat, choicechat_detail
 
-        # 選択肢のある世間話
-    def play_choicechat_reply(self, reply):
+    #* 世間話の返答
+    def play_chat_reply(self, reply):
         """
-        choicechats
+        chats, choicechats
         """
         self.find_and_play(reply)
 
 
-    # 声を再生する関数
+    #* 声を再生する関数
     def find_and_play(self, serif):
         self.voice.stop()
         voice_path = self.json.correspondence[serif]
