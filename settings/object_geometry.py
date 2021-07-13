@@ -202,9 +202,9 @@ class Geometry:
             12: timerStartButton
             13: timerBackLabel
             """
-            self.geometry_lists[10][1] = [130, 600, 180,  50]
-            self.geometry_lists[11][1] = [300, 600, 180,  50]
-            self.geometry_lists[12][1] = [215, 600, 180,  42]
+            self.geometry_lists[10][1] = [130, 690, 180,  50]
+            self.geometry_lists[11][1] = [300, 690, 180,  50]
+            self.geometry_lists[12][1] = [215, 780, 180,  42]
             self.geometry_lists[13][1] = [110, 600, 400, 100]
 
             if self.switching_flag == "Break":
@@ -218,11 +218,10 @@ class Geometry:
                 """
                 self.geometry_lists[3][1]  = [477,260,101, 60]
                 self.geometry_lists[7][1]  = [470,250,108, 79]
-                self.geometry_lists[14][1] = [230,380,180, 50]
-                self.geometry_lists[15][1] = [400,380,180, 50]
-                self.geometry_lists[16][1] = [315,470,180, 50]
+                self.geometry_lists[14][0] = [230,690,180, 50]
+                self.geometry_lists[15][0] = [400,690,180, 50]
+                self.geometry_lists[16][0] = [315,780,180, 50]
                 self.geometry_lists[17][0] = [210,600,400,560]
-                self.geometry_lists[17][1] = [210,290,400,560]
 
             elif self.switching_flag == "Log":
                 """
@@ -235,9 +234,8 @@ class Geometry:
                 self.geometry_lists[1][1]  = [ 20,130,370,470]
                 self.geometry_lists[4][1]  = [577, 60,101, 60]
                 self.geometry_lists[8][1]  = [570, 50,108, 79]
-                self.geometry_lists[14][1] = [410,160,330,380]
+                self.geometry_lists[14][0] = [410,670,330,380]
                 self.geometry_lists[15][0] = [370,600,400,560]
-                self.geometry_lists[15][1] = [370, 90,400,560]
 
             elif self.switching_flag == "Finish":
                 """
@@ -253,8 +251,8 @@ class Geometry:
                 self.geometry_lists[1][1]  = [220,110,370,470]
                 self.geometry_lists[5][1]  = [677,360,101, 60]
                 self.geometry_lists[9][1]  = [670,350,108, 79]
-                self.geometry_lists[14][0] = [670,600,100, 40]
-                self.geometry_lists[15][0] = [670,600,100, 40]
+                self.geometry_lists[14][0] = [670,650,100, 40]
+                self.geometry_lists[15][0] = [670,700,100, 40]
                 self.geometry_lists[16][0] = [665,600,110,150]
 
         elif (self.func == "Break") & (self.switching_flag == "Timer"):
@@ -274,11 +272,10 @@ class Geometry:
             """
             self.geometry_lists[2][1]  = [377,260,101, 60]
             self.geometry_lists[6][1]  = [370,250,108, 79]
-            self.geometry_lists[10][1] = [130,380,180, 50]
-            self.geometry_lists[11][1] = [300,380,180, 50]
-            self.geometry_lists[12][1] = [215,470,180, 42]
+            self.geometry_lists[10][0] = [130,690,180, 50]
+            self.geometry_lists[11][0] = [300,690,180, 50]
+            self.geometry_lists[12][0] = [215,780,180, 42]
             self.geometry_lists[13][0] = [110,600,400,560]
-            self.geometry_lists[13][1] = [110,290,400,560]
             self.geometry_lists[14][1] = [230,600,180, 50]
             self.geometry_lists[15][1] = [400,600,180, 50]
             self.geometry_lists[16][1] = [315,600,180, 50]
@@ -309,9 +306,8 @@ class Geometry:
                 self.geometry_lists[1][1]  = [ 20,130,370,470]
                 self.geometry_lists[4][1]  = [577, 60,101, 60]
                 self.geometry_lists[8][1]  = [570, 50,108, 79]
-                self.geometry_lists[14][1] = [410,160,330,380]
+                self.geometry_lists[14][0] = [410,670,330,380]
                 self.geometry_lists[15][0] = [370,600,400,560]
-                self.geometry_lists[15][1] = [370, 90,400,560]
 
             elif self.switching_flag == "Finish":
                 """
@@ -327,8 +323,8 @@ class Geometry:
                 self.geometry_lists[1][1]  = [220,110,370,470]
                 self.geometry_lists[5][1]  = [677,360,101, 60]
                 self.geometry_lists[9][1]  = [670,350,108, 79]
-                self.geometry_lists[14][0] = [670,600,100, 40]
-                self.geometry_lists[15][0] = [670,600,100, 40]
+                self.geometry_lists[14][0] = [670,650,100, 40]
+                self.geometry_lists[15][0] = [670,700,100, 40]
                 self.geometry_lists[16][0] = [665,600,110,150]
 
         elif (self.func == "Log") & (self.switching_flag == "Timer"):
@@ -344,12 +340,12 @@ class Geometry:
             """
             self.geometry_lists[2][1]  = [377,260,101, 60]
             self.geometry_lists[6][1]  = [370,250,108, 79]
-            self.geometry_lists[10][1] = [130,380,180, 50]
-            self.geometry_lists[11][1] = [300,380,180, 50]
-            self.geometry_lists[12][1] = [215,470,180, 42]
+            self.geometry_lists[10][0] = [130,690,180, 50]
+            self.geometry_lists[11][0] = [300,690,180, 50]
+            self.geometry_lists[12][0] = [215,780,180, 42]
             self.geometry_lists[13][0] = [110,600,400,560]
             self.geometry_lists[13][1] = [110,290,400,560]
-            self.geometry_lists[14][1] = [410,600,330,380]
+            self.geometry_lists[14][1] = [410,670,330,380]
             self.geometry_lists[15][1] = [370,600,400,560]
 
         elif (self.func == "Log") & (self.switching_flag == "Break"):
@@ -365,12 +361,11 @@ class Geometry:
             """
             self.geometry_lists[3][1]  = [477,260,101, 60]
             self.geometry_lists[7][1]  = [470,250,108, 79]
-            self.geometry_lists[10][1] = [230,380,180, 50]
-            self.geometry_lists[11][1] = [400,380,180, 50]
-            self.geometry_lists[12][1] = [315,470,180, 50]
+            self.geometry_lists[10][0] = [230,690,180, 50]
+            self.geometry_lists[11][0] = [400,690,180, 50]
+            self.geometry_lists[12][0] = [315,780,180, 50]
             self.geometry_lists[13][0] = [210,600,400,560]
-            self.geometry_lists[13][1] = [210,290,400,560]
-            self.geometry_lists[14][1] = [410,600,330,380]
+            self.geometry_lists[14][1] = [410,670,330,380]
             self.geometry_lists[15][1] = [370,600,400,560]
 
         elif (self.func == "Log") & (self.switching_flag == "Finish"):
@@ -389,10 +384,10 @@ class Geometry:
             self.geometry_lists[1][1]  = [220,110,370,470]
             self.geometry_lists[5][1]  = [677,360,101, 60]
             self.geometry_lists[9][1]  = [670,350,108, 79]
-            self.geometry_lists[10][1] = [410,600,330,380]
+            self.geometry_lists[10][1] = [410,670,330,380]
             self.geometry_lists[11][1] = [370,600,400,560]
-            self.geometry_lists[12][0] = [670,600,100, 40]
-            self.geometry_lists[13][0] = [670,600,100, 40]
+            self.geometry_lists[12][0] = [670,650,100, 40]
+            self.geometry_lists[13][0] = [670,700,100, 40]
             self.geometry_lists[14][0] = [665,600,110,150]
 
 
@@ -414,13 +409,12 @@ class Geometry:
             self.geometry_lists[1][0]  = [220,110,370,470]
             self.geometry_lists[2][1]  = [377,260,101, 60]
             self.geometry_lists[6][1]  = [370,250,108, 79]
-            self.geometry_lists[10][1] = [130,380,180, 50]
-            self.geometry_lists[11][1] = [300,380,180, 50]
-            self.geometry_lists[12][1] = [215,470,180, 42]
+            self.geometry_lists[10][0] = [130,690,180, 50]
+            self.geometry_lists[11][0] = [300,690,180, 50]
+            self.geometry_lists[12][0] = [215,780,180, 42]
             self.geometry_lists[13][0] = [110,600,400,560]
-            self.geometry_lists[13][1] = [110,290,400,560]
-            self.geometry_lists[14][1] = [670,600,100, 40]
-            self.geometry_lists[15][1] = [670,600,100, 40]
+            self.geometry_lists[14][1] = [670,650,100, 40]
+            self.geometry_lists[15][1] = [670,700,100, 40]
             self.geometry_lists[16][1] = [665,600,110,150]
 
         elif (self.func == "Finish") & (self.switching_flag == "Break"):
@@ -441,13 +435,12 @@ class Geometry:
             self.geometry_lists[1][0]  = [220,110,370,470]
             self.geometry_lists[3][1]  = [477,260,101, 60]
             self.geometry_lists[7][1]  = [470,250,108, 79]
-            self.geometry_lists[10][1] = [230,380,180, 50]
-            self.geometry_lists[11][1] = [400,380,180, 50]
-            self.geometry_lists[12][1] = [315,470,180, 50]
+            self.geometry_lists[10][0] = [230,690,180, 50]
+            self.geometry_lists[11][0] = [400,690,180, 50]
+            self.geometry_lists[12][0] = [315,780,180, 50]
             self.geometry_lists[13][0] = [210,600,400,560]
-            self.geometry_lists[13][1] = [210,290,400,560]
-            self.geometry_lists[14][1] = [670,600,100, 40]
-            self.geometry_lists[15][1] = [670,600,100, 40]
+            self.geometry_lists[14][1] = [670,650,100, 40]
+            self.geometry_lists[15][1] = [670,700,100, 40]
             self.geometry_lists[16][1] = [665,600,110,150]
 
         elif (self.func == "Finish") & (self.switching_flag == "Log"):
@@ -467,9 +460,8 @@ class Geometry:
             self.geometry_lists[1][1]  = [ 20,130,370,470]
             self.geometry_lists[4][1]  = [577, 60,101, 60]
             self.geometry_lists[8][1]  = [570, 50,108, 79]
-            self.geometry_lists[10][1] = [410,160,330,380]
+            self.geometry_lists[10][0] = [410,670,330,380]
             self.geometry_lists[11][0] = [370,600,400,560]
-            self.geometry_lists[11][1] = [370, 90,400,560]
-            self.geometry_lists[12][1] = [670,600,100, 40]
-            self.geometry_lists[13][1] = [670,600,100, 40]
+            self.geometry_lists[12][1] = [670,650,100, 40]
+            self.geometry_lists[13][1] = [670,700,100, 40]
             self.geometry_lists[14][1] = [665,600,110,150]
