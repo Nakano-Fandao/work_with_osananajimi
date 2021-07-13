@@ -18,7 +18,7 @@ class Ui_RoomScreen(object):
     def setupUi(self, RoomScreen):
         if not RoomScreen.objectName():
             RoomScreen.setObjectName(u"RoomScreen")
-        RoomScreen.resize(796, 591)
+        RoomScreen.resize(800, 600)
         self.centralwidget = QWidget(RoomScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.insideRoomLabel = QLabel(self.centralwidget)
@@ -51,7 +51,7 @@ class Ui_RoomScreen(object):
         self.blackFrame.setEnabled(True)
         self.blackFrame.setGeometry(QRect(0, 0, 800, 600))
         self.blackFrame.setStyleSheet(u"QFrame {\n"
-"	background-color: rgba(0, 0, 0, 0.4);\n"
+"	background-color: rgba(0, 0, 0, 0);\n"
 "}")
         self.blackFrame.setFrameShape(QFrame.StyledPanel)
         self.blackFrame.setFrameShadow(QFrame.Raised)
@@ -63,23 +63,26 @@ class Ui_RoomScreen(object):
         self.logView.setObjectName(u"logView")
         self.logView.setGeometry(QRect(370, 470, 400, 100))
         self.logView.setFocusPolicy(Qt.NoFocus)
+        self.logView.setContextMenuPolicy(Qt.NoContextMenu)
         self.logView.setStyleSheet(u"QListView {\n"
 "	background: transparent;\n"
 "	font-size: 20px;\n"
 "	line-height: 25px;\n"
-"	padding-top: 70px;\n"
+"	border: 0;\n"
 "}\n"
 "QListView::item{\n"
-"	width: 325px;\n"
-"	padding: 0px 8px -1px;\n"
+"	width: 328px;\n"
+"	padding: 0px 2px -1px;\n"
 "	border: .3px solid white;\n"
 "	border-radius: 5px;\n"
-"	margin: 1px 30px 1px 35px;\n"
+"	margin: 1px 1px 28px;\n"
 "	color: black;\n"
 "}\n"
 "QListView::item:hover{\n"
 "	background-color: rgba(255, 225, 148, 0.3);\n"
 "}")
+        self.logView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.logView.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.logView.setWordWrap(True)
         self.timerTimeEdit = QTimeEdit(self.centralwidget)
         self.timerTimeEdit.setObjectName(u"timerTimeEdit")
@@ -301,7 +304,7 @@ class Ui_RoomScreen(object):
         self.osanaLabel.setText("")
         self.finishButton.setText("")
         self.windowLabel.setText("")
-        self.blackFrameButton.setText(QCoreApplication.translate("RoomScreen", u"PushButton", None))
+        self.blackFrameButton.setText("")
         self.timerTimeEdit.setDisplayFormat(QCoreApplication.translate("RoomScreen", u"hh:mm:ss", None))
         self.logButton.setText("")
         self.breakButton.setText("")

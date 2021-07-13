@@ -42,6 +42,7 @@ class Ui_ChatPopup(object):
 "QListWidget::item:hover{\n"
 "	background-color: rgba(0, 0, 0, 0.7);\n"
 "}")
+        self.chatList.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.chatList.setProperty("isWrapping", False)
         self.chatList.setUniformItemSizes(False)
         self.chatList.setWordWrap(True)
