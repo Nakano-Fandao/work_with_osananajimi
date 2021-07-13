@@ -13,6 +13,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 import files_rc
+import files_rc
 
 class Ui_IndexScreen(object):
     def setupUi(self, IndexScreen):
@@ -42,11 +43,6 @@ class Ui_IndexScreen(object):
         self.backgroundLabel.setGeometry(QRect(0, 0, 800, 600))
         self.backgroundLabel.setPixmap(QPixmap(u":/image/images/backgrounds/index.png"))
         self.backgroundLabel.setScaledContents(True)
-        self.moodValueLabel = QLabel(self.mainFrame)
-        self.moodValueLabel.setObjectName(u"moodValueLabel")
-        self.moodValueLabel.setGeometry(QRect(390, 250, 171, 121))
-        self.moodValueLabel.setPixmap(QPixmap(u":/image/images/sentences/moodValueLabel.png"))
-        self.moodValueLabel.setScaledContents(True)
         self.startButton = QPushButton(self.mainFrame)
         self.startButton.setObjectName(u"startButton")
         self.startButton.setGeometry(QRect(70, 390, 306, 63))
@@ -62,14 +58,6 @@ class Ui_IndexScreen(object):
         icon1.addFile(u":/image/images/sentences/finishButton.png", QSize(), QIcon.Normal, QIcon.Off)
         self.finishButton.setIcon(icon1)
         self.finishButton.setIconSize(QSize(306, 63))
-        self.pushButton = QPushButton(self.mainFrame)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(30, 280, 401, 59))
-        self.pushButton.setStyleSheet(u"QPushButton{background: transparent;}")
-        icon2 = QIcon()
-        icon2.addFile(u":/image/images/sentences/mood_normal.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton.setIcon(icon2)
-        self.pushButton.setIconSize(QSize(401, 59))
         self.osanaButton1 = QPushButton(self.mainFrame)
         self.osanaButton1.setObjectName(u"osanaButton1")
         self.osanaButton1.setGeometry(QRect(570, 70, 191, 351))
@@ -78,14 +66,52 @@ class Ui_IndexScreen(object):
         self.osanaButton2.setObjectName(u"osanaButton2")
         self.osanaButton2.setGeometry(QRect(500, 390, 191, 211))
         self.osanaButton2.setStyleSheet(u"QPushButton{background: transparent;}")
+        self.moodDisplayLabel = QLabel(self.mainFrame)
+        self.moodDisplayLabel.setObjectName(u"moodDisplayLabel")
+        self.moodDisplayLabel.setGeometry(QRect(30, 280, 400, 60))
+        self.moodDisplayLabel.setPixmap(QPixmap(u":/image/images/sentences/mood_normal.png"))
+        self.moodDisplayLabel.setScaledContents(True)
+        self.moodUpButton = QPushButton(self.mainFrame)
+        self.moodUpButton.setObjectName(u"moodUpButton")
+        self.moodUpButton.setGeometry(QRect(440, 275, 35, 35))
+        font = QFont()
+        font.setFamily(u"MS UI Gothic")
+        font.setPointSize(28)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.moodUpButton.setFont(font)
+        self.moodUpButton.setStyleSheet(u"font: 28pt \"MS UI Gothic\";\n"
+"color: red;\n"
+"background-color: transparent;")
+        self.moodDownButton = QPushButton(self.mainFrame)
+        self.moodDownButton.setObjectName(u"moodDownButton")
+        self.moodDownButton.setGeometry(QRect(440, 305, 35, 35))
+        self.moodDownButton.setFont(font)
+        self.moodDownButton.setStyleSheet(u"font: 28pt \"MS UI Gothic\";\n"
+"color: blue;\n"
+"background-color: transparent;")
+        self.moodUpLabel = QLabel(self.mainFrame)
+        self.moodUpLabel.setObjectName(u"moodUpLabel")
+        self.moodUpLabel.setGeometry(QRect(460, 240, 70, 50))
+        self.moodUpLabel.setStyleSheet(u"font: 75 26pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+"color: rgba(255, 169, 0, 1);")
+        self.moodDownLabel = QLabel(self.mainFrame)
+        self.moodDownLabel.setObjectName(u"moodDownLabel")
+        self.moodDownLabel.setGeometry(QRect(460, 330, 70, 50))
+        self.moodDownLabel.setStyleSheet(u"font: 75 26pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
+"color: rgba(18, 93, 152, 1);")
         self.backgroundLabel.raise_()
         self.osanaLabel.raise_()
-        self.moodValueLabel.raise_()
         self.startButton.raise_()
         self.finishButton.raise_()
-        self.pushButton.raise_()
         self.osanaButton1.raise_()
         self.osanaButton2.raise_()
+        self.moodDisplayLabel.raise_()
+        self.moodUpButton.raise_()
+        self.moodDownButton.raise_()
+        self.moodUpLabel.raise_()
+        self.moodDownLabel.raise_()
 
         self.verticalLayout.addWidget(self.mainFrame)
 
@@ -100,11 +126,14 @@ class Ui_IndexScreen(object):
         IndexScreen.setWindowTitle(QCoreApplication.translate("IndexScreen", u"IndexScreen", None))
         self.osanaLabel.setText("")
         self.backgroundLabel.setText("")
-        self.moodValueLabel.setText("")
         self.startButton.setText("")
         self.finishButton.setText("")
-        self.pushButton.setText("")
         self.osanaButton1.setText("")
         self.osanaButton2.setText("")
+        self.moodDisplayLabel.setText("")
+        self.moodUpButton.setText(QCoreApplication.translate("IndexScreen", u"\u25b2", None))
+        self.moodDownButton.setText(QCoreApplication.translate("IndexScreen", u"\u25bc", None))
+        self.moodUpLabel.setText(QCoreApplication.translate("IndexScreen", u"+10", None))
+        self.moodDownLabel.setText(QCoreApplication.translate("IndexScreen", u"-10", None))
     # retranslateUi
 
