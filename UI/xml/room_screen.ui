@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>804</width>
+    <height>609</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,8 +40,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 16pt &quot;メイリオ&quot;;
-</string>
+     <string notr="true">font: 75 24px &quot;UD デジタル 教科書体 N-B&quot;;</string>
     </property>
     <property name="markdown">
      <string>ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ
@@ -52,8 +51,8 @@
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'メイリオ'; font-size:16pt; font-weight:72; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:10px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'UD デジタル 教科書体 N-B'; font-size:24px; font-weight:72; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:10px; margin-bottom:10px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'メイリオ'; font-size:16pt;&quot;&gt;ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="osanaLabel">
@@ -162,9 +161,9 @@ p, li { white-space: pre-wrap; }
    <widget class="QListView" name="logView">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>410</x>
       <y>470</y>
-      <width>400</width>
+      <width>330</width>
       <height>100</height>
      </rect>
     </property>
@@ -192,6 +191,9 @@ QListView::item{
 QListView::item:hover{
 	background-color: rgba(255, 225, 148, 0.3);
 }</string>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -483,14 +485,14 @@ QListView::item:hover{
     <property name="font">
      <font>
       <family>Let's go Digital</family>
-      <pointsize>36</pointsize>
+      <pointsize>-1</pointsize>
       <weight>9</weight>
       <italic>true</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+     <string notr="true">font: 75 italic 48px &quot;Let's go Digital&quot;;
 color: red;</string>
     </property>
     <property name="text">
@@ -509,14 +511,14 @@ color: red;</string>
     <property name="font">
      <font>
       <family>Let's go Digital</family>
-      <pointsize>36</pointsize>
+      <pointsize>-1</pointsize>
       <weight>9</weight>
       <italic>true</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+     <string notr="true">font: 75 italic 48px &quot;Let's go Digital&quot;;
 color: rgb(58, 58, 58);</string>
     </property>
     <property name="text">
@@ -646,7 +648,7 @@ color: rgb(58, 58, 58);</string>
     <property name="styleSheet">
      <string notr="true">QPushButton {
 	background-color: transparent;
-	font: 75 20pt &quot;UD デジタル 教科書体 N-B&quot;;
+	font: 75 27px &quot;UD デジタル 教科書体 N-B&quot;;
 	color: black;
 	border-radius: 10px;
 }
@@ -671,7 +673,7 @@ QPushButton::hover {
     <property name="styleSheet">
      <string notr="true">QPushButton {
 	background-color: transparent;
-	font: 75 20pt &quot;UD デジタル 教科書体 N-B&quot;;
+	font: 75 27px &quot;UD デジタル 教科書体 N-B&quot;;
 	color: black;
 	border-radius: 10px;
 }
@@ -696,14 +698,14 @@ QPushButton::hover {
     <property name="font">
      <font>
       <family>Let's go Digital</family>
-      <pointsize>36</pointsize>
+      <pointsize>-1</pointsize>
       <weight>9</weight>
       <italic>true</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+     <string notr="true">font: 75 italic 48px &quot;Let's go Digital&quot;;
 color: skyblue;</string>
     </property>
     <property name="text">
@@ -722,14 +724,14 @@ color: skyblue;</string>
     <property name="font">
      <font>
       <family>Let's go Digital</family>
-      <pointsize>36</pointsize>
+      <pointsize>-1</pointsize>
       <weight>9</weight>
       <italic>true</italic>
       <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 italic 36pt &quot;Let's go Digital&quot;;
+     <string notr="true">font: 75 italic 48px &quot;Let's go Digital&quot;;
 color: rgb(58, 58, 58);</string>
     </property>
     <property name="text">
@@ -746,7 +748,7 @@ color: rgb(58, 58, 58);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 24pt &quot;UD デジタル 教科書体 N-B&quot;;
+     <string notr="true">font: 75 32px &quot;UD デジタル 教科書体 N-B&quot;;
 color: pink;</string>
     </property>
     <property name="text">
@@ -766,7 +768,7 @@ color: pink;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 24pt &quot;UD デジタル 教科書体 N-B&quot;;
+     <string notr="true">font: 75 32px &quot;UD デジタル 教科書体 N-B&quot;;
 color: pink;</string>
     </property>
     <property name="text">

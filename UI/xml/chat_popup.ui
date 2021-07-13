@@ -33,7 +33,7 @@
 	border-radius: 10px;
 	background: transparent;
 	color: rgb(220, 220, 220);
-	font: 75 14pt &quot;メイリオ&quot;;
+	font: 75 20px &quot;UD デジタル 教科書体 N-B&quot;;
 }
 QListWidget::item{
 	width: 520px;
