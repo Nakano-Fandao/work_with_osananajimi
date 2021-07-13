@@ -48,6 +48,9 @@ QListWidget::item:hover{
 	background-color: rgba(0, 0, 0, 0.7);
 }</string>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
    <property name="isWrapping" stdset="0">
     <bool>false</bool>
    </property>

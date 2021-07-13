@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>796</width>
-    <height>591</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -133,7 +133,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: rgba(0, 0, 0, 0);
 }</string>
     </property>
     <property name="frameShape">
@@ -155,7 +155,7 @@ p, li { white-space: pre-wrap; }
       <string notr="true">background-color: transparent;</string>
      </property>
      <property name="text">
-      <string>PushButton</string>
+      <string/>
      </property>
     </widget>
    </widget>
@@ -171,24 +171,33 @@ p, li { white-space: pre-wrap; }
     <property name="focusPolicy">
      <enum>Qt::NoFocus</enum>
     </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QListView {
 	background: transparent;
 	font-size: 20px;
 	line-height: 25px;
-	padding-top: 70px;
+	border: 0;
 }
 QListView::item{
-	width: 325px;
-	padding: 0px 8px -1px;
+	width: 328px;
+	padding: 0px 2px -1px;
 	border: .3px solid white;
 	border-radius: 5px;
-	margin: 1px 30px 1px 35px;
+	margin: 1px 1px 28px;
 	color: black;
 }
 QListView::item:hover{
 	background-color: rgba(255, 225, 148, 0.3);
 }</string>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
