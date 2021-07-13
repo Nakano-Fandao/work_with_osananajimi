@@ -33,4 +33,3 @@ App を起動すれば、幼馴染と雑談をしながら作業をやること�
       <img src="https://avatars.githubusercontent.com/u/84919710?s=80&v=4" width="100px;" alt="aosatomiru"/><br /><a href="https://github.com/aosatomiru" title="Code">aosatomiru</a></a></td>
   </tr>
 </table>
-
