@@ -320,8 +320,5 @@
                 }
             }
         }
-    },
-    "effects": {
-        "door_knocking": ":effect/sounds/effects/door_knocking.wav"
     }
 }
