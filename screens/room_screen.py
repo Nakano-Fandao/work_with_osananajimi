@@ -92,7 +92,7 @@ class RoomScreen(QMainWindow):
         #* ***************************************************
 
         #* タイマースタート！
-        self.counter = -10
+        self.counter = 1
 
         #* ループスタート！
         self.timer = QTimer()
