@@ -45,15 +45,22 @@ class Ui_IndexScreen(object):
         self.backgroundLabel.setScaledContents(True)
         self.startButton = QPushButton(self.mainFrame)
         self.startButton.setObjectName(u"startButton")
-        self.startButton.setGeometry(QRect(70, 390, 306, 63))
-        self.startButton.setStyleSheet(u"")
+        self.startButton.setGeometry(QRect(67, 387, 312, 69))
+        self.startButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: transparent;\n"
+"	border: 0;\n"
+"}")
         icon = QIcon()
         icon.addFile(u":/image/images/sentences/startButton.png", QSize(), QIcon.Normal, QIcon.Off)
         self.startButton.setIcon(icon)
         self.startButton.setIconSize(QSize(306, 63))
         self.finishButton = QPushButton(self.mainFrame)
         self.finishButton.setObjectName(u"finishButton")
-        self.finishButton.setGeometry(QRect(150, 500, 306, 63))
+        self.finishButton.setGeometry(QRect(147, 497, 312, 69))
+        self.finishButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: transparent;\n"
+"	border: 0;\n"
+"}")
         icon1 = QIcon()
         icon1.addFile(u":/image/images/sentences/finishButton.png", QSize(), QIcon.Normal, QIcon.Off)
         self.finishButton.setIcon(icon1)
@@ -84,6 +91,10 @@ class Ui_IndexScreen(object):
         self.moodUpButton.setStyleSheet(u"font: 28pt \"MS UI Gothic\";\n"
 "color: red;\n"
 "background-color: transparent;")
+        icon2 = QIcon()
+        icon2.addFile(u":/image/images/icons/smallUpButton.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.moodUpButton.setIcon(icon2)
+        self.moodUpButton.setIconSize(QSize(30, 27))
         self.moodDownButton = QPushButton(self.mainFrame)
         self.moodDownButton.setObjectName(u"moodDownButton")
         self.moodDownButton.setGeometry(QRect(440, 305, 35, 35))
@@ -91,6 +102,10 @@ class Ui_IndexScreen(object):
         self.moodDownButton.setStyleSheet(u"font: 28pt \"MS UI Gothic\";\n"
 "color: blue;\n"
 "background-color: transparent;")
+        icon3 = QIcon()
+        icon3.addFile(u":/image/images/icons/smallDownButton.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.moodDownButton.setIcon(icon3)
+        self.moodDownButton.setIconSize(QSize(30, 27))
         self.moodUpLabel = QLabel(self.mainFrame)
         self.moodUpLabel.setObjectName(u"moodUpLabel")
         self.moodUpLabel.setGeometry(QRect(460, 240, 70, 50))
@@ -101,6 +116,20 @@ class Ui_IndexScreen(object):
         self.moodDownLabel.setGeometry(QRect(460, 330, 70, 50))
         self.moodDownLabel.setStyleSheet(u"font: 75 26pt \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
 "color: rgba(18, 93, 152, 1);")
+        self.moodParameterBar = QProgressBar(self.mainFrame)
+        self.moodParameterBar.setObjectName(u"moodParameterBar")
+        self.moodParameterBar.setGeometry(QRect(30, 327, 401, 13))
+        self.moodParameterBar.setStyleSheet(u"QProgressBar {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0.511364, x2:1, y2:0.523, stop:0 #f64f59, stop:0.5 #c471ed ,stop:1 #12c2e9);\n"
+"	color: rgb(200, 200, 200);\n"
+"	border-style: none;\n"
+"}\n"
+"QProgressBar::chunk{\n"
+"	background-color: rgb(98, 114, 164);\n"
+"}")
+        self.moodParameterBar.setValue(32)
+        self.moodParameterBar.setTextVisible(False)
+        self.moodParameterBar.setInvertedAppearance(True)
         self.backgroundLabel.raise_()
         self.osanaLabel.raise_()
         self.startButton.raise_()
@@ -112,6 +141,7 @@ class Ui_IndexScreen(object):
         self.moodDownButton.raise_()
         self.moodUpLabel.raise_()
         self.moodDownLabel.raise_()
+        self.moodParameterBar.raise_()
 
         self.verticalLayout.addWidget(self.mainFrame)
 
@@ -131,9 +161,10 @@ class Ui_IndexScreen(object):
         self.osanaButton1.setText("")
         self.osanaButton2.setText("")
         self.moodDisplayLabel.setText("")
-        self.moodUpButton.setText(QCoreApplication.translate("IndexScreen", u"\u25b2", None))
-        self.moodDownButton.setText(QCoreApplication.translate("IndexScreen", u"\u25bc", None))
+        self.moodUpButton.setText("")
+        self.moodDownButton.setText("")
         self.moodUpLabel.setText(QCoreApplication.translate("IndexScreen", u"+10", None))
         self.moodDownLabel.setText(QCoreApplication.translate("IndexScreen", u"-10", None))
+        self.moodParameterBar.setFormat(QCoreApplication.translate("IndexScreen", u"%p", None))
     # retranslateUi
 

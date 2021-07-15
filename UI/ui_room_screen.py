@@ -514,7 +514,7 @@ class Ui_RoomScreen(object):
         self.break_largeDownButton_second.setText("")
         self.breakTimeEditer.setText(QCoreApplication.translate("RoomScreen", u"00 : 00 : 00", None))
         self.timerBackLabel.setText("")
-        self.timerStartButton.setText(QCoreApplication.translate("RoomScreen", u"\u4f11\u61a9\u306f\u3058\u3081\uff01\uff01", None))
+        self.timerStartButton.setText(QCoreApplication.translate("RoomScreen", u"\u30bf\u30a4\u30de\u30fc\u30b9\u30bf\u30fc\u30c8\uff01\uff01", None))
         self.timer_smallUpButton_hour.setText("")
         self.timer_largeUpButton_hour.setText("")
         self.timer_smallUpButton_minute.setText("")
