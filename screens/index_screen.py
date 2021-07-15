@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys, os
 
-from PySide2.QtCore import Qt, QTimer, QCoreApplication
+from PySide2.QtCore import Qt, QTimer, QCoreApplication, QSize
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtGui import QPixmap
 
@@ -49,6 +49,8 @@ class IndexScreen(QMainWindow):
         self.ui.moodUpButton.clicked.connect(self.mood_up)
         self.ui.moodDownButton.clicked.connect(self.mood_down)
 
+        self.ui.moodParameterBar.setValue(self.parameter)
+
         self.mood_label_dict = {
             "great": ":/image/images/sentences/mood_great.png",
             "good": ":/image/images/sentences/mood_good.png",
@@ -60,18 +62,22 @@ class IndexScreen(QMainWindow):
         self.show()
 
     def start(self):
+        self.ui.startButton.setIconSize(QSize(312, 69))
+        QTimer.singleShot(100, lambda: self.ui.startButton.setIconSize(QSize(306, 63)))
 
         serif = self.osana.play_app_voice("start", self.parameter)
 
         # SHOW ROOM SCREEN
-        self.main = RoomScreen(self.parameter, serif)
+        QTimer.singleShot(150, lambda: RoomScreen(self.parameter, serif))
 
         # CLOSE INDEX SCREEN
-        self.close()
+        QTimer.singleShot(150, lambda: self.close())
 
     def finish(self):
+        self.ui.finishButton.setIconSize(QSize(312, 69))
+        QTimer.singleShot(100, lambda: self.ui.finishButton.setIconSize(QSize(306, 63)))
         # 幼馴染をかえらせる
-        sys.exit(-1)
+        QTimer.singleShot(150, lambda: sys.exit(-1))
 
     def touch(self):
         touched = True
@@ -88,8 +94,13 @@ class IndexScreen(QMainWindow):
         self.up_flag = True
         self.ui.moodUpLabel.show()
         self.ui.moodDownLabel.hide()
+        #* ボタンを一瞬大きくする
+        self.ui.moodUpButton.setIconSize(QSize(32, 29))
+        QTimer.singleShot(100, lambda: self.ui.moodUpButton.setIconSize(QSize(30, 27)))
+        #* 値を表示
         self.start_qtimer()
         self.set_mood_label()
+        self.ui.moodParameterBar.setValue(100 - self.parameter)
 
     def mood_down(self):
 
@@ -103,8 +114,13 @@ class IndexScreen(QMainWindow):
         self.down_flag = True
         self.ui.moodDownLabel.show()
         self.ui.moodUpLabel.hide()
+        #* ボタンを一瞬大きくする
+        self.ui.moodDownButton.setIconSize(QSize(32, 29))
+        QTimer.singleShot(100, lambda: self.ui.moodDownButton.setIconSize(QSize(30, 27)))
+        #* 値を表示
         self.start_qtimer()
         self.set_mood_label()
+        self.ui.moodParameterBar.setValue(100 - self.parameter)
 
     def set_mood_label(self):
         mood = MoodParameter(self.parameter).mood
@@ -117,7 +133,7 @@ class IndexScreen(QMainWindow):
         self.axis = 0.3
         #* --------------------------------------
 
-        # タイマースタート！
+        #* タイマースタート！
         self.counter = 0
         self.timer = QTimer()
         self.timer.timeout.connect(self.fadeout)
