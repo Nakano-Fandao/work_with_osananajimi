@@ -205,46 +205,6 @@ QListView::item:hover{
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QTimeEdit" name="timerTimeEdit">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>510</y>
-      <width>180</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Gill Sans MT</family>
-      <pointsize>26</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>UpArrowCursor</cursorShape>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="dateTime">
-     <datetime>
-      <hour>0</hour>
-      <minute>5</minute>
-      <second>0</second>
-      <year>2000</year>
-      <month>1</month>
-      <day>1</day>
-     </datetime>
-    </property>
-    <property name="displayFormat">
-     <string>hh:mm:ss</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="logButton">
     <property name="geometry">
      <rect>
@@ -394,44 +354,6 @@ QListView::item:hover{
      <pixmap resource="../files.qrc">:/image/images/windows/button_timer.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="timerBackLabel">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>470</y>
-      <width>400</width>
-      <height>100</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_timer.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="breakBackLabel">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>470</y>
-      <width>400</width>
-      <height>100</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_break.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="finishBackLabel">
     <property name="geometry">
      <rect>
@@ -452,25 +374,6 @@ QListView::item:hover{
     </property>
     <property name="scaledContents">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="timerSentence">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>510</y>
-      <width>180</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../files.qrc">:/image/images/sentences/breakSentence.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="remainingStudyTime">
@@ -523,117 +426,6 @@ color: rgb(58, 58, 58);</string>
     </property>
     <property name="text">
      <string>88:88:88</string>
-    </property>
-   </widget>
-   <widget class="QTimeEdit" name="breakTimeEdit">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>510</y>
-      <width>180</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Gill Sans MT</family>
-      <pointsize>26</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>UpArrowCursor</cursorShape>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="dateTime">
-     <datetime>
-      <hour>0</hour>
-      <minute>5</minute>
-      <second>0</second>
-      <year>2000</year>
-      <month>1</month>
-      <day>1</day>
-     </datetime>
-    </property>
-    <property name="displayFormat">
-     <string>mm:ss</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="breakSentence">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>510</y>
-      <width>180</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../files.qrc">:/image/images/sentences/breakSentence.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="timerStartButton">
-    <property name="geometry">
-     <rect>
-      <x>215</x>
-      <y>510</y>
-      <width>180</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../files.qrc">
-      <normaloff>:/image/images/sentences/timerStartButton.png</normaloff>:/image/images/sentences/timerStartButton.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>180</width>
-      <height>50</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="breakStartButton">
-    <property name="geometry">
-     <rect>
-      <x>315</x>
-      <y>510</y>
-      <width>180</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../files.qrc">
-      <normaloff>:/image/images/sentences/breakStartButton.png</normaloff>:/image/images/sentences/breakStartButton.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>180</width>
-      <height>50</height>
-     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="finishNoButton">
@@ -778,17 +570,829 @@ color: pink;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QWidget" name="breakWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>470</y>
+      <width>400</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="breakBackLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>400</width>
+       <height>560</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_break.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="breakStartButton">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>240</y>
+       <width>340</width>
+       <height>55</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: rgba(0, 150, 50, 0.2);
+	border-radius: 13px;
+	font: 75 32px &quot;UD デジタル 教科書体 N-B&quot;;
+}
+QPushButton:hover {
+	background-color: rgba(0, 150, 50, 0.6);
+	border-radius: 15px;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>休憩はじめ！！</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>180</width>
+       <height>50</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_smallUpButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>106</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeUpButton.png</normaloff>:/image/images/icons/largeUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_largeUpButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>113</x>
+       <y>82</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_smallUpButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>186</x>
+       <y>106</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeUpButton.png</normaloff>:/image/images/icons/largeUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_largeUpButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>194</x>
+       <y>82</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_smallUpButton_second">
+     <property name="geometry">
+      <rect>
+       <x>267</x>
+       <y>106</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeUpButton.png</normaloff>:/image/images/icons/largeUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_largeUpButton_second">
+     <property name="geometry">
+      <rect>
+       <x>275</x>
+       <y>82</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_smallDownButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>186</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeDownButton.png</normaloff>:/image/images/icons/largeDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_largeDownButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>113</x>
+       <y>209</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_smallDownButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>186</x>
+       <y>186</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeDownButton.png</normaloff>:/image/images/icons/largeDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_largeDownButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>194</x>
+       <y>209</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_smallDownButton_second">
+     <property name="geometry">
+      <rect>
+       <x>267</x>
+       <y>186</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeDownButton.png</normaloff>:/image/images/icons/largeDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="break_largeDownButton_second">
+     <property name="geometry">
+      <rect>
+       <x>275</x>
+       <y>209</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QLabel" name="breakTimeEditer">
+     <property name="geometry">
+      <rect>
+       <x>55</x>
+       <y>126</y>
+       <width>300</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	background-color: transparent;
+	border: 0;
+	font: 75 italic 48px &quot;Let's go Digital&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>00 : 00 : 00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="timerWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>134</y>
+      <width>400</width>
+      <height>560</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="timerBackLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>400</width>
+       <height>560</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../files.qrc">:/image/images/windows/loose_leaf_timer.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timerStartButton">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>240</y>
+       <width>340</width>
+       <height>55</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: rgba(0, 100, 150, 0.2);
+	border-radius: 13px;
+	font: 75 32px &quot;UD デジタル 教科書体 N-B&quot;;
+}
+QPushButton:hover {
+	background-color: rgba(0, 100, 150, 0.6);
+	border-radius: 15px;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>休憩はじめ！！</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>180</width>
+       <height>50</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_smallUpButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>106</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeUpButton.png</normaloff>:/image/images/icons/largeUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_largeUpButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>113</x>
+       <y>82</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_smallUpButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>186</x>
+       <y>106</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeUpButton.png</normaloff>:/image/images/icons/largeUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_largeUpButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>194</x>
+       <y>82</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_smallUpButton_second">
+     <property name="geometry">
+      <rect>
+       <x>267</x>
+       <y>106</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeUpButton.png</normaloff>:/image/images/icons/largeUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_largeUpButton_second">
+     <property name="geometry">
+      <rect>
+       <x>275</x>
+       <y>82</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_smallDownButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>105</x>
+       <y>186</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeDownButton.png</normaloff>:/image/images/icons/largeDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_largeDownButton_hour">
+     <property name="geometry">
+      <rect>
+       <x>113</x>
+       <y>209</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_smallDownButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>186</x>
+       <y>186</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeDownButton.png</normaloff>:/image/images/icons/largeDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_largeDownButton_minute">
+     <property name="geometry">
+      <rect>
+       <x>194</x>
+       <y>209</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_smallDownButton_second">
+     <property name="geometry">
+      <rect>
+       <x>267</x>
+       <y>186</y>
+       <width>42</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/largeDownButton.png</normaloff>:/image/images/icons/largeDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>38</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="timer_largeDownButton_second">
+     <property name="geometry">
+      <rect>
+       <x>275</x>
+       <y>209</y>
+       <width>26</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 24px &quot;MS UI Gothic&quot;;
+background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>22</width>
+       <height>20</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QLabel" name="timerTimeEditer">
+     <property name="geometry">
+      <rect>
+       <x>55</x>
+       <y>126</y>
+       <width>300</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	background-color: transparent;
+	border: 0;
+	font: 75 italic 48px &quot;Let's go Digital&quot;;
+}</string>
+     </property>
+     <property name="text">
+      <string>00 : 00 : 00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
    <zorder>insideRoomLabel</zorder>
    <zorder>blackFrame</zorder>
    <zorder>osanaLabel</zorder>
-   <zorder>timerBackLabel</zorder>
-   <zorder>timerStartButton</zorder>
-   <zorder>breakBackLabel</zorder>
-   <zorder>breakStartButton</zorder>
-   <zorder>breakTimeEdit</zorder>
-   <zorder>breakSentence</zorder>
-   <zorder>timerTimeEdit</zorder>
-   <zorder>timerSentence</zorder>
    <zorder>logBackLabel</zorder>
    <zorder>logView</zorder>
    <zorder>logLabel</zorder>
@@ -800,8 +1404,6 @@ color: pink;</string>
    <zorder>finishLabel</zorder>
    <zorder>finishYesButton</zorder>
    <zorder>finishNoButton</zorder>
-   <zorder>windowLabel</zorder>
-   <zorder>osanaText</zorder>
    <zorder>breakButton</zorder>
    <zorder>finishButton</zorder>
    <zorder>logButton</zorder>
@@ -810,6 +1412,10 @@ color: pink;</string>
    <zorder>remainingBreakTime</zorder>
    <zorder>studyTimerLabel</zorder>
    <zorder>breakTimerLabel</zorder>
+   <zorder>breakWidget</zorder>
+   <zorder>timerWidget</zorder>
+   <zorder>windowLabel</zorder>
+   <zorder>osanaText</zorder>
   </widget>
  </widget>
  <resources>
