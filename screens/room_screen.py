@@ -58,6 +58,9 @@ class RoomScreen(QMainWindow):
         self.parameter = parameter
         self.osana = PlayVoice()
         self.chat_time = 15*60 #* 15分
+        #* 検知機能
+        self.smapho_flag = True
+        self.chrome_flag = True
         #*-------------------------
 
         #* セリフModel作成
@@ -85,13 +88,13 @@ class RoomScreen(QMainWindow):
         #* *************** メイン処理スタート！ ***************
         #* ***************************************************
 
-        # #* タイマースタート！
-        # self.counter = 1
+        #* タイマースタート！
+        self.counter = 1
 
-        # #* ループスタート！
-        # self.timer = QTimer()
-        # self.timer.timeout.connect(self.act_per_second)
-        # self.timer.start(1000)
+        #* ループスタート！
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.act_per_second)
+        self.timer.start(1000)
 
         self.show()
 
@@ -125,24 +128,26 @@ class RoomScreen(QMainWindow):
 
     def detect(self):
 
-        if self.counter%15 == 0:
-            detected = self.detect_smapho.judge_smapho()
-            if not detected:
-                pass
-            else:
-                self.serif = self.osana.play_voice(detected, self.parameter)
-                self.show_serif()
-                self.parameter -= 10
+        if self.smapho_flag:
+            if self.counter%15 == 0:
+                detected = self.detect_smapho.judge_smapho()
+                if not detected:
+                    pass
+                else:
+                    self.serif = self.osana.play_voice(detected, self.parameter)
+                    self.show_serif()
+                    self.parameter -= 10
 
-        if self.counter%30 == 0:
-            self.counter = 0
-            detected = detect_youtube()
-            if not detected:
-                pass
-            else:
-                self.serif = self.osana.play_voice(detected, self.parameter)
-                self.show_serif()
-                self.parameter -= 10
+        if self.chrome_flag:
+            if self.counter%30 == 0:
+                self.counter = 0
+                detected = detect_youtube()
+                if not detected:
+                    pass
+                else:
+                    self.serif = self.osana.play_voice(detected, self.parameter)
+                    self.show_serif()
+                    self.parameter -= 10
 
     def do_chat(self):
 
@@ -405,6 +410,38 @@ class RoomScreen(QMainWindow):
         # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
         self.ui.finishNoButton.clicked.connect(self.do_choicechat)
         self.ui.blackFrameButton.clicked.connect(self.background_clicked)
+        self.ui.smaphoButton.clicked.connect(self.switch_smapho)
+        self.ui.chromeButton.clicked.connect(self.switch_chrome)
+
+    def switch_smapho(self):
+
+        if self.smapho_flag:
+            self.smapho_flag = False
+            smapho_icon = QIcon()
+            smapho_icon.addFile(u":/image/images/icons/gray_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+        else:
+            self.smapho_flag = True
+            smapho_icon = QIcon()
+            smapho_icon.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+
+        self.ui.smaphoButton.setIconSize(QSize(55, 55))
+        QTimer.singleShot(100, lambda: self.ui.smaphoButton.setIconSize(QSize(51, 51)))
+        QTimer.singleShot(110, lambda: self.ui.smaphoButton.setIcon(smapho_icon))
+
+    def switch_chrome(self):
+
+        if self.chrome_flag:
+            self.chrome_flag = False
+            chrome_icon = QIcon()
+            chrome_icon.addFile(u":/image/images/icons/gray_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
+        else:
+            self.chrome_flag = True
+            chrome_icon = QIcon()
+            chrome_icon.addFile(u":/image/images/icons/blue_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
+
+        self.ui.chromeButton.setIconSize(QSize(55, 55))
+        QTimer.singleShot(100, lambda: self.ui.chromeButton.setIconSize(QSize(51, 51)))
+        QTimer.singleShot(110, lambda: self.ui.chromeButton.setIcon(chrome_icon))
 
     def init_timer_time_edit_buttons(self):
 
@@ -738,6 +775,9 @@ class RoomScreen(QMainWindow):
         self.ui.logButton.raise_()
         self.ui.finishButton.raise_()
 
+        self.ui.smaphoButton.raise_()
+        self.ui.chromeButton.raise_()
+
     def move_objects(self):
 
         #* 黒背景の透明度の値代入
@@ -950,7 +990,7 @@ class RoomScreen(QMainWindow):
 
     def finish_app(self):
         # self.timer.stop()
-        QTimer.singleShot(10000, lambda: sys.exit(-1))
+        QTimer.singleShot(9000, lambda: sys.exit(-1))
         self.osana.play_app_voice("finish", self.parameter)
         self.hide()
 
