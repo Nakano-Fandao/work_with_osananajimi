@@ -8,7 +8,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2.QtMultimedia import QSound
 
-add_list = ["../detect_modules", "../UI", "../settings", "../screens"]
+add_list = ["../modules", "../modules/detect_modules", "../UI", "../settings", "../screens"]
 for dir in add_list:
     sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), dir)))
 
@@ -36,8 +36,9 @@ class RoomScreen(QMainWindow):
         self.init_objects()
         #*-------------------------
 
-        #*----- Font setting ------
+        #*----- Text setting ------
         self.ui.remainingStudyTimeShadow.setText('88:88:88')
+        self.ui.breakTimeEditer.setText('00 : 05 : 00')
         #*-------------------------
 
         #*----- Variable setting ------
@@ -74,17 +75,9 @@ class RoomScreen(QMainWindow):
         #*-------------------------
 
         #* Button setting
-        self.ui.timerButton.clicked.connect(self.operate_timer_tab)
-        self.ui.breakButton.clicked.connect(self.operate_break_tab)
-        self.ui.logButton.clicked.connect(self.operate_log_tab)
-        self.ui.finishButton.clicked.connect(self.operate_finish_tab)
-        self.ui.logView.clicked.connect(self.logView_clicked)
-        self.ui.timerStartButton.clicked.connect(self.start_study_timer)
-        self.ui.breakStartButton.clicked.connect(self.start_break_timer)
-        self.ui.finishYesButton.clicked.connect(self.finish_app)
-        # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
-        self.ui.finishNoButton.clicked.connect(self.do_choicechat)
-        self.ui.blackFrameButton.clicked.connect(self.background_clicked)
+        self.init_buttons()
+        self.init_timer_time_edit_buttons()
+        self.init_break_time_edit_buttons()
         #*-------------------------
 
 
@@ -92,13 +85,13 @@ class RoomScreen(QMainWindow):
         #* *************** メイン処理スタート！ ***************
         #* ***************************************************
 
-        #* タイマースタート！
-        self.counter = 1
+        # #* タイマースタート！
+        # self.counter = 1
 
-        #* ループスタート！
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.act_per_second)
-        self.timer.start(1000)
+        # #* ループスタート！
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.act_per_second)
+        # self.timer.start(1000)
 
         self.show()
 
@@ -234,10 +227,7 @@ class RoomScreen(QMainWindow):
             print("********Timer window opens*********")
             self.func_flag = "Timer"
             self.ui.blackFrame.show()
-            self.ui.timerSentence.show()
-            self.ui.timerTimeEdit.show()
-            self.ui.timerStartButton.show()
-            self.ui.timerBackLabel.show()
+            self.ui.timerWidget.show()
             self.raise_objects("Timer")
         else:
             #* 通常（同じボタンを押して戻るとき）
@@ -247,10 +237,7 @@ class RoomScreen(QMainWindow):
             #* 他のボタンを押して戻るとき
             else:
                 self.switching_flag = "Timer"
-                self.ui.timerSentence.show()
-                self.ui.timerTimeEdit.show()
-                self.ui.timerStartButton.show()
-                self.ui.timerBackLabel.show()
+                self.ui.timerWidget.show()
                 self.raise_objects("Timer")
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
 
@@ -264,10 +251,7 @@ class RoomScreen(QMainWindow):
             print("********Break window opens*********")
             self.func_flag = "Break"
             self.ui.blackFrame.show()
-            self.ui.breakSentence.show()
-            self.ui.breakTimeEdit.show()
-            self.ui.breakBackLabel.show()
-            self.ui.breakStartButton.show()
+            self.ui.breakWidget.show()
             self.raise_objects("Break")
         else:
             #* 通常（同じボタンを押して戻るとき）
@@ -277,10 +261,7 @@ class RoomScreen(QMainWindow):
             #* 他のボタンを押して戻るとき
             else:
                 self.switching_flag = "Break"
-                self.ui.breakSentence.show()
-                self.ui.breakTimeEdit.show()
-                self.ui.breakBackLabel.show()
-                self.ui.breakStartButton.show()
+                self.ui.breakWidget.show()
                 self.raise_objects("Break")
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
 
@@ -374,10 +355,10 @@ class RoomScreen(QMainWindow):
         self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
 
         if (self.func_flag == "Timer") | (self.switching_flag == "Timer"):
-            self.geometryObjects.extend([self.ui.timerSentence, self.ui.timerTimeEdit, self.ui.timerStartButton, self.ui.timerBackLabel])
+            self.geometryObjects.extend([self.ui.timerWidget])
 
         if (self.func_flag == "Break") | (self.switching_flag == "Break"):
-            self.geometryObjects.extend([self.ui.breakSentence, self.ui.breakTimeEdit, self.ui.breakStartButton, self.ui.breakBackLabel])
+            self.geometryObjects.extend([self.ui.breakWidget])
 
         if (self.func_flag == "Log") | (self.switching_flag == "Log"):
             self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
@@ -411,27 +392,308 @@ class RoomScreen(QMainWindow):
             self.ui.logButton.hide()
             self.ui.finishButton.hide()
 
+    def init_buttons(self):
+
+        self.ui.timerButton.clicked.connect(self.operate_timer_tab)
+        self.ui.breakButton.clicked.connect(self.operate_break_tab)
+        self.ui.logButton.clicked.connect(self.operate_log_tab)
+        self.ui.finishButton.clicked.connect(self.operate_finish_tab)
+        self.ui.logView.clicked.connect(self.logView_clicked)
+        self.ui.timerStartButton.clicked.connect(self.start_study_timer)
+        self.ui.breakStartButton.clicked.connect(self.start_break_timer)
+        self.ui.finishYesButton.clicked.connect(self.finish_app)
+        # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
+        self.ui.finishNoButton.clicked.connect(self.do_choicechat)
+        self.ui.blackFrameButton.clicked.connect(self.background_clicked)
+
+    def init_timer_time_edit_buttons(self):
+
+        thin_icon_size = QSize(22, 20)
+        expanded_thin_icon_size = QSize(26, 24)
+        thick_icon_size = QSize(38, 20)
+        expanded_thick_icon_size = QSize(42, 24)
+
+        def read_timer_time_editer():
+            time_text = self.ui.timerTimeEditer.text()
+            self.timer_hour, self.timer_minute, self.timer_second = \
+                list(map(
+                    lambda x: int("".join(x.split())),
+                    time_text.split(":")
+                ))
+
+        def update_timer_time_editer():
+            self.timer_hour %= 100
+            self.timer_minute %= 60
+            self.timer_second %= 60
+            hour = str(self.timer_hour).zfill(2).replace("1", " 1")
+            minute = str(self.timer_minute).zfill(2).replace("1", " 1")
+            second = str(self.timer_second).zfill(2).replace("1", " 1")
+            time =u"{} : {} : {}".format(hour, minute, second)
+            self.ui.timerTimeEditer.setText(QCoreApplication.translate("RoomScreen", time, None))
+
+        def timer_superup_hour():
+            read_timer_time_editer()
+            self.timer_hour += 5
+            self.ui.timer_largeUpButton_hour.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_largeUpButton_hour.setIconSize(thin_icon_size))
+            update_timer_time_editer()
+            print("5 hours increased")
+
+        def timer_superup_minute():
+            read_timer_time_editer()
+            self.timer_minute += 10
+            self.ui.timer_largeUpButton_minute.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_largeUpButton_minute.setIconSize(thin_icon_size))
+            update_timer_time_editer()
+            print("10 minutes increased")
+
+        def timer_superup_second():
+            read_timer_time_editer()
+            self.timer_second += 10
+            self.ui.timer_largeUpButton_second.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_largeUpButton_second.setIconSize(thin_icon_size))
+            update_timer_time_editer()
+            print("10 seconds increased")
+
+        def timer_up_hour():
+            read_timer_time_editer()
+            self.timer_hour += 1
+            self.ui.timer_smallUpButton_hour.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_smallUpButton_hour.setIconSize(thick_icon_size))
+            update_timer_time_editer()
+            print("1 hour increased")
+
+        def timer_up_minute():
+            read_timer_time_editer()
+            self.timer_minute += 1
+            self.ui.timer_smallUpButton_minute.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_smallUpButton_minute.setIconSize(thick_icon_size))
+            update_timer_time_editer()
+            print("1 minute increased")
+
+        def timer_up_second():
+            read_timer_time_editer()
+            self.timer_second += 1
+            self.ui.timer_smallUpButton_second.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_smallUpButton_second.setIconSize(thick_icon_size))
+            update_timer_time_editer()
+            print("1 second increased")
+
+        def timer_superdown_hour():
+            read_timer_time_editer()
+            self.timer_hour -= 5
+            self.ui.timer_largeDownButton_hour.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_largeDownButton_hour.setIconSize(thin_icon_size))
+            update_timer_time_editer()
+            print("5 hours decreased")
+
+        def timer_superdown_minute():
+            read_timer_time_editer()
+            self.timer_minute -= 10
+            self.ui.timer_largeDownButton_minute.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_largeDownButton_minute.setIconSize(thin_icon_size))
+            update_timer_time_editer()
+            print("10 minutes decreased")
+
+        def timer_superdown_second():
+            read_timer_time_editer()
+            self.timer_second -= 10
+            self.ui.timer_largeDownButton_second.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_largeDownButton_second.setIconSize(thin_icon_size))
+            update_timer_time_editer()
+            print("10 seconds decreased")
+
+        def timer_down_hour():
+            read_timer_time_editer()
+            self.timer_hour -= 1
+            self.ui.timer_smallDownButton_hour.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_smallDownButton_hour.setIconSize(thick_icon_size))
+            update_timer_time_editer()
+            print("1 hour decreased")
+
+        def timer_down_minute():
+            read_timer_time_editer()
+            self.timer_minute -= 1
+            self.ui.timer_smallDownButton_minute.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_smallDownButton_minute.setIconSize(thick_icon_size))
+            update_timer_time_editer()
+            print("1 minute decreased")
+
+        def timer_down_second():
+            read_timer_time_editer()
+            self.timer_second -= 1
+            self.ui.timer_smallDownButton_second.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.timer_smallDownButton_second.setIconSize(thick_icon_size))
+            update_timer_time_editer()
+            print("1 second decreased")
+
+        self.ui.timer_largeUpButton_hour.clicked.connect(timer_superup_hour)
+        self.ui.timer_largeUpButton_minute.clicked.connect(timer_superup_minute)
+        self.ui.timer_largeUpButton_second.clicked.connect(timer_superup_second)
+        self.ui.timer_smallUpButton_hour.clicked.connect(timer_up_hour)
+        self.ui.timer_smallUpButton_minute.clicked.connect(timer_up_minute)
+        self.ui.timer_smallUpButton_second.clicked.connect(timer_up_second)
+        self.ui.timer_largeDownButton_hour.clicked.connect(timer_superdown_hour)
+        self.ui.timer_largeDownButton_minute.clicked.connect(timer_superdown_minute)
+        self.ui.timer_largeDownButton_second.clicked.connect(timer_superdown_second)
+        self.ui.timer_smallDownButton_hour.clicked.connect(timer_down_hour)
+        self.ui.timer_smallDownButton_minute.clicked.connect(timer_down_minute)
+        self.ui.timer_smallDownButton_second.clicked.connect(timer_down_second)
+
+    def init_break_time_edit_buttons(self):
+
+        thin_icon_size = QSize(22, 20)
+        expanded_thin_icon_size = QSize(26, 24)
+        thick_icon_size = QSize(38, 20)
+        expanded_thick_icon_size = QSize(42, 24)
+
+        def read_break_time_editer():
+            time_text = self.ui.breakTimeEditer.text()
+            self.break_hour, self.break_minute, self.break_second = \
+                list(map(
+                    lambda x: int("".join(x.split())),
+                    time_text.split(":")
+                ))
+
+        def update_break_time_editer():
+            self.break_hour %= 100
+            self.break_minute %= 60
+            self.break_second %= 60
+            hour = str(self.break_hour).zfill(2).replace("1", " 1")
+            minute = str(self.break_minute).zfill(2).replace("1", " 1")
+            second = str(self.break_second).zfill(2).replace("1", " 1")
+            time =u"{} : {} : {}".format(hour, minute, second)
+            self.ui.breakTimeEditer.setText(QCoreApplication.translate("RoomScreen", time, None))
+
+        def break_superup_hour():
+            read_break_time_editer()
+            self.break_hour += 5
+            self.ui.break_largeUpButton_hour.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_largeUpButton_hour.setIconSize(thin_icon_size))
+            update_break_time_editer()
+            print("5 hours increased")
+
+        def break_superup_minute():
+            read_break_time_editer()
+            self.break_minute += 10
+            self.ui.break_largeUpButton_minute.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_largeUpButton_minute.setIconSize(thin_icon_size))
+            update_break_time_editer()
+            print("10 minutes increased")
+
+        def break_superup_second():
+            read_break_time_editer()
+            self.break_second += 10
+            self.ui.break_largeUpButton_second.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_largeUpButton_second.setIconSize(thin_icon_size))
+            update_break_time_editer()
+            print("10 seconds increased")
+
+        def break_up_hour():
+            read_break_time_editer()
+            self.break_hour += 1
+            self.ui.break_smallUpButton_hour.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_smallUpButton_hour.setIconSize(thick_icon_size))
+            update_break_time_editer()
+            print("1 hour increased")
+
+        def break_up_minute():
+            read_break_time_editer()
+            self.break_minute += 1
+            self.ui.break_smallUpButton_minute.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_smallUpButton_minute.setIconSize(thick_icon_size))
+            update_break_time_editer()
+            print("1 minute increased")
+
+        def break_up_second():
+            read_break_time_editer()
+            self.break_second += 1
+            self.ui.break_smallUpButton_second.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_smallUpButton_second.setIconSize(thick_icon_size))
+            update_break_time_editer()
+            print("1 second increased")
+
+        def break_superdown_hour():
+            read_break_time_editer()
+            self.break_hour -= 5
+            self.ui.break_largeDownButton_hour.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_largeDownButton_hour.setIconSize(thin_icon_size))
+            update_break_time_editer()
+            print("5 hours decreased")
+
+        def break_superdown_minute():
+            read_break_time_editer()
+            self.break_minute -= 10
+            self.ui.break_largeDownButton_minute.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_largeDownButton_minute.setIconSize(thin_icon_size))
+            update_break_time_editer()
+            print("10 minutes decreased")
+
+        def break_superdown_second():
+            read_break_time_editer()
+            self.break_second -= 10
+            self.ui.break_largeDownButton_second.setIconSize(expanded_thin_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_largeDownButton_second.setIconSize(thin_icon_size))
+            update_break_time_editer()
+            print("10 seconds decreased")
+
+        def break_down_hour():
+            read_break_time_editer()
+            self.break_hour -= 1
+            self.ui.break_smallDownButton_hour.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_smallDownButton_hour.setIconSize(thick_icon_size))
+            update_break_time_editer()
+            print("1 hour decreased")
+
+        def break_down_minute():
+            read_break_time_editer()
+            self.break_minute -= 1
+            self.ui.break_smallDownButton_minute.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_smallDownButton_minute.setIconSize(thick_icon_size))
+            update_break_time_editer()
+            print("1 minute decreased")
+
+        def break_down_second():
+            read_break_time_editer()
+            self.break_second -= 1
+            self.ui.break_smallDownButton_second.setIconSize(expanded_thick_icon_size)
+            QTimer.singleShot(100, lambda: self.ui.break_smallDownButton_second.setIconSize(thick_icon_size))
+            update_break_time_editer()
+            print("1 second decreased")
+
+        self.ui.break_largeUpButton_hour.clicked.connect(break_superup_hour)
+        self.ui.break_largeUpButton_minute.clicked.connect(break_superup_minute)
+        self.ui.break_largeUpButton_second.clicked.connect(break_superup_second)
+        self.ui.break_smallUpButton_hour.clicked.connect(break_up_hour)
+        self.ui.break_smallUpButton_minute.clicked.connect(break_up_minute)
+        self.ui.break_smallUpButton_second.clicked.connect(break_up_second)
+        self.ui.break_largeDownButton_hour.clicked.connect(break_superdown_hour)
+        self.ui.break_largeDownButton_minute.clicked.connect(break_superdown_minute)
+        self.ui.break_largeDownButton_second.clicked.connect(break_superdown_second)
+        self.ui.break_smallDownButton_hour.clicked.connect(break_down_hour)
+        self.ui.break_smallDownButton_minute.clicked.connect(break_down_minute)
+        self.ui.break_smallDownButton_second.clicked.connect(break_down_second)
+
     def init_objects(self):
-        self.ui.logView.hide()
-        self.ui.timerBackLabel.hide()
-        self.ui.breakBackLabel.hide()
-        self.ui.logBackLabel.hide()
-        self.ui.finishBackLabel.hide()
         self.ui.blackFrame.hide()
-        self.ui.timerSentence.hide()
-        self.ui.timerTimeEdit.hide()
-        self.ui.timerStartButton.hide()
-        self.ui.breakSentence.hide()
-        self.ui.breakTimeEdit.hide()
-        self.ui.breakStartButton.hide()
-        self.ui.studyTimerLabel.hide()
-        self.ui.remainingStudyTime.hide()
-        self.ui.remainingStudyTimeShadow.hide()
-        self.ui.breakTimerLabel.hide()
-        self.ui.remainingBreakTime.hide()
-        self.ui.remainingBreakTimeShadow.hide()
+
+        self.ui.timerWidget.hide()
+
+        self.ui.breakWidget.hide()
+
+        self.ui.logView.hide()
+        self.ui.logBackLabel.hide()
+
         self.ui.finishYesButton.hide()
         self.ui.finishNoButton.hide()
+        self.ui.finishBackLabel.hide()
+
+        self.ui.studyTimerLabel.hide()
+        self.ui.breakTimerLabel.hide()
+        self.ui.remainingStudyTime.hide()
+        self.ui.remainingStudyTimeShadow.hide()
+        self.ui.remainingBreakTime.hide()
+        self.ui.remainingBreakTimeShadow.hide()
 
         #* オブジェクトのレイヤー順
         self.ui.insideRoomLabel.raise_()
@@ -449,16 +711,10 @@ class RoomScreen(QMainWindow):
 
     def raise_objects(self, func):
         if func == "Timer":
-            self.ui.timerBackLabel.raise_()
-            self.ui.timerStartButton.raise_()
-            self.ui.timerTimeEdit.raise_()
-            self.ui.timerSentence.raise_()
+            self.ui.timerWidget.raise_()
 
         elif func == "Break":
-            self.ui.breakBackLabel.raise_()
-            self.ui.breakStartButton.raise_()
-            self.ui.breakTimeEdit.raise_()
-            self.ui.breakSentence.raise_()
+            self.ui.breakWidget.raise_()
 
         elif func == "Log":
             self.ui.logBackLabel.raise_()
@@ -508,15 +764,9 @@ class RoomScreen(QMainWindow):
                 self.ui.blackFrameButton.show()
             else:
                 if self.func_flag == "Timer":
-                    self.ui.timerSentence.hide()
-                    self.ui.timerTimeEdit.hide()
-                    self.ui.timerBackLabel.hide()
-                    self.ui.timerStartButton.hide()
+                    self.ui.timerWidget.hide()
                 elif self.func_flag == "Break":
-                    self.ui.breakSentence.hide()
-                    self.ui.breakTimeEdit.hide()
-                    self.ui.breakBackLabel.hide()
-                    self.ui.breakStartButton.hide()
+                    self.ui.breakWidget.hide()
                 elif self.func_flag == "Log":
                     self.ui.logView.hide()
                     self.ui.logBackLabel.hide()
@@ -551,11 +801,11 @@ class RoomScreen(QMainWindow):
         self.show_serif()
 
         #* timeEditから時間を取得
-        self.set_study_time = self.ui.timerTimeEdit.time().toString()
+        self.set_study_time = self.ui.timerTimeEditer.text()
 
         #* 勉強タイマーを表示
         self.study_timer = Timer(self.set_study_time)
-        self.ui.remainingStudyTime.setText(self.study_timer.add_space(self.set_study_time))
+        self.ui.remainingStudyTime.setText(self.study_timer.str_initial_time)
         self.ui.studyTimerLabel.show()
         self.ui.remainingStudyTime.show()
         self.ui.remainingStudyTimeShadow.show()
@@ -647,12 +897,12 @@ class RoomScreen(QMainWindow):
         self.serif = self.osana.play_break_timer_voice("start", self.parameter)
         self.show_serif()
 
-        #* timeEditから時間を取得
-        self.set_break_time = self.ui.breakTimeEdit.time().toString()
+        #* breakTimeEditerから時間を取得
+        self.set_break_time = self.ui.breakTimeEditer.text()
 
         #* 勉強タイマーを表示
         self.break_timer = Timer(self.set_break_time)
-        self.ui.remainingBreakTime.setText(self.break_timer.add_space(self.set_break_time))
+        self.ui.remainingBreakTime.setText(self.break_timer.str_initial_time)
         self.ui.breakTimerLabel.show()
         self.ui.remainingBreakTime.show()
         self.ui.remainingBreakTimeShadow.show()
@@ -699,10 +949,11 @@ class RoomScreen(QMainWindow):
         self.whole_seconds_for_break -= 1
 
     def finish_app(self):
-        self.timer.stop()
+        # self.timer.stop()
         QTimer.singleShot(10000, lambda: sys.exit(-1))
         self.osana.play_app_voice("finish", self.parameter)
         self.hide()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
