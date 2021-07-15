@@ -88,14 +88,17 @@
       <widget class="QPushButton" name="startButton">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>390</y>
-         <width>306</width>
-         <height>63</height>
+         <x>67</x>
+         <y>387</y>
+         <width>312</width>
+         <height>69</height>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true"/>
+        <string notr="true">QPushButton {
+	background-color: transparent;
+	border: 0;
+}</string>
        </property>
        <property name="text">
         <string/>
@@ -114,11 +117,17 @@
       <widget class="QPushButton" name="finishButton">
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>500</y>
-         <width>306</width>
-         <height>63</height>
+         <x>147</x>
+         <y>497</y>
+         <width>312</width>
+         <height>69</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	background-color: transparent;
+	border: 0;
+}</string>
        </property>
        <property name="text">
         <string/>
@@ -209,7 +218,17 @@ color: red;
 background-color: transparent;</string>
        </property>
        <property name="text">
-        <string>▲</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../files.qrc">
+         <normaloff>:/image/images/icons/smallUpButton.png</normaloff>:/image/images/icons/smallUpButton.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>27</height>
+        </size>
        </property>
       </widget>
       <widget class="QPushButton" name="moodDownButton">
@@ -236,7 +255,17 @@ color: blue;
 background-color: transparent;</string>
        </property>
        <property name="text">
-        <string>▼</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../files.qrc">
+         <normaloff>:/image/images/icons/smallDownButton.png</normaloff>:/image/images/icons/smallDownButton.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>27</height>
+        </size>
        </property>
       </widget>
       <widget class="QLabel" name="moodUpLabel">
@@ -273,6 +302,38 @@ color: rgba(18, 93, 152, 1);</string>
         <string>-10</string>
        </property>
       </widget>
+      <widget class="QProgressBar" name="moodParameterBar">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>327</y>
+         <width>401</width>
+         <height>13</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QProgressBar {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.511364, x2:1, y2:0.523, stop:0 #f64f59, stop:0.5 #c471ed ,stop:1 #12c2e9);
+	color: rgb(200, 200, 200);
+	border-style: none;
+}
+QProgressBar::chunk{
+	background-color: rgb(98, 114, 164);
+}</string>
+       </property>
+       <property name="value">
+        <number>32</number>
+       </property>
+       <property name="textVisible">
+        <bool>false</bool>
+       </property>
+       <property name="invertedAppearance">
+        <bool>true</bool>
+       </property>
+       <property name="format">
+        <string>%p</string>
+       </property>
+      </widget>
       <zorder>backgroundLabel</zorder>
       <zorder>osanaLabel</zorder>
       <zorder>startButton</zorder>
@@ -284,6 +345,7 @@ color: rgba(18, 93, 152, 1);</string>
       <zorder>moodDownButton</zorder>
       <zorder>moodUpLabel</zorder>
       <zorder>moodDownLabel</zorder>
+      <zorder>moodParameterBar</zorder>
      </widget>
     </item>
    </layout>

@@ -1033,7 +1033,7 @@ QPushButton:hover {
 </string>
      </property>
      <property name="text">
-      <string>休憩はじめ！！</string>
+      <string>タイマースタート！！</string>
      </property>
      <property name="iconSize">
       <size>
