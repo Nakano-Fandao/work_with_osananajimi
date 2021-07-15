@@ -18,7 +18,9 @@ class Ui_RoomScreen(object):
     def setupUi(self, RoomScreen):
         if not RoomScreen.objectName():
             RoomScreen.setObjectName(u"RoomScreen")
-        RoomScreen.resize(804, 609)
+        RoomScreen.resize(800, 600)
+        RoomScreen.setMinimumSize(QSize(800, 600))
+        RoomScreen.setMaximumSize(QSize(800, 600))
         self.centralwidget = QWidget(RoomScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.insideRoomLabel = QLabel(self.centralwidget)
@@ -101,7 +103,7 @@ class Ui_RoomScreen(object):
         self.timerButton.setIconSize(QSize(108, 79))
         self.logBackLabel = QLabel(self.centralwidget)
         self.logBackLabel.setObjectName(u"logBackLabel")
-        self.logBackLabel.setGeometry(QRect(370, 470, 400, 100))
+        self.logBackLabel.setGeometry(QRect(370, 460, 400, 100))
         self.logBackLabel.setPixmap(QPixmap(u":/image/images/windows/loose_leaf_log.png"))
         self.logBackLabel.setScaledContents(True)
         self.finishLabel = QLabel(self.centralwidget)
@@ -319,7 +321,7 @@ class Ui_RoomScreen(object):
         self.breakTimeEditer.setAlignment(Qt.AlignCenter)
         self.timerWidget = QWidget(self.centralwidget)
         self.timerWidget.setObjectName(u"timerWidget")
-        self.timerWidget.setGeometry(QRect(110, 134, 400, 560))
+        self.timerWidget.setGeometry(QRect(110, 460, 400, 100))
         self.timerBackLabel = QLabel(self.timerWidget)
         self.timerBackLabel.setObjectName(u"timerBackLabel")
         self.timerBackLabel.setGeometry(QRect(0, 0, 400, 560))
@@ -433,6 +435,22 @@ class Ui_RoomScreen(object):
 "	font: 75 italic 48px \"Let's go Digital\";\n"
 "}")
         self.timerTimeEditer.setAlignment(Qt.AlignCenter)
+        self.smaphoButton = QPushButton(self.centralwidget)
+        self.smaphoButton.setObjectName(u"smaphoButton")
+        self.smaphoButton.setGeometry(QRect(742, 3, 55, 55))
+        self.smaphoButton.setStyleSheet(u"background-color: transparent;")
+        icon4 = QIcon()
+        icon4.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.smaphoButton.setIcon(icon4)
+        self.smaphoButton.setIconSize(QSize(51, 51))
+        self.chromeButton = QPushButton(self.centralwidget)
+        self.chromeButton.setObjectName(u"chromeButton")
+        self.chromeButton.setGeometry(QRect(742, 61, 55, 55))
+        self.chromeButton.setStyleSheet(u"background-color: transparent;")
+        icon5 = QIcon()
+        icon5.addFile(u":/image/images/icons/blue_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.chromeButton.setIcon(icon5)
+        self.chromeButton.setIconSize(QSize(51, 51))
         RoomScreen.setCentralWidget(self.centralwidget)
         self.insideRoomLabel.raise_()
         self.blackFrame.raise_()
@@ -460,6 +478,8 @@ class Ui_RoomScreen(object):
         self.timerWidget.raise_()
         self.windowLabel.raise_()
         self.osanaText.raise_()
+        self.smaphoButton.raise_()
+        self.chromeButton.raise_()
 
         self.retranslateUi(RoomScreen)
 
@@ -528,5 +548,7 @@ class Ui_RoomScreen(object):
         self.timer_smallDownButton_second.setText("")
         self.timer_largeDownButton_second.setText("")
         self.timerTimeEditer.setText(QCoreApplication.translate("RoomScreen", u"00 : 00 : 00", None))
+        self.smaphoButton.setText("")
+        self.chromeButton.setText("")
     # retranslateUi
 

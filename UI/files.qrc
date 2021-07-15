@@ -1,4 +1,7 @@
 <RCC>
+  <qresource prefix="font">
+    <file>fonts/Let_s_go_Digital_Regular.ttf</file>
+  </qresource>
   <qresource prefix="image">
     <file>images/backgrounds/inside.jpg</file>
     <file>images/backgrounds/log.jpg</file>
@@ -27,7 +30,8 @@
     <file>images/sentences/mood_normal.png</file>
     <file>images/sentences/mood_awkward.png</file>
     <file>images/sentences/mood_bad.png</file>
-    <file>images/sentences/breakSentence.png</file>
+    <file>images/sentences/timerStartButton.png</file>
+    <file>images/sentences/breakStartButton.png</file>
     <file>images/windows/textbox_serif.png</file>
     <file>images/windows/button_timer.png</file>
     <file>images/windows/button_break.png</file>
@@ -37,7 +41,15 @@
     <file>images/windows/loose_leaf_break.png</file>
     <file>images/windows/loose_leaf_log.png</file>
     <file>images/windows/loose_leaf_finish.png</file>
-    <file>images/sentences/popupTitleLabel.png</file>
+    <file>images/icons/largeUpButton.png</file>
+    <file>images/icons/smallUpButton.png</file>
+    <file>images/icons/largeDownButton.png</file>
+    <file>images/icons/smallDownButton.png</file>
+    <file>images/icons/blue_smapho.png</file>
+    <file>images/icons/pink_smapho.png</file>
+    <file>images/icons/gray_smapho.png</file>
+    <file>images/icons/blue_chrome.png</file>
+    <file>images/icons/gray_chrome.png</file>
   </qresource>
   <qresource prefix="effect">
     <file>sounds/effects/door_knocking.wav</file>
