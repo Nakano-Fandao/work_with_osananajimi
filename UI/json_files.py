@@ -3,7 +3,7 @@ import json, os
 class JsonFiles:
     def __init__(self):
         # Load json file
-        json_path = os.path.join(os.path.dirname(__file__),'../UI/json')
+        json_path = os.path.join(os.path.dirname(__file__),'json')
 
         with open(json_path+"/voice.json") as f:
             self.voice = json.load(f)
