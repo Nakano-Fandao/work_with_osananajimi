@@ -1454,6 +1454,24 @@ background-color: transparent;</string>
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="smallButton">
+    <property name="geometry">
+     <rect>
+      <x>744</x>
+      <y>120</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+	background: red;
+}</string>
+    </property>
+    <property name="text">
+     <string>小</string>
+    </property>
+   </widget>
    <zorder>insideRoomLabel</zorder>
    <zorder>blackFrame</zorder>
    <zorder>osanaLabel</zorder>
@@ -1482,6 +1500,7 @@ background-color: transparent;</string>
    <zorder>osanaText</zorder>
    <zorder>smaphoButton</zorder>
    <zorder>chromeButton</zorder>
+   <zorder>smallButton</zorder>
   </widget>
  </widget>
  <resources>
