@@ -451,6 +451,12 @@ class Ui_RoomScreen(object):
         icon5.addFile(u":/image/images/icons/blue_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
         self.chromeButton.setIcon(icon5)
         self.chromeButton.setIconSize(QSize(51, 51))
+        self.smallButton = QPushButton(self.centralwidget)
+        self.smallButton.setObjectName(u"smallButton")
+        self.smallButton.setGeometry(QRect(744, 120, 51, 51))
+        self.smallButton.setStyleSheet(u"QPushButton{\n"
+"	background: red;\n"
+"}")
         RoomScreen.setCentralWidget(self.centralwidget)
         self.insideRoomLabel.raise_()
         self.blackFrame.raise_()
@@ -480,6 +486,7 @@ class Ui_RoomScreen(object):
         self.osanaText.raise_()
         self.smaphoButton.raise_()
         self.chromeButton.raise_()
+        self.smallButton.raise_()
 
         self.retranslateUi(RoomScreen)
 
@@ -550,5 +557,6 @@ class Ui_RoomScreen(object):
         self.timerTimeEditer.setText(QCoreApplication.translate("RoomScreen", u"00 : 00 : 00", None))
         self.smaphoButton.setText("")
         self.chromeButton.setText("")
+        self.smallButton.setText(QCoreApplication.translate("RoomScreen", u"\u5c0f", None))
     # retranslateUi
 
