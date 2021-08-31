@@ -12,7 +12,7 @@ add_list = ["../modules", "../modules/detect_modules", "../UI", "../settings", "
 for dir in add_list:
     sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), dir)))
 
-from smapho import DetectSmaphoClass
+#from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
 from play_voice import PlayVoice
 from object_geometry import Geometry
@@ -20,6 +20,7 @@ from timer import Timer
 
 ## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
+from ui_miniroom_screen import Ui_miniRoomScreen
 ## ==> CHAT POPUP
 from chat_popup import ChatPopup
 
@@ -59,7 +60,7 @@ class RoomScreen(QMainWindow):
         self.osana = PlayVoice()
         self.chat_time = 15*60 #* 15分
         #* 検知機能
-        self.smapho_flag = True
+        #self.smapho_flag = True
         self.chrome_flag = True
         #*-------------------------
 
@@ -69,7 +70,7 @@ class RoomScreen(QMainWindow):
         #*-------------------------
 
         #* カメラオープン！
-        self.detect_smapho = DetectSmaphoClass()
+        #self.detect_smapho = DetectSmaphoClass()
         #*-------------------------
 
         #* REMOVE TITLE BAR
@@ -128,7 +129,7 @@ class RoomScreen(QMainWindow):
 
     def detect(self):
 
-        if self.smapho_flag:
+        """ if self.smapho_flag:
             if self.counter%15 == 0:
                 detected = self.detect_smapho.judge_smapho()
                 if not detected:
@@ -136,7 +137,7 @@ class RoomScreen(QMainWindow):
                 else:
                     self.serif = self.osana.play_voice(detected, self.parameter)
                     self.show_serif()
-                    self.parameter -= 10
+                    self.parameter -= 10 """
 
         if self.chrome_flag:
             if self.counter%30 == 0:
@@ -410,26 +411,31 @@ class RoomScreen(QMainWindow):
         # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
         self.ui.finishNoButton.clicked.connect(self.do_choicechat)
         self.ui.blackFrameButton.clicked.connect(self.background_clicked)
-        self.ui.smaphoButton.clicked.connect(self.switch_smapho)
+        #self.ui.smaphoButton.clicked.connect(self.switch_smapho)
         self.ui.chromeButton.clicked.connect(self.switch_chrome)
+        self.ui.smallButton.clicked.connect(self.show_miniroom)
+        
+    def show_miniroom(self):
+        self.miniRoomScreen = miniRoomScreen(self)
+        self.miniRoomScreen.show()
+        self.hide()
+       
+    # def switch_smapho(self):
 
-    def switch_smapho(self):
+    #     if self.smapho_flag:
+            # self.smapho_flag = False
+    #         smapho_icon = QIcon()
+    #         smapho_icon.addFile(u":/image/images/icons/gray_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+    #     else:
+    #         self.smapho_flag = True
+    #         smapho_icon = QIcon()
+    #         smapho_icon.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+ 
+    #     self.ui.smaphoButton.setIconSize(QSize(55, 55))
+    #     QTimer.singleShot(100, lambda: self.ui.smaphoButton.setIconSize(QSize(51, 51)))
+    #     QTimer.singleShot(110, lambda: self.ui.smaphoButton.setIcon(smapho_icon))
 
-        if self.smapho_flag:
-            self.smapho_flag = False
-            smapho_icon = QIcon()
-            smapho_icon.addFile(u":/image/images/icons/gray_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
-        else:
-            self.smapho_flag = True
-            smapho_icon = QIcon()
-            smapho_icon.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
-
-        self.ui.smaphoButton.setIconSize(QSize(55, 55))
-        QTimer.singleShot(100, lambda: self.ui.smaphoButton.setIconSize(QSize(51, 51)))
-        QTimer.singleShot(110, lambda: self.ui.smaphoButton.setIcon(smapho_icon))
-
-    def switch_chrome(self):
-
+    def switch_chrome(self):   
         if self.chrome_flag:
             self.chrome_flag = False
             chrome_icon = QIcon()
@@ -775,8 +781,9 @@ class RoomScreen(QMainWindow):
         self.ui.logButton.raise_()
         self.ui.finishButton.raise_()
 
-        self.ui.smaphoButton.raise_()
+        #self.ui.smaphoButton.raise_()
         self.ui.chromeButton.raise_()
+        self.ui.smallButton.raise_()
 
     def move_objects(self):
 
@@ -994,6 +1001,39 @@ class RoomScreen(QMainWindow):
         self.osana.play_app_voice("finish", self.parameter)
         self.hide()
 
+class miniRoomScreen(QMainWindow):
+    def __init__(self, RoomScreen):
+        QMainWindow.__init__(self)
+
+        #*------ UI setting -------
+        self.ui = Ui_miniRoomScreen()
+        self.ui.setupUi(self)
+        #*-------------------------
+        self.RoomScreen = RoomScreen
+        # self.serif = serif
+        # self.serif_list = []
+        # self.parameter = parameter
+        self.osana = PlayVoice()
+        # self.chat_time = 15*60 #* 15分
+        #slot,signal 
+        self.ui.bigButton.clicked.connect(self.show_room)
+    
+    def show_room(self):
+        #Room開く
+        self.RoomScreen.show()
+        self.hide()
+
+    def mousePressEvent(self, event):
+        self.__isDrag = True
+        self.__startPos = event.pos()
+        
+    def mouseReleaseEvent(self, event):
+        self.__isDrag = False
+       
+    def mouseMoveEvent(self, event):
+        if self.__isDrag:
+            self.move(self.mapToParent(event.pos() - self.__startPos))
+       
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
