@@ -20,6 +20,7 @@
     <file>images/backgrounds/load_7.png</file>
     <file>images/backgrounds/load_8.png</file>
     <file>images/backgrounds/load_9.png</file>
+    <file>images/backgrounds/loading_screen.png</file>
     <file>images/character/figure1.png</file>
     <file>images/character/figure2.png</file>
     <file>images/sentences/titleLabel.png</file>
@@ -32,6 +33,8 @@
     <file>images/sentences/mood_bad.png</file>
     <file>images/sentences/timerStartButton.png</file>
     <file>images/sentences/breakStartButton.png</file>
+    <file>images/sentences/loading1.png</file>
+    <file>images/sentences/loading2.png</file>
     <file>images/windows/textbox_serif.png</file>
     <file>images/windows/button_timer.png</file>
     <file>images/windows/button_break.png</file>
@@ -50,10 +53,17 @@
     <file>images/icons/gray_smapho.png</file>
     <file>images/icons/blue_chrome.png</file>
     <file>images/icons/gray_chrome.png</file>
+    <file>images/icons/minimize.png</file>
+    <file>images/icons/minimize_hover.png</file>
+    <file>images/icons/maximize.png</file>
+    <file>images/icons/maximize_hover.png</file>
   </qresource>
   <qresource prefix="effect">
     <file>sounds/effects/door_knocking.wav</file>
     <file>sounds/effects/paper_flipping.wav</file>
+  </qresource>
+  <qresource prefix="bgm">
+    <file>sounds/bgm/Good_News_Today.wav</file>
   </qresource>
   <qresource prefix="voice">
     <file>sounds/voices/announcement_12h.wav</file>
