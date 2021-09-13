@@ -14,7 +14,6 @@ from index_screen import IndexScreen
 ## ==> SPLASH SCREEN
 from ui_special_splash_screen import Ui_SpecialSplashScreen
 
-
 # SPLASH SCREEN
 class SplashScreen(QMainWindow):
     def __init__(self):

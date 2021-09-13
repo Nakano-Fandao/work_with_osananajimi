@@ -8,13 +8,14 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2.QtMultimedia import QSound
 
-add_list = ["../modules", "../modules/detect_modules", "../UI", "../settings", "../screens"]
-for dir in add_list:
-    sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), dir)))
+sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), "../settings")))
+from path_setting import PathSetting
+PathSetting().__init__()
 
-#from smapho import DetectSmaphoClass
+from smapho import DetectSmaphoClass
 from detect_chrome import detect_youtube
 from play_voice import PlayVoice
+from play_se import PlaySe
 from object_geometry import Geometry
 from timer import Timer
 
@@ -23,6 +24,7 @@ from ui_room_screen import Ui_RoomScreen
 from ui_miniroom_screen import Ui_miniRoomScreen
 ## ==> CHAT POPUP
 from chat_popup import ChatPopup
+from miniroom_screen import miniRoomScreen
 
 # ROOM SCREEN
 class RoomScreen(QMainWindow):
@@ -44,11 +46,11 @@ class RoomScreen(QMainWindow):
 
         #*----- Variable setting ------
         #* タブ関係
-        self.move_flag = True       #* False → タブがどれか出ている
+        self.move_flag = True	   #* False → タブがどれか出ている
         self.switching_flag = False #* True → タブ切り替え発生
         #* タイマー関係
-        self.study_timer_flag = False    #* True → タイマー使用中
-        self.break_timer_flag = False    #* True → タイマー使用中
+        self.study_timer_flag = False	#* True → タイマー使用中
+        self.break_timer_flag = False	#* True → タイマー使用中
         self.timeout_flag_for_study = False #* True → タイマー時間切れ中
         self.timeout_flag_for_break = False #* True → タイマー時間切れ中
         self.whole_seconds_for_study = 0 #* 残り時間（秒）
@@ -60,17 +62,13 @@ class RoomScreen(QMainWindow):
         self.osana = PlayVoice()
         self.chat_time = 15*60 #* 15分
         #* 検知機能
-        #self.smapho_flag = True
+        self.smapho_flag = True
         self.chrome_flag = True
-        #*-------------------------
-
         #* セリフModel作成
         self.model = QStringListModel()
         self.show_serif()
-        #*-------------------------
-
-        #* カメラオープン！
-        #self.detect_smapho = DetectSmaphoClass()
+        #* 効果音
+        self.se = PlaySe()
         #*-------------------------
 
         #* REMOVE TITLE BAR
@@ -78,15 +76,23 @@ class RoomScreen(QMainWindow):
         self.setAttribute(Qt.WA_TranslucentBackground)
         #*-------------------------
 
-        #* Button setting
+        #* ボタン設定
         self.init_buttons()
         self.init_timer_time_edit_buttons()
         self.init_break_time_edit_buttons()
         #*-------------------------
 
+        #* Room Screen表示！
+        self.show()
+        print("Room Screen Displayed")
+        #*-------------------------
+
+        #* カメラオープン！
+        self.detect_smapho = DetectSmaphoClass()
+        #*-------------------------
 
         #* ***************************************************
-        #* *************** メイン処理スタート！ ***************
+        #*  *************** メイン処理スタート！ ***************
         #* ***************************************************
 
         #* タイマースタート！
@@ -97,7 +103,6 @@ class RoomScreen(QMainWindow):
         self.timer.timeout.connect(self.act_per_second)
         self.timer.start(1000)
 
-        self.show()
 
     def act_per_second(self):
 
@@ -129,7 +134,7 @@ class RoomScreen(QMainWindow):
 
     def detect(self):
 
-        """ if self.smapho_flag:
+        if self.smapho_flag:
             if self.counter%15 == 0:
                 detected = self.detect_smapho.judge_smapho()
                 if not detected:
@@ -137,7 +142,7 @@ class RoomScreen(QMainWindow):
                 else:
                     self.serif = self.osana.play_voice(detected, self.parameter)
                     self.show_serif()
-                    self.parameter -= 10 """
+                    self.parameter -= 10
 
         if self.chrome_flag:
             if self.counter%30 == 0:
@@ -226,110 +231,70 @@ class RoomScreen(QMainWindow):
             self.operate_finish_tab()
 
     def operate_timer_tab(self):
-        self.start = time.time()
-        self.switch_buttons(False)
-
-        if self.move_flag:
-            print("********Timer window opens*********")
-            self.func_flag = "Timer"
-            self.ui.blackFrame.show()
-            self.ui.timerWidget.show()
-            self.raise_objects("Timer")
-        else:
-            #* 通常（同じボタンを押して戻るとき）
-            if self.func_flag == "Timer":
-                print("********Timer window closes*********")
-
-            #* 他のボタンを押して戻るとき
-            else:
-                self.switching_flag = "Timer"
-                self.ui.timerWidget.show()
-                self.raise_objects("Timer")
-                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-
-        self.start_qtimer()
+        self.tab = "Timer"
+        self.operate_tab()
 
     def operate_break_tab(self):
-        self.start = time.time()
-        self.switch_buttons(False)
-
-        if self.move_flag:
-            print("********Break window opens*********")
-            self.func_flag = "Break"
-            self.ui.blackFrame.show()
-            self.ui.breakWidget.show()
-            self.raise_objects("Break")
-        else:
-            #* 通常（同じボタンを押して戻るとき）
-            if self.func_flag == "Break":
-                print("********Break window closes*********")
-
-            #* 他のボタンを押して戻るとき
-            else:
-                self.switching_flag = "Break"
-                self.ui.breakWidget.show()
-                self.raise_objects("Break")
-                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-
-        self.start_qtimer()
+        self.tab = "Break"
+        self.operate_tab()
 
     def operate_log_tab(self):
-        self.start = time.time()
-        self.switch_buttons(False)
-
-        if self.move_flag:
-            print("************Log opens**************")
-            self.func_flag = "Log"
-            self.ui.blackFrame.show()
-            self.ui.logView.show()
-            self.ui.logBackLabel.show()
-            self.raise_objects("Log")
-        else:
-            #* 通常（同じボタンを押して戻るとき）
-            if self.func_flag == "Log":
-                print("************Log closes**************")
-
-            #* 他のボタンを押して戻るとき
-            else:
-                self.switching_flag = "Log"
-                self.ui.logView.show()
-                self.ui.logBackLabel.show()
-                self.raise_objects("Log")
-                print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
-
-        self.start_qtimer()
+        self.tab = "Log"
+        self.operate_tab()
 
     def operate_finish_tab(self):
+        self.tab = "Finish"
+        self.operate_tab()
+
+    def operate_tab(self):
         self.start = time.time()
         self.switch_buttons(False)
 
         if self.move_flag:
-            print("********Finish window opens********")
-            self.func_flag = "Finish"
+            print(f"********{self.tab} window opens*********")
+            self.func_flag = self.tab
             self.ui.blackFrame.show()
-            self.ui.finishYesButton.show()
-            self.ui.finishNoButton.show()
-            self.ui.finishBackLabel.show()
-            self.raise_objects("Finish")
-        else:
-            #* 通常（同じボタンを押して戻るとき）
-            if self.func_flag == "Finish":
-                print("********Finish window closes*********")
 
-            #* 他のボタンを押して戻るとき
-            else:
-                self.switching_flag = "Finish"
+            if self.tab == "Timer":
+                self.ui.timerWidget.show();
+            elif self.tab == "Break":
+                self.ui.breakWidget.show();
+            elif self.tab == "Log":
+                self.ui.logView.show()
+                self.ui.logBackLabel.show()
+            elif self.tab == "Finish":
                 self.ui.finishYesButton.show()
                 self.ui.finishNoButton.show()
                 self.ui.finishBackLabel.show()
-                self.raise_objects("Finish")
+            self.raise_objects(self.tab)
+
+        else:
+            #* 通常（同じボタンを押して戻るとき）
+            if self.func_flag == self.tab:
+                print(f"********{self.func_flag} window closes*********")
+
+            #* 他のボタンを押して戻るとき
+            else:
+                self.switching_flag = self.tab
+                if self.tab == "Timer":
+                    self.ui.timerWidget.show();
+                elif self.tab == "Break":
+                    self.ui.breakWidget.show();
+                elif self.tab == "Log":
+                    self.ui.logView.show()
+                    self.ui.logBackLabel.show()
+                elif self.tab == "Finish":
+                    self.ui.finishYesButton.show()
+                    self.ui.finishNoButton.show()
+                    self.ui.finishBackLabel.show()
+                self.raise_objects(self.tab)
                 print(f"*****{self.func_flag} ---> {self.switching_flag}*****")
 
         self.start_qtimer()
 
     def start_qtimer(self):
         #* 紙をめくる音
-        QSound.play(":effect/sounds/effects/paper_flipping.wav")
+        self.se.play("paper_flipping")
 
         #* -----------動作パラメータ--------------
         self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
@@ -376,14 +341,15 @@ class RoomScreen(QMainWindow):
             self.geometryObjects.pop(2)
             self.geometryObjects.pop(2)
 
-        for i in range(len(self.geometryObjects)):
-            name = str(self.geometryObjects[i]).split('name="')[1].split('") at')[0]
-            if i == 0:
-                print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t\t ---> \t{self.obj.geometry_lists[i][1]}")
-            elif len(name) < 14:
-                print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
-            else:
-                print(f"{name}: \t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
+        #* debug
+        # for i in range(len(self.geometryObjects)):
+        # 	name = str(self.geometryObjects[i]).split('name="')[1].split('") at')[0]
+        # 	if i == 0:
+        # 		print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t\t ---> \t{self.obj.geometry_lists[i][1]}")
+        # 	elif len(name) < 14:
+        # 		print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
+        # 	else:
+        # 		print(f"{name}: \t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
         #* ------------------------------------------------------
 
     def switch_buttons(self, flag):
@@ -399,7 +365,6 @@ class RoomScreen(QMainWindow):
             self.ui.finishButton.hide()
 
     def init_buttons(self):
-
         self.ui.timerButton.clicked.connect(self.operate_timer_tab)
         self.ui.breakButton.clicked.connect(self.operate_break_tab)
         self.ui.logButton.clicked.connect(self.operate_log_tab)
@@ -408,34 +373,37 @@ class RoomScreen(QMainWindow):
         self.ui.timerStartButton.clicked.connect(self.start_study_timer)
         self.ui.breakStartButton.clicked.connect(self.start_break_timer)
         self.ui.finishYesButton.clicked.connect(self.finish_app)
-        # self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
-        self.ui.finishNoButton.clicked.connect(self.do_choicechat)
+        self.ui.finishNoButton.clicked.connect(self.operate_finish_tab)
+        # self.ui.finishNoButton.clicked.connect(self.do_choicechat)
         self.ui.blackFrameButton.clicked.connect(self.background_clicked)
-        #self.ui.smaphoButton.clicked.connect(self.switch_smapho)
+        self.ui.smaphoButton.clicked.connect(self.switch_smapho)
         self.ui.chromeButton.clicked.connect(self.switch_chrome)
-        self.ui.smallButton.clicked.connect(self.show_miniroom)
-        
+        self.ui.minimizeButton.clicked.connect(self.show_miniroom)
+
     def show_miniroom(self):
-        self.miniRoomScreen = miniRoomScreen(self)
+        smapho_bool = self.smapho_flag
+        chrome_bool = self.chrome_flag
+        self.miniRoomScreen = miniRoomScreen(self, smapho_bool, chrome_bool)
         self.miniRoomScreen.show()
         self.hide()
-       
-    # def switch_smapho(self):
 
-    #     if self.smapho_flag:
-            # self.smapho_flag = False
-    #         smapho_icon = QIcon()
-    #         smapho_icon.addFile(u":/image/images/icons/gray_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
-    #     else:
-    #         self.smapho_flag = True
-    #         smapho_icon = QIcon()
-    #         smapho_icon.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
- 
-    #     self.ui.smaphoButton.setIconSize(QSize(55, 55))
-    #     QTimer.singleShot(100, lambda: self.ui.smaphoButton.setIconSize(QSize(51, 51)))
-    #     QTimer.singleShot(110, lambda: self.ui.smaphoButton.setIcon(smapho_icon))
+    def switch_smapho(self):
 
-    def switch_chrome(self):   
+        if self.smapho_flag:
+            self.smapho_flag = False
+            smapho_icon = QIcon()
+            smapho_icon.addFile(u":/image/images/icons/gray_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+        else:
+            self.smapho_flag = True
+            smapho_icon = QIcon()
+            smapho_icon.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
+
+        self.ui.smaphoButton.setIconSize(QSize(55, 55))
+        QTimer.singleShot(100, lambda: self.ui.smaphoButton.setIconSize(QSize(51, 51)))
+        QTimer.singleShot(110, lambda: self.ui.smaphoButton.setIcon(smapho_icon))
+
+    def switch_chrome(self):
+
         if self.chrome_flag:
             self.chrome_flag = False
             chrome_icon = QIcon()
@@ -781,9 +749,9 @@ class RoomScreen(QMainWindow):
         self.ui.logButton.raise_()
         self.ui.finishButton.raise_()
 
-        #self.ui.smaphoButton.raise_()
+        self.ui.smaphoButton.raise_()
         self.ui.chromeButton.raise_()
-        self.ui.smallButton.raise_()
+        self.ui.minimizeButton.raise_()
 
     def move_objects(self):
 
@@ -830,7 +798,7 @@ class RoomScreen(QMainWindow):
                     self.ui.blackFrameButton.hide()
 
             self.switch_buttons(True)
-            print(f"takes {time.time() - self.start} s.\n")
+            # print(f"takes {time.time() - self.start} s.\n")
         #* ------------------------------------------------------
 
         self.move_counter += 1
@@ -996,44 +964,10 @@ class RoomScreen(QMainWindow):
         self.whole_seconds_for_break -= 1
 
     def finish_app(self):
-        # self.timer.stop()
+        self.timer.stop()
         QTimer.singleShot(9000, lambda: sys.exit(-1))
         self.osana.play_app_voice("finish", self.parameter)
         self.hide()
-
-class miniRoomScreen(QMainWindow):
-    def __init__(self, RoomScreen):
-        QMainWindow.__init__(self)
-
-        #*------ UI setting -------
-        self.ui = Ui_miniRoomScreen()
-        self.ui.setupUi(self)
-        #*-------------------------
-        self.RoomScreen = RoomScreen
-        # self.serif = serif
-        # self.serif_list = []
-        # self.parameter = parameter
-        self.osana = PlayVoice()
-        # self.chat_time = 15*60 #* 15分
-        #slot,signal 
-        self.ui.bigButton.clicked.connect(self.show_room)
-    
-    def show_room(self):
-        #Room開く
-        self.RoomScreen.show()
-        self.hide()
-
-    def mousePressEvent(self, event):
-        self.__isDrag = True
-        self.__startPos = event.pos()
-        
-    def mouseReleaseEvent(self, event):
-        self.__isDrag = False
-       
-    def mouseMoveEvent(self, event):
-        if self.__isDrag:
-            self.move(self.mapToParent(event.pos() - self.__startPos))
-       
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -5,10 +5,11 @@ import sys, os
 from PySide2.QtCore import Qt, QTimer, QCoreApplication, QSize
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtGui import QPixmap
+from PySide2.QtMultimedia import QSound
 
-add_list = ["../detect_modules", "../UI", "../settings", "../screens"]
-for dir in add_list:
-    sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), dir)))
+sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), "../settings")))
+from path_setting import PathSetting
+PathSetting().__init__()
 
 ## ==> MAIN WINDOW
 from room_screen import RoomScreen
@@ -16,6 +17,8 @@ from room_screen import RoomScreen
 ## ==> INDEX SCREEN
 from ui_index_screen import Ui_IndexScreen
 from play_voice import PlayVoice
+from play_bgm import PlayBgm
+from play_se import PlaySe
 
 from mood_parameter import MoodParameter
 
@@ -40,6 +43,8 @@ class IndexScreen(QMainWindow):
         # Osananajimi arrives
         self.osana = PlayVoice()
         print("うぇ、幼馴染がきた")
+        self.bgm = PlayBgm("Good_News_Today")
+        self.se = PlaySe()
 
         # Button setting
         self.ui.startButton.clicked.connect(self.start)
@@ -59,6 +64,7 @@ class IndexScreen(QMainWindow):
             "bad": ":/image/images/sentences/mood_bad.png"
         }
 
+        self.se.play("door_knocking")
         self.show()
 
     def start(self):
@@ -71,12 +77,14 @@ class IndexScreen(QMainWindow):
         QTimer.singleShot(150, lambda: RoomScreen(self.parameter, serif))
 
         # CLOSE INDEX SCREEN
+        QTimer.singleShot(150, lambda: self.bgm.stop())
         QTimer.singleShot(150, lambda: self.close())
 
     def finish(self):
         self.ui.finishButton.setIconSize(QSize(312, 69))
         QTimer.singleShot(100, lambda: self.ui.finishButton.setIconSize(QSize(306, 63)))
         # 幼馴染をかえらせる
+        self.bgm.stop()
         QTimer.singleShot(150, lambda: sys.exit(-1))
 
     def touch(self):
