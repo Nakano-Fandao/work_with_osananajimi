@@ -6,33 +6,45 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>240</width>
+    <height>180</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>400</width>
+    <height>300</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ミニ画面</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>400</width>
+     <height>300</height>
+    </size>
+   </property>
    <widget class="QLabel" name="insideRoomLabel">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>800</width>
-      <height>600</height>
+      <width>240</width>
+      <height>180</height>
      </rect>
     </property>
     <property name="text">
@@ -41,22 +53,25 @@
     <property name="pixmap">
      <pixmap resource="../files.qrc">:/image/images/backgrounds/inside.jpg</pixmap>
     </property>
-   </widget>
-   <widget class="QFrame" name="blackFrame">
-    <property name="enabled">
+    <property name="scaledContents">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QFrame" name="blackFrame">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>800</width>
-      <height>600</height>
+      <width>240</width>
+      <height>180</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
 	background-color: rgba(0, 0, 0, 0);
+}
+QFrame:hover {
+	background-color: rgba(0, 0, 0, 0.5);
 }</string>
     </property>
     <property name="frameShape">
@@ -65,41 +80,92 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="osanaLabel">
+    <widget class="QPushButton" name="smaphoButton">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>40</y>
-       <width>600</width>
-       <height>800</height>
+       <x>19</x>
+       <y>120</y>
+       <width>55</width>
+       <height>55</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
      </property>
      <property name="text">
       <string/>
      </property>
-     <property name="pixmap">
-      <pixmap resource="../files.qrc">:/image/images/character/figure1.png</pixmap>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/pink_smapho.png</normaloff>:/image/images/icons/pink_smapho.png</iconset>
      </property>
-     <property name="scaledContents">
-      <bool>true</bool>
+     <property name="iconSize">
+      <size>
+       <width>51</width>
+       <height>51</height>
+      </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="bigButton">
+    <widget class="QPushButton" name="chromeButton">
      <property name="geometry">
       <rect>
-       <x>630</x>
-       <y>20</y>
-       <width>151</width>
-       <height>161</height>
+       <x>93</x>
+       <y>120</y>
+       <width>55</width>
+       <height>55</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
      <property name="text">
-      <string>大</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/blue_chrome.png</normaloff>:/image/images/icons/blue_chrome.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>51</width>
+       <height>51</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="maximizeButton">
+     <property name="geometry">
+      <rect>
+       <x>166</x>
+       <y>120</y>
+       <width>55</width>
+       <height>55</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../files.qrc">
+       <normaloff>:/image/images/icons/maximize.png</normaloff>:/image/images/icons/maximize.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>51</width>
+       <height>51</height>
+      </size>
      </property>
     </widget>
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>smaphoButton</tabstop>
+  <tabstop>chromeButton</tabstop>
+  <tabstop>maximizeButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../files.qrc"/>
  </resources>

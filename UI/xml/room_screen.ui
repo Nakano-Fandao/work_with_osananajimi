@@ -1454,22 +1454,30 @@ background-color: transparent;</string>
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="smallButton">
+   <widget class="QPushButton" name="minimizeButton">
     <property name="geometry">
      <rect>
-      <x>744</x>
-      <y>120</y>
-      <width>51</width>
-      <height>51</height>
+      <x>742</x>
+      <y>119</y>
+      <width>55</width>
+      <height>55</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{
-	background: red;
-}</string>
+     <string notr="true">background-color: transparent;</string>
     </property>
     <property name="text">
-     <string>小</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../files.qrc">
+      <normaloff>:/image/images/icons/minimize.png</normaloff>:/image/images/icons/minimize.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>51</width>
+      <height>51</height>
+     </size>
     </property>
    </widget>
    <zorder>insideRoomLabel</zorder>
@@ -1500,7 +1508,7 @@ background-color: transparent;</string>
    <zorder>osanaText</zorder>
    <zorder>smaphoButton</zorder>
    <zorder>chromeButton</zorder>
-   <zorder>smallButton</zorder>
+   <zorder>minimizeButton</zorder>
   </widget>
  </widget>
  <resources>
