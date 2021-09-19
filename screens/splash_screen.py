@@ -29,6 +29,8 @@ class SplashScreen(QMainWindow):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
+        self.se = PlaySe()
+
         ## DROP SHADOW EFFECT
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
@@ -76,9 +78,6 @@ class SplashScreen(QMainWindow):
 
             # CLOSE SPLASH SCREEN
             self.close()
-
-        if counter == 80:
-            QSound.play(":effect/sounds/effects/door_knocking.wav")
 
         # INCREASE COUNTER
         counter += 1

@@ -1,5 +1,6 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
+from screens.loading_screen import LoadingScreen
 import sys, os
 
 from PySide2.QtCore import Qt, QTimer, QCoreApplication, QSize
@@ -12,13 +13,12 @@ from path_setting import PathSetting
 PathSetting().__init__()
 
 ## ==> MAIN WINDOW
-from room_screen import RoomScreen
+from loading_screen import LoadingScreen
 
 ## ==> INDEX SCREEN
 from ui_index_screen import Ui_IndexScreen
 from play_voice import PlayVoice
 from play_bgm import PlayBgm
-from play_se import PlaySe
 
 from mood_parameter import MoodParameter
 
@@ -31,22 +31,21 @@ class IndexScreen(QMainWindow):
         self.ui.moodUpLabel.hide()
         self.ui.moodDownLabel.hide()
 
-        # 変数設定
-        self.parameter = 50
+        #* 変数設定
+        self.mood_parameter = MoodParameter()
         self.up_flag = False
         self.down_flag = False
 
-        ## REMOVE TITLE BAR
+        #* REMOVE TITLE BAR
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
-        # Osananajimi arrives
+        #* Osananajimi arrives
         self.osana = PlayVoice()
         print("うぇ、幼馴染がきた")
         self.bgm = PlayBgm("Good_News_Today")
-        self.se = PlaySe()
 
-        # Button setting
+        #* Button setting
         self.ui.startButton.clicked.connect(self.start)
         self.ui.finishButton.clicked.connect(self.finish)
         self.ui.osanaButton1.clicked.connect(self.touch)
@@ -54,7 +53,7 @@ class IndexScreen(QMainWindow):
         self.ui.moodUpButton.clicked.connect(self.mood_up)
         self.ui.moodDownButton.clicked.connect(self.mood_down)
 
-        self.ui.moodParameterBar.setValue(self.parameter)
+        self.ui.moodParameterBar.setValue(self.mood_parameter.parameter)
 
         self.mood_label_dict = {
             "great": ":/image/images/sentences/mood_great.png",
@@ -64,38 +63,35 @@ class IndexScreen(QMainWindow):
             "bad": ":/image/images/sentences/mood_bad.png"
         }
 
-        self.se.play("door_knocking")
         self.show()
 
     def start(self):
         self.ui.startButton.setIconSize(QSize(312, 69))
         QTimer.singleShot(100, lambda: self.ui.startButton.setIconSize(QSize(306, 63)))
 
-        serif = self.osana.play_app_voice("start", self.parameter)
-
         # SHOW ROOM SCREEN
-        QTimer.singleShot(150, lambda: RoomScreen(self.parameter, serif))
+        QTimer.singleShot(150, self.show_loading_screen)
 
-        # CLOSE INDEX SCREEN
-        QTimer.singleShot(150, lambda: self.bgm.stop())
-        QTimer.singleShot(150, lambda: self.close())
+    def show_loading_screen(self):
+        self.loading_screen = LoadingScreen(self.mood_parameter, self.bgm)
+        self.loading_screen.show()
+        self.close()
 
     def finish(self):
         self.ui.finishButton.setIconSize(QSize(312, 69))
         QTimer.singleShot(100, lambda: self.ui.finishButton.setIconSize(QSize(306, 63)))
-        # 幼馴染をかえらせる
+        #* 幼馴染をかえらせる
         self.bgm.stop()
         QTimer.singleShot(150, lambda: sys.exit(-1))
 
     def touch(self):
         touched = True
-        self.osana.play_app_voice("start", self.parameter, touched)
+        self.osana.play_app_voice("start", self.mood_parameter.mood, touched)
 
     def mood_up(self):
-
-        self.parameter += 10
-        if self.parameter > 100:
-            self.parameter = 100;
+        self.mood_parameter.change(10)
+        if self.mood_parameter.parameter > 100:
+            self.mood_parameter.set(100);
             self.ui.moodUpLabel.setText(QCoreApplication.translate("IndexScreen", u"+0", None))
         else:
             self.ui.moodUpLabel.setText(QCoreApplication.translate("IndexScreen", u"+10", None))
@@ -108,13 +104,12 @@ class IndexScreen(QMainWindow):
         #* 値を表示
         self.start_qtimer()
         self.set_mood_label()
-        self.ui.moodParameterBar.setValue(100 - self.parameter)
+        self.ui.moodParameterBar.setValue(100 - self.mood_parameter.parameter)
 
     def mood_down(self):
-
-        self.parameter -= 10
-        if self.parameter < 0:
-            self.parameter = 0;
+        self.mood_parameter.change(-10)
+        if self.mood_parameter.parameter < 0:
+            self.mood_parameter.set(0);
             self.ui.moodDownLabel.setText(QCoreApplication.translate("IndexScreen", u"-0", None))
         else:
             self.ui.moodDownLabel.setText(QCoreApplication.translate("IndexScreen", u"-10", None))
@@ -128,11 +123,10 @@ class IndexScreen(QMainWindow):
         #* 値を表示
         self.start_qtimer()
         self.set_mood_label()
-        self.ui.moodParameterBar.setValue(100 - self.parameter)
+        self.ui.moodParameterBar.setValue(100 - self.mood_parameter.parameter)
 
     def set_mood_label(self):
-        mood = MoodParameter(self.parameter).mood
-        self.ui.moodDisplayLabel.setPixmap(QPixmap(self.mood_label_dict[mood]))
+        self.ui.moodDisplayLabel.setPixmap(QPixmap(self.mood_label_dict[self.mood_parameter.mood]))
 
     def start_qtimer(self):
         #* -----------動作パラメータ--------------

@@ -6,14 +6,7 @@ from datetime import datetime
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from PySide2.QtMultimedia import QSound
 
-sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), "../settings")))
-from path_setting import PathSetting
-PathSetting().__init__()
-
-from smapho import DetectSmaphoClass
-from detect_chrome import detect_youtube
 from play_voice import PlayVoice
 from play_se import PlaySe
 from object_geometry import Geometry
@@ -21,14 +14,15 @@ from timer import Timer
 
 ## ==> ROOM SCREEN
 from ui_room_screen import Ui_RoomScreen
-from ui_miniroom_screen import Ui_miniRoomScreen
 ## ==> CHAT POPUP
 from chat_popup import ChatPopup
+from website_selection_popup import WebsiteSelectionPopup
 from miniroom_screen import miniRoomScreen
+from detection_worker_thread import DetectionWorker
 
 # ROOM SCREEN
 class RoomScreen(QMainWindow):
-    def __init__(self, parameter, serif):
+    def __init__(self, mood_parameter, smapho_detection):
         QMainWindow.__init__(self)
 
         #*------ UI setting -------
@@ -37,12 +31,10 @@ class RoomScreen(QMainWindow):
         self.ui = Ui_RoomScreen()
         self.ui.setupUi(self)
         self.init_objects()
-        #*-------------------------
 
         #*----- Text setting ------
         self.ui.remainingStudyTimeShadow.setText('88:88:88')
         self.ui.breakTimeEditer.setText('00 : 05 : 00')
-        #*-------------------------
 
         #*----- Variable setting ------
         #* タブ関係
@@ -56,70 +48,74 @@ class RoomScreen(QMainWindow):
         self.whole_seconds_for_study = 0 #* 残り時間（秒）
         self.whole_seconds_for_break = 0 #* 残り時間（秒）
         #* セリフ関係
-        self.serif = serif
+        self.serif = ""
         self.serif_list = []
-        self.parameter = parameter
+        self.mood_parameter = mood_parameter
         self.osana = PlayVoice()
-        self.chat_time = 15*60 #* 15分
+        self.chat_counter = 1
+        self.chat_time = 10*60 #* 15分
         #* 検知機能
-        self.smapho_flag = True
-        self.chrome_flag = True
+        self.smapho_detection = smapho_detection
+        self.url_list = [
+            'https://www.youtube.com/',
+            'https://www.nicovideo.jp/',
+            'https://video.unext.jp/'
+        ]
         #* セリフModel作成
         self.model = QStringListModel()
-        self.show_serif()
         #* 効果音
         self.se = PlaySe()
-        #*-------------------------
+        #* Miniroom Screenが出ているか
+        self.miniroom_screen_is_shown = False
+        #* 幼馴染の画像
+        self.change_osananajimi_image()
 
         #* REMOVE TITLE BAR
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        #*-------------------------
 
         #* ボタン設定
         self.init_buttons()
         self.init_timer_time_edit_buttons()
         self.init_break_time_edit_buttons()
-        #*-------------------------
-
-        #* Room Screen表示！
-        self.show()
-        print("Room Screen Displayed")
-        #*-------------------------
-
-        #* カメラオープン！
-        self.detect_smapho = DetectSmaphoClass()
-        #*-------------------------
 
         #* ***************************************************
         #*  *************** メイン処理スタート！ ***************
         #* ***************************************************
 
+        print("Room Screen")
+        self.se.play("door_knocking")
+        self.serif = self.osana.play_app_voice("start", self.mood_parameter.mood)
+        self.show_serif()
+
         #* タイマースタート！
         self.counter = 1
+
+        #* Worker thread作成
+        self.createDetectionWorkerThread()
 
         #* ループスタート！
         self.timer = QTimer()
         self.timer.timeout.connect(self.act_per_second)
         self.timer.start(1000)
 
+    def createDetectionWorkerThread(self):
+        self.worker = DetectionWorker(self.smapho_detection, self.url_list)
+        self.worker.smapho_detected.connect(self.detected_smapho)
+        self.worker.website_detected.connect(self.detected_website)
+        self.worker.setTerminationEnabled(True)
+        self.worker.start()
 
     def act_per_second(self):
-
-        #* 5秒ごとに秒出力
-        if self.counter%5 == 0: print(self.counter);
-
         #* 休憩タイマー使用中
-        if self.break_timer_flag: self.operate_break_timer();
-
+        if self.break_timer_flag:
+            self.operate_break_timer();
         else:
             #* 世間話タイム
-            if self.counter%self.chat_time == 0:
+            if self.chat_counter == self.chat_time:
                 chat_functions = [self.do_chat, self.do_choicechat]
                 random.choices(chat_functions)[0]()
-
-            #* 15秒ごとにサボり検出
-            elif self.counter%15 == 0: self.detect()
+            self.do_choicechat()
 
         #* 勉強タイマー使用中
         if self.study_timer_flag: self.operate_study_timer();
@@ -127,52 +123,42 @@ class RoomScreen(QMainWindow):
         now = datetime.now()
         if now.second == 0:
             if (now.minute == 0) & (now.hour in set([0, 3, 6, 9, 12, 15, 18, 21])):
-                self.serif = self.osana.play_annoucement(str(now.hour))
+                self.serif = self.osana.play_announcement(str(now.hour))
                 self.show_serif()
 
         self.counter += 1
+        self.chat_counter += 1
 
-    def detect(self):
+    def detected_smapho(self):
+        self.serif = self.osana.play_voice("smapho", self.mood_parameter.mood)
+        self.show_serif()
+        self.mood_parameter.change(-10)
+        self.change_osananajimi_image()
 
-        if self.smapho_flag:
-            if self.counter%15 == 0:
-                detected = self.detect_smapho.judge_smapho()
-                if not detected:
-                    pass
-                else:
-                    self.serif = self.osana.play_voice(detected, self.parameter)
-                    self.show_serif()
-                    self.parameter -= 10
-
-        if self.chrome_flag:
-            if self.counter%30 == 0:
-                self.counter = 0
-                detected = detect_youtube()
-                if not detected:
-                    pass
-                else:
-                    self.serif = self.osana.play_voice(detected, self.parameter)
-                    self.show_serif()
-                    self.parameter -= 10
+    def detected_website(self, detected_website):
+        self.serif = self.osana.play_voice(detected_website, self.mood_parameter.mood)
+        self.show_serif()
+        self.mood_parameter.change(-10)
+        self.change_osananajimi_image()
 
     def do_chat(self):
-
         #* 次回世間話タイムを設定
         self.chat_time += random.randint(-240, 240)
+        self.chat_counter = 0
         #* -----------------------------------------------
 
-        #* ランダムに世間話を選択肢し、声だし
-        self.serif = self.osana.play_chat_voice(self.parameter)
+        #* ランダムに世間話を選択し、声だし
+        self.serif = self.osana.play_chat_voice(self.mood_parameter.mood)
         self.show_serif()
 
     def do_choicechat(self):
-
         #* 次回世間話タイムを設定
         self.chat_time += random.randint(-240, 240)
+        self.chat_counter = 0
         #* -----------------------------------------------
 
-        #* ランダムに世間話を選択肢し、声だし
-        self.serif, choicechat_detail = self.osana.play_choicechat_ask(self.parameter)
+        #* ランダムに世間話を選択し、声だし
+        self.serif, choicechat_detail = self.osana.play_choicechat_ask(self.mood_parameter.mood)
         self.show_serif()
 
         user_reply_list = choicechat_detail["user_reply"]
@@ -180,10 +166,8 @@ class RoomScreen(QMainWindow):
         point_list = choicechat_detail["point"]
 
         if self.serif == "お腹すいたな～あたしが何か作るよ！なに食べたい？":
-            osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.parameter > 55]
-            point_list = (point_list[0], point_list[1])[self.parameter > 55]
-        print(osana_reply_list)
-        print(user_reply_list)
+            osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.mood_parameter.parameter > 55]
+            point_list = (point_list[0], point_list[1])[self.mood_parameter.parameter > 55]
         #* -----------------------------------------------
 
         #* ランダム選択した世間話で、popupを出す
@@ -206,14 +190,22 @@ class RoomScreen(QMainWindow):
         #* popupで選択した返答で、機嫌のパラメータが変わる
         point = point_list[index]
         self.osana.play_chat_reply(self.serif)
-        self.parameter += point
+        self.mood_parameter.change(point)
+        self.change_osananajimi_image()
         #* -----------------------------------------------
+
+    def change_osananajimi_image(self):
+        image = self.mood_parameter.get_osana_image()
+        self.ui.osanaLabel.setPixmap(QPixmap(image))
+
+        #* Miniroom Screenが出ているとき
+        if self.miniroom_screen_is_shown:
+            self.miniroom_screen.ui.osanaLabel.setPixmap(QPixmap(image))
 
     def show_serif(self):
         #* セリフウィンドウに表示
         self.ui.osanaText.show()
         self.ui.osanaText.setText(self.serif)
-        print("セリフを表示")
 
         #* ログに今までのセリフを登録
         self.serif_list.append(self.serif)
@@ -379,22 +371,37 @@ class RoomScreen(QMainWindow):
         self.ui.smaphoButton.clicked.connect(self.switch_smapho)
         self.ui.chromeButton.clicked.connect(self.switch_chrome)
         self.ui.minimizeButton.clicked.connect(self.show_miniroom)
+        self.ui.editWebsiteButton.clicked.connect(self.show_website_selection)
+
+    def show_website_selection(self):
+        self.selection_popup = WebsiteSelectionPopup(self.url_list)
+        if self.selection_popup.exec_() == QDialog.Accepted:
+            #* popup表示
+            self.selection_popup.show()
+
+            #* popupから返ってくる
+            self.url_list = self.selection_popup.selected_items
+            self.worker.set_websites(self.url_list)
 
     def show_miniroom(self):
-        smapho_bool = self.smapho_flag
-        chrome_bool = self.chrome_flag
-        self.miniRoomScreen = miniRoomScreen(self, smapho_bool, chrome_bool)
-        self.miniRoomScreen.show()
+        smapho_bool = self.worker.smapho_flag
+        chrome_bool = self.worker.chrome_flag
+        self.miniroom_screen = miniRoomScreen(self, smapho_bool, chrome_bool)
+        self.handle_miniroom_flag(True)
+        self.change_osananajimi_image()
+        self.miniroom_screen.show()
         self.hide()
 
-    def switch_smapho(self):
+    def handle_miniroom_flag(self, flag):
+        self.miniroom_screen_is_shown = flag
 
-        if self.smapho_flag:
-            self.smapho_flag = False
+    def switch_smapho(self):
+        if self.worker.smapho_flag:
+            self.worker.smapho_flag = False
             smapho_icon = QIcon()
             smapho_icon.addFile(u":/image/images/icons/gray_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
         else:
-            self.smapho_flag = True
+            self.worker.smapho_flag = True
             smapho_icon = QIcon()
             smapho_icon.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
 
@@ -403,13 +410,12 @@ class RoomScreen(QMainWindow):
         QTimer.singleShot(110, lambda: self.ui.smaphoButton.setIcon(smapho_icon))
 
     def switch_chrome(self):
-
-        if self.chrome_flag:
-            self.chrome_flag = False
+        if self.worker.chrome_flag:
+            self.worker.chrome_flag = False
             chrome_icon = QIcon()
             chrome_icon.addFile(u":/image/images/icons/gray_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
         else:
-            self.chrome_flag = True
+            self.worker.chrome_flag = True
             chrome_icon = QIcon()
             chrome_icon.addFile(u":/image/images/icons/blue_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
 
@@ -687,18 +693,13 @@ class RoomScreen(QMainWindow):
 
     def init_objects(self):
         self.ui.blackFrame.hide()
-
         self.ui.timerWidget.hide()
-
         self.ui.breakWidget.hide()
-
         self.ui.logView.hide()
         self.ui.logBackLabel.hide()
-
         self.ui.finishYesButton.hide()
         self.ui.finishNoButton.hide()
         self.ui.finishBackLabel.hide()
-
         self.ui.studyTimerLabel.hide()
         self.ui.breakTimerLabel.hide()
         self.ui.remainingStudyTime.hide()
@@ -710,14 +711,12 @@ class RoomScreen(QMainWindow):
         self.ui.insideRoomLabel.raise_()
         self.ui.blackFrame.raise_()
         self.ui.osanaLabel.raise_()
-
         self.ui.remainingStudyTimeShadow.raise_()
         self.ui.remainingBreakTimeShadow.raise_()
         self.ui.remainingStudyTime.raise_()
         self.ui.remainingBreakTime.raise_()
         self.ui.studyTimerLabel.raise_()
         self.ui.breakTimerLabel.raise_()
-
         self.raise_objects("")
 
     def raise_objects(self, func):
@@ -752,6 +751,7 @@ class RoomScreen(QMainWindow):
         self.ui.smaphoButton.raise_()
         self.ui.chromeButton.raise_()
         self.ui.minimizeButton.raise_()
+        self.ui.editWebsiteButton.raise_()
 
     def move_objects(self):
 
@@ -812,7 +812,7 @@ class RoomScreen(QMainWindow):
         self.timeout_flag_for_study = False
 
         #* 幼馴染から最初の声出しを頂く
-        self.serif = self.osana.play_study_timer_voice("start", self.parameter)
+        self.serif = self.osana.play_study_timer_voice("start", self.mood_parameter.mood)
         self.show_serif()
 
         #* timeEditから時間を取得
@@ -823,7 +823,7 @@ class RoomScreen(QMainWindow):
         self.ui.remainingStudyTime.setText(self.study_timer.str_initial_time)
         self.ui.studyTimerLabel.show()
         self.ui.remainingStudyTime.show()
-        self.ui.remainingStudyTimeShadow.show()
+        # self.ui.remainingStudyTimeShadow.show()
 
         #* 秒換算して、Timerウィンドウを下ろす
         self.whole_seconds_for_study = self.study_timer.get_whole_seconds(self.set_study_time)
@@ -842,7 +842,7 @@ class RoomScreen(QMainWindow):
 
         #* 一定のタイミングで幼馴染に声をかけてもらう
         if self.whole_seconds_for_study == 0:
-            self.serif = self.osana.play_study_timer_voice("finish", self.parameter)
+            self.serif = self.osana.play_study_timer_voice("finish", self.mood_parameter.mood)
             self.show_serif()
 
             #* この場合だけpopupを出す
@@ -875,15 +875,15 @@ class RoomScreen(QMainWindow):
 
         #* 10分前
         elif self.whole_seconds_for_study == self.study_timer.ten:
-            self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "10")
+            self.serif = self.osana.play_study_timer_voice("mid", self.mood_parameter.mood, "10")
             self.show_serif()
         #* 30分前
         elif self.whole_seconds_for_study == self.study_timer.thirty:
-            self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "30")
+            self.serif = self.osana.play_study_timer_voice("mid", self.mood_parameter.mood, "30")
             self.show_serif()
         #* 半分経過
         elif self.whole_seconds_for_study == self.study_timer.half:
-            self.serif = self.osana.play_study_timer_voice("mid", self.parameter, "half")
+            self.serif = self.osana.play_study_timer_voice("mid", self.mood_parameter.mood, "half")
             self.show_serif()
 
         #* タイムアウト後の点滅表示
@@ -909,8 +909,9 @@ class RoomScreen(QMainWindow):
         self.timeout_flag_for_break = False
 
         #* 幼馴染から最初の声出しを頂く
-        self.serif = self.osana.play_break_timer_voice("start", self.parameter)
+        self.serif = self.osana.play_break_timer_voice("start", self.mood_parameter.mood)
         self.show_serif()
+        self.worker.stop()
 
         #* breakTimeEditerから時間を取得
         self.set_break_time = self.ui.breakTimeEditer.text()
@@ -920,14 +921,13 @@ class RoomScreen(QMainWindow):
         self.ui.remainingBreakTime.setText(self.break_timer.str_initial_time)
         self.ui.breakTimerLabel.show()
         self.ui.remainingBreakTime.show()
-        self.ui.remainingBreakTimeShadow.show()
+        # self.ui.remainingBreakTimeShadow.show()
 
         #* 秒換算して、Timerウィンドウを下ろす
         self.whole_seconds_for_break = self.break_timer.get_whole_seconds(self.set_break_time)
         self.operate_break_tab()
 
     def operate_break_timer(self):
-
         if not self.timeout_flag_for_break:
             #* 秒から表示用の時間の文字列を取得して、表示
             try:
@@ -940,7 +940,7 @@ class RoomScreen(QMainWindow):
 
         #* 一定のタイミングで幼馴染に声をかけてもらう
         if self.whole_seconds_for_break == 0:
-            self.serif = self.osana.play_break_timer_voice("finish", self.parameter)
+            self.serif = self.osana.play_break_timer_voice("finish", self.mood_parameter.mood)
             self.show_serif()
             self.timeout_flag_for_break = True
             self.study_timer_flag = True
@@ -960,18 +960,14 @@ class RoomScreen(QMainWindow):
             self.ui.remainingBreakTimeShadow.hide()
             self.break_timer_flag = False
             self.timeout_flag_for_break = False
+            self.worker.restart(self.url_list)
 
         self.whole_seconds_for_break -= 1
 
     def finish_app(self):
         self.timer.stop()
-        QTimer.singleShot(9000, lambda: sys.exit(-1))
-        self.osana.play_app_voice("finish", self.parameter)
-        self.hide()
+        self.worker.end()
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    parameter = 80
-    serif = "ぷっ、なにそれ。そもそも付き合う気なかったよ。あっ、安心してる？ふふ、ぜーんぶお見通しってわけｗ"
-    window = RoomScreen(parameter, serif)
-    sys.exit(app.exec_())
+        QTimer.singleShot(10000, lambda: sys.exit(-1))
+        self.osana.play_app_voice("finish", self.mood_parameter.mood)
+        self.hide()
