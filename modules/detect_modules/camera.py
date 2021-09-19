@@ -3,8 +3,6 @@ import cv2
 class Camera:
     def __init__(self):
         self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-        print("******Camera opens**********")
-
         self.frame_width = 640
         self.frame_height = 480
 
