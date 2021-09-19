@@ -51,6 +51,7 @@ class DetectionWorker(QThread):
         count = 0
         smapho_counter = 0
         while not self.stopped:
+            time.sleep(3)
             if self.smapho_flag:
                 #* 3秒ごとにスマホ検知
                 if self.smapho_detection.judge_smapho():
@@ -73,4 +74,3 @@ class DetectionWorker(QThread):
                 self.smapho_detected.emit()
 
             count += 1
-            time.sleep(3)
