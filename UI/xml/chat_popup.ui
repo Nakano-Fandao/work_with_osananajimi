@@ -74,7 +74,7 @@ QListWidget::item:hover{
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="../files.qrc">:/image/images/backgrounds/inside.jpg</pixmap>
+    <pixmap resource="../files.qrc">:/image/images/backgrounds/room_day.jpg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>

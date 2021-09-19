@@ -44,28 +44,6 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QLabel" name="osanaLabel">
-       <property name="geometry">
-        <rect>
-         <x>440</x>
-         <y>50</y>
-         <width>421</width>
-         <height>551</height>
-        </rect>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../files.qrc">:/image/images/character/figure1.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-      </widget>
       <widget class="QLabel" name="backgroundLabel">
        <property name="geometry">
         <rect>
@@ -94,11 +72,14 @@
          <height>69</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton {
+        <string notr="true">
 	background-color: transparent;
 	border: 0;
-}</string>
+</string>
        </property>
        <property name="text">
         <string/>
@@ -122,6 +103,9 @@
          <width>312</width>
          <height>69</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
@@ -152,6 +136,9 @@
          <height>351</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton{background: transparent;}</string>
        </property>
@@ -167,6 +154,9 @@
          <width>191</width>
          <height>211</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton{background: transparent;}</string>
@@ -212,6 +202,9 @@
          <bold>false</bold>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
         <string notr="true">font: 28pt &quot;MS UI Gothic&quot;;
 color: red;
@@ -248,6 +241,9 @@ background-color: transparent;</string>
          <italic>false</italic>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">font: 28pt &quot;MS UI Gothic&quot;;
@@ -334,8 +330,46 @@ QProgressBar::chunk{
         <string>%p</string>
        </property>
       </widget>
+      <widget class="QLabel" name="moodLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>257</y>
+         <width>482</width>
+         <height>100</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel#moodLabel {
+	background-color: rgba(0, 0, 0, .2);
+	border-radius: 15px;
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="logoLabel">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>30</y>
+         <width>475</width>
+         <height>170</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../files.qrc">:/image/images/logos/title_logo.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
       <zorder>backgroundLabel</zorder>
-      <zorder>osanaLabel</zorder>
+      <zorder>moodLabel</zorder>
       <zorder>startButton</zorder>
       <zorder>finishButton</zorder>
       <zorder>osanaButton1</zorder>
@@ -346,6 +380,7 @@ QProgressBar::chunk{
       <zorder>moodUpLabel</zorder>
       <zorder>moodDownLabel</zorder>
       <zorder>moodParameterBar</zorder>
+      <zorder>logoLabel</zorder>
      </widget>
     </item>
    </layout>
