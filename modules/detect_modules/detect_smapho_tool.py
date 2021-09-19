@@ -77,14 +77,6 @@ class PoseEstimator():
             landmark = face_utils.shape_to_np(landmark_dets)
             #* 鼻先との相対座標
             cal = landmark - landmark[30]
-            print("######[X,Y]#######",
-                "\n point31=",cal[30],
-                "\n point52=",cal[51],
-                "\n point37=",cal[36],
-                "\n point46=",cal[45],
-                "\n point49=",cal[48],
-                "\n point55=",cal[54])
-
             for i, (x, y) in enumerate(landmark):
                 if i in set([30, 51, 36, 45, 48, 54]):
                     cv2.circle(image, (x, y), 1, (255, 255, 255), -1)
@@ -108,14 +100,9 @@ class PoseEstimator():
             shape = self.landmark_detector(gray, rect)
             shape = face_utils.shape_to_np(shape)
 
-            if debug:
-                #* 顔全体の68箇所のランドマークをプロット
-                for (x, y) in shape:
-                    cv2.circle(image, (x, y), 1, (255, 255, 255), -1)
-
             image_points = np.array([
                 tuple(shape[30]), #* 鼻先
-                tuple(shape[51]),  #* 顎先
+                tuple(shape[51]), #* 上唇
                 tuple(shape[36]), #* 左目尻
                 tuple(shape[45]), #* 右目尻
                 tuple(shape[48]), #* 口左端点
@@ -125,7 +112,7 @@ class PoseEstimator():
         if len(rects) > 0:
             model_points = np.array([
                 (   0.0,    0.0,   0.0), #* 鼻先
-                (   0.0,  -37.0, -20.0), #* 顎先
+                (   0.0,  -37.0, -20.0), #* 上唇
                 ( -60.0,   45.0, -30.0), #* 左目尻
                 (  60.0,   45.0, -30.0), #* 右目尻
                 ( -33.0,  -45.0, -50.0), #* 口左端点
@@ -143,26 +130,27 @@ class PoseEstimator():
             #* レンズの歪みがないと仮定
             dist_coeffs = np.zeros((4, 1))
 
-            (success, rotation_vector, translation_vector) = cv2.solvePnP(model_points, image_points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_ITERATIVE)
-            #* 回転行列とヤコビアン
-            (rotation_matrix, jacobian) = cv2.Rodrigues(rotation_vector)
+            (_, rotation_vector, translation_vector) = cv2.solvePnP(model_points, image_points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_ITERATIVE)
+            #* 回転行列の取得
+            (rotation_matrix, _) = cv2.Rodrigues(rotation_vector)
             mat = np.hstack((rotation_matrix, translation_vector))
 
-            #* yaw,pitch,rollの取り出し
+            #* オイラー角 → yaw, pitch, rollの取得
             (_, _, _, _, _, _, eulerAngles) = cv2.decomposeProjectionMatrix(mat)
             yaw = eulerAngles[1]
             pitch = eulerAngles[0]
             roll = eulerAngles[2]
 
-            # print("yaw",int(yaw),"pitch",int(pitch),"roll",int(roll))
             (nose_end_point2D, _) = cv2.projectPoints(np.array([(0.0, 0.0, 500.0)]), rotation_vector, translation_vector, camera_matrix, dist_coeffs)
             p1 = (int(image_points[0][0]), int(image_points[0][1]))
             p2 = (int(nose_end_point2D[0][0][0]), int(nose_end_point2D[0][0][1]))
+
+            #* 顔向きベクトルのy軸方向差分
             y_vector_dif = p2[1]-p1[1]
             print(y_vector_dif)
 
             if not debug:
-                #* アウトならTrueを返す
+                #* アウトならTrueを返す（pitchだとあまり変化がないため、精度が悪い）
                 return y_vector_dif > self.HEAD_POSE_THRESHOLD
             else:
                 cv2.putText(image, 'yaw : ' + str(int(yaw)), (20, 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 2)
@@ -193,7 +181,6 @@ class PoseEstimator():
 
         self.camera.release()
         cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     pose_estimator = PoseEstimator()
