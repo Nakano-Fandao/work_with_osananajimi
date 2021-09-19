@@ -3,7 +3,7 @@ class Geometry:
 
         #* ----------------------------before-----------------after---------
         self.blackFrame       = [[  0,   0,   0,   0], [  0,   0,   0,   0]]
-        self.osanaLabel       = [[220,  40, 370, 470], [220,   0, 370, 470]]
+        self.osanaLabel       = [[ 70,  30, 780,1100], [ 70,   0, 780,1100]]
         self.windowLabel      = [[ 20, 405, 760, 182], [ 20, 525, 760, 182]]
         self.osanaText        = [[ 30, 470, 740, 105], [ 30, 600, 740, 105]]
 
@@ -29,6 +29,10 @@ class Geometry:
         self.logButton        = [[577, 414, 101,  40], [577,  60, 101,  60]]
         self.finishButton     = [[677, 414, 101,  40], [677, 360, 101,  60]]
         #* -----------------------------------------------------------------
+        self.osanaLabel_initial      = [  70,  30, 780, 1100]
+        self.osanaLabel_tab_after    = [  70,   0, 780, 1100]
+        self.osanaLabel_log_after    = [-110, 110, 708, 1000]
+        self.osanaLabel_finish_after = [  70, 110, 780, 1100]
 
         self.func = func
         self.move_flag = move_flag
@@ -62,7 +66,7 @@ class Geometry:
             self.finishButton[1][1] = 544
 
         elif self.func == "Log":
-            self.osanaLabel[1]      = [ 20, 130, 370, 470]
+            self.osanaLabel[1]      = self.osanaLabel_log_after
             self.timerLabel[1][1]   = 534
             self.breakLabel[1][1]   = 534
             self.finishLabel[1][1]  = 534
@@ -72,7 +76,7 @@ class Geometry:
 
         elif self.func == "Finish":
             self.blackFrame[1][3]   = 0.5
-            self.osanaLabel[1]      = [220, 110, 370, 470]
+            self.osanaLabel[1]      = self.osanaLabel_finish_after
             self.timerLabel[1][1]   = 534
             self.breakLabel[1][1]   = 534
             self.logLabel[1][1]     = 534
@@ -80,9 +84,7 @@ class Geometry:
             self.breakButton[1][1]  = 544
             self.logButton[1][1]    = 544
 
-
     def reverse(self):
-
         self.blackFrame.reverse()
         self.osanaLabel.reverse()
 
@@ -113,7 +115,6 @@ class Geometry:
             self.finishYesButton.reverse()
             self.finishNoButton.reverse()
             self.finishBackLabel.reverse()
-
 
     def add_objects(self):
 
@@ -156,15 +157,13 @@ class Geometry:
 
 
     def add_objects_for_switching_tabs(self):
-
-
         #* remove windowLabel & osanaText
         self.geometry_lists.pop(2)
         self.geometry_lists.pop(2)
         #* blackFrame
         self.geometry_lists[0][1] = [  0,  0,  0,  0]
         #* osanaLabel
-        self.geometry_lists[1][1] = [220,  0,370,470]
+        self.geometry_lists[1][1] = self.osanaLabel_tab_after
         #* Labels & Buttons
         self.geometry_lists[2][1] = [377,544,101, 60]
         self.geometry_lists[3][1] = [477,544,101, 60]
@@ -201,7 +200,7 @@ class Geometry:
                 11: logView
                 12: logBackLabel
                 """
-                self.geometry_lists[1][1]  = [ 20,130,370,470]
+                self.geometry_lists[1][1]  = self.geometry_lists[1][1] = self.osanaLabel_log_after
                 self.geometry_lists[4][1]  = [577, 60,101, 60]
                 self.geometry_lists[8][1]  = [570, 50,108, 79]
                 self.geometry_lists[11][0] = [410,670,330,380]
@@ -218,7 +217,7 @@ class Geometry:
                 13: finishBackLabel
                 """
                 self.geometry_lists[0][1][3] = 0.5
-                self.geometry_lists[1][1]  = [220,110,370,470]
+                self.geometry_lists[1][1]  = self.osanaLabel_finish_after
                 self.geometry_lists[5][1]  = [677,360,101, 60]
                 self.geometry_lists[9][1]  = [670,350,108, 79]
                 self.geometry_lists[11][0] = [670,650,100, 40]
@@ -251,7 +250,7 @@ class Geometry:
                 14: logView
                 15: logBackLabel
                 """
-                self.geometry_lists[1][1]  = [ 20,130,370,470]
+                self.geometry_lists[1][1]  = self.osanaLabel_log_after
                 self.geometry_lists[4][1]  = [577, 60,101, 60]
                 self.geometry_lists[8][1]  = [570, 50,108, 79]
                 self.geometry_lists[11][0] = [410,670,330,380]
@@ -268,7 +267,7 @@ class Geometry:
                 16: finishBackLabel
                 """
                 self.geometry_lists[0][1][3] = 0.5
-                self.geometry_lists[1][1]  = [220,110,370,470]
+                self.geometry_lists[1][1]  = self.osanaLabel_finish_after
                 self.geometry_lists[5][1]  = [677,360,101, 60]
                 self.geometry_lists[9][1]  = [670,350,108, 79]
                 self.geometry_lists[11][0] = [670,650,100, 40]
@@ -316,7 +315,7 @@ class Geometry:
             14: finishBackLabel
             """
             self.geometry_lists[0][1][3] = 0.5
-            self.geometry_lists[1][1]  = [220,110,370,470]
+            self.geometry_lists[1][1]  = self.osanaLabel_finish_after
             self.geometry_lists[5][1]  = [677,360,101, 60]
             self.geometry_lists[9][1]  = [670,350,108, 79]
             self.geometry_lists[10][1] = [410,670,330,380]
@@ -338,7 +337,7 @@ class Geometry:
             13: finishBackLabel
             """
             self.geometry_lists[0][0][3] = 0.5
-            self.geometry_lists[1][0]  = [220,110,370,470]
+            self.geometry_lists[1][0]  = self.osanaLabel_finish_after
             self.geometry_lists[2][1]  = [377,200,101, 60]
             self.geometry_lists[6][1]  = [370,190,108, 79]
             self.geometry_lists[10][0] = [110,600,400,560]
@@ -358,7 +357,7 @@ class Geometry:
             13: finishBackLabel
             """
             self.geometry_lists[0][0][3] = 0.5
-            self.geometry_lists[1][0]  = [220,110,370,470]
+            self.geometry_lists[1][0]  = self.osanaLabel_finish_after
             self.geometry_lists[3][1]  = [477,200,101, 60]
             self.geometry_lists[7][1]  = [470,190,108, 79]
             self.geometry_lists[10][0] = [210,600,400,560]
@@ -379,8 +378,8 @@ class Geometry:
             14: finishBackLabel
             """
             self.geometry_lists[0][0][3] = 0.5
-            self.geometry_lists[1][0]  = [220,110,370,470]
-            self.geometry_lists[1][1]  = [ 20,130,370,470]
+            self.geometry_lists[1][0]  = self.osanaLabel_finish_after
+            self.geometry_lists[1][1]  = self.osanaLabel_log_after
             self.geometry_lists[4][1]  = [577, 60,101, 60]
             self.geometry_lists[8][1]  = [570, 50,108, 79]
             self.geometry_lists[10][0] = [410,670,330,380]
