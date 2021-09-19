@@ -3,10 +3,9 @@
     <file>fonts/Let_s_go_Digital_Regular.ttf</file>
   </qresource>
   <qresource prefix="image">
-    <file>images/backgrounds/inside.jpg</file>
-    <file>images/backgrounds/log.jpg</file>
-    <file>images/backgrounds/outside.jpg</file>
+    <file>images/backgrounds/room_day.jpg</file>
     <file>images/backgrounds/index.png</file>
+    <file>images/backgrounds/sky.png</file>
     <file>images/backgrounds/loading.gif</file>
     <file>images/backgrounds/load_.png</file>
     <file>images/backgrounds/load_0.png</file>
@@ -21,8 +20,11 @@
     <file>images/backgrounds/load_8.png</file>
     <file>images/backgrounds/load_9.png</file>
     <file>images/backgrounds/loading_screen.png</file>
-    <file>images/character/figure1.png</file>
-    <file>images/character/figure2.png</file>
+    <file>images/character/figure_good.png</file>
+    <file>images/character/figure_normal.png</file>
+    <file>images/character/figure_awkward.png</file>
+    <file>images/character/figure_bad.png</file>
+    <file>images/character/key_visual.png</file>
     <file>images/sentences/titleLabel.png</file>
     <file>images/sentences/startButton.png</file>
     <file>images/sentences/finishButton.png</file>
@@ -35,6 +37,8 @@
     <file>images/sentences/breakStartButton.png</file>
     <file>images/sentences/loading1.png</file>
     <file>images/sentences/loading2.png</file>
+    <file>images/sentences/loading.gif</file>
+    <file>images/sentences/fukidashi.png</file>
     <file>images/windows/textbox_serif.png</file>
     <file>images/windows/button_timer.png</file>
     <file>images/windows/button_break.png</file>
@@ -57,6 +61,11 @@
     <file>images/icons/minimize_hover.png</file>
     <file>images/icons/maximize.png</file>
     <file>images/icons/maximize_hover.png</file>
+    <file>images/icons/add.png</file>
+    <file>images/icons/add_hover.png</file>
+    <file>images/icons/return.png</file>
+    <file>images/icons/edit.png</file>
+    <file>images/logos/title_logo.png</file>
   </qresource>
   <qresource prefix="effect">
     <file>sounds/effects/door_knocking.wav</file>

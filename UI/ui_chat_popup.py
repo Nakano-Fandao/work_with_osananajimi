@@ -49,7 +49,7 @@ class Ui_ChatPopup(object):
         self.backgroundLabel = QLabel(ChatPopup)
         self.backgroundLabel.setObjectName(u"backgroundLabel")
         self.backgroundLabel.setGeometry(QRect(0, 0, 540, 300))
-        self.backgroundLabel.setPixmap(QPixmap(u":/image/images/backgrounds/inside.jpg"))
+        self.backgroundLabel.setPixmap(QPixmap(u":/image/images/backgrounds/room_day.jpg"))
         self.backgroundLabel.setScaledContents(True)
         self.backgroundLabel.raise_()
         self.chatList.raise_()

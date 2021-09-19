@@ -26,19 +26,21 @@ class Ui_RoomScreen(object):
         self.insideRoomLabel = QLabel(self.centralwidget)
         self.insideRoomLabel.setObjectName(u"insideRoomLabel")
         self.insideRoomLabel.setGeometry(QRect(0, 0, 800, 600))
-        self.insideRoomLabel.setPixmap(QPixmap(u":/image/images/backgrounds/inside.jpg"))
+        self.insideRoomLabel.setPixmap(QPixmap(u":/image/images/backgrounds/room_day.jpg"))
+        self.insideRoomLabel.setScaledContents(True)
         self.osanaText = QTextBrowser(self.centralwidget)
         self.osanaText.setObjectName(u"osanaText")
         self.osanaText.setGeometry(QRect(30, 470, 740, 105))
         self.osanaText.setStyleSheet(u"font: 75 24px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";")
         self.osanaLabel = QLabel(self.centralwidget)
         self.osanaLabel.setObjectName(u"osanaLabel")
-        self.osanaLabel.setGeometry(QRect(220, 40, 370, 470))
-        self.osanaLabel.setPixmap(QPixmap(u":/image/images/character/figure1.png"))
+        self.osanaLabel.setGeometry(QRect(70, 36, 780, 1100))
+        self.osanaLabel.setPixmap(QPixmap(u":/image/images/character/figure_bad.png"))
         self.osanaLabel.setScaledContents(True)
         self.finishButton = QPushButton(self.centralwidget)
         self.finishButton.setObjectName(u"finishButton")
         self.finishButton.setGeometry(QRect(677, 414, 101, 40))
+        self.finishButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.finishButton.setStyleSheet(u"QPushButton{background: transparent;}")
         self.finishButton.setIconSize(QSize(108, 79))
         self.windowLabel = QLabel(self.centralwidget)
@@ -89,16 +91,19 @@ class Ui_RoomScreen(object):
         self.logButton = QPushButton(self.centralwidget)
         self.logButton.setObjectName(u"logButton")
         self.logButton.setGeometry(QRect(577, 414, 101, 40))
+        self.logButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.logButton.setStyleSheet(u"QPushButton{background: transparent;}")
         self.logButton.setIconSize(QSize(108, 79))
         self.breakButton = QPushButton(self.centralwidget)
         self.breakButton.setObjectName(u"breakButton")
         self.breakButton.setGeometry(QRect(477, 414, 101, 40))
+        self.breakButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.breakButton.setStyleSheet(u"QPushButton{background: transparent;}")
         self.breakButton.setIconSize(QSize(108, 79))
         self.timerButton = QPushButton(self.centralwidget)
         self.timerButton.setObjectName(u"timerButton")
         self.timerButton.setGeometry(QRect(377, 414, 101, 40))
+        self.timerButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.timerButton.setStyleSheet(u"QPushButton{background: transparent;}")
         self.timerButton.setIconSize(QSize(108, 79))
         self.logBackLabel = QLabel(self.centralwidget)
@@ -121,6 +126,7 @@ class Ui_RoomScreen(object):
         self.timerLabel = QLabel(self.centralwidget)
         self.timerLabel.setObjectName(u"timerLabel")
         self.timerLabel.setGeometry(QRect(370, 410, 108, 79))
+        self.timerLabel.setCursor(QCursor(Qt.ArrowCursor))
         self.timerLabel.setPixmap(QPixmap(u":/image/images/windows/button_timer.png"))
         self.finishBackLabel = QLabel(self.centralwidget)
         self.finishBackLabel.setObjectName(u"finishBackLabel")
@@ -148,6 +154,7 @@ class Ui_RoomScreen(object):
         self.finishNoButton = QPushButton(self.centralwidget)
         self.finishNoButton.setObjectName(u"finishNoButton")
         self.finishNoButton.setGeometry(QRect(670, 520, 100, 40))
+        self.finishNoButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.finishNoButton.setStyleSheet(u"QPushButton {\n"
 "	background-color: transparent;\n"
 "	font: 75 27px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
@@ -161,6 +168,7 @@ class Ui_RoomScreen(object):
         self.finishYesButton = QPushButton(self.centralwidget)
         self.finishYesButton.setObjectName(u"finishYesButton")
         self.finishYesButton.setGeometry(QRect(670, 470, 100, 40))
+        self.finishYesButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.finishYesButton.setStyleSheet(u"QPushButton {\n"
 "	background-color: transparent;\n"
 "	font: 75 27px \"UD \u30c7\u30b8\u30bf\u30eb \u6559\u79d1\u66f8\u4f53 N-B\";\n"
@@ -207,6 +215,7 @@ class Ui_RoomScreen(object):
         self.breakStartButton = QPushButton(self.breakWidget)
         self.breakStartButton.setObjectName(u"breakStartButton")
         self.breakStartButton.setGeometry(QRect(40, 240, 340, 55))
+        self.breakStartButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.breakStartButton.setStyleSheet(u"QPushButton {\n"
 "	background-color: rgba(0, 150, 50, 0.2);\n"
 "	border-radius: 13px;\n"
@@ -221,6 +230,7 @@ class Ui_RoomScreen(object):
         self.break_smallUpButton_hour = QPushButton(self.breakWidget)
         self.break_smallUpButton_hour.setObjectName(u"break_smallUpButton_hour")
         self.break_smallUpButton_hour.setGeometry(QRect(105, 106, 42, 24))
+        self.break_smallUpButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_smallUpButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         icon = QIcon()
@@ -230,6 +240,7 @@ class Ui_RoomScreen(object):
         self.break_largeUpButton_hour = QPushButton(self.breakWidget)
         self.break_largeUpButton_hour.setObjectName(u"break_largeUpButton_hour")
         self.break_largeUpButton_hour.setGeometry(QRect(113, 82, 26, 24))
+        self.break_largeUpButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_largeUpButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         icon1 = QIcon()
@@ -239,6 +250,7 @@ class Ui_RoomScreen(object):
         self.break_smallUpButton_minute = QPushButton(self.breakWidget)
         self.break_smallUpButton_minute.setObjectName(u"break_smallUpButton_minute")
         self.break_smallUpButton_minute.setGeometry(QRect(186, 106, 42, 24))
+        self.break_smallUpButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_smallUpButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_smallUpButton_minute.setIcon(icon)
@@ -246,6 +258,7 @@ class Ui_RoomScreen(object):
         self.break_largeUpButton_minute = QPushButton(self.breakWidget)
         self.break_largeUpButton_minute.setObjectName(u"break_largeUpButton_minute")
         self.break_largeUpButton_minute.setGeometry(QRect(194, 82, 26, 24))
+        self.break_largeUpButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_largeUpButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_largeUpButton_minute.setIcon(icon1)
@@ -253,6 +266,7 @@ class Ui_RoomScreen(object):
         self.break_smallUpButton_second = QPushButton(self.breakWidget)
         self.break_smallUpButton_second.setObjectName(u"break_smallUpButton_second")
         self.break_smallUpButton_second.setGeometry(QRect(267, 106, 42, 24))
+        self.break_smallUpButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_smallUpButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_smallUpButton_second.setIcon(icon)
@@ -260,6 +274,7 @@ class Ui_RoomScreen(object):
         self.break_largeUpButton_second = QPushButton(self.breakWidget)
         self.break_largeUpButton_second.setObjectName(u"break_largeUpButton_second")
         self.break_largeUpButton_second.setGeometry(QRect(275, 82, 26, 24))
+        self.break_largeUpButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_largeUpButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_largeUpButton_second.setIcon(icon1)
@@ -267,6 +282,7 @@ class Ui_RoomScreen(object):
         self.break_smallDownButton_hour = QPushButton(self.breakWidget)
         self.break_smallDownButton_hour.setObjectName(u"break_smallDownButton_hour")
         self.break_smallDownButton_hour.setGeometry(QRect(105, 186, 42, 24))
+        self.break_smallDownButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_smallDownButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         icon2 = QIcon()
@@ -276,6 +292,7 @@ class Ui_RoomScreen(object):
         self.break_largeDownButton_hour = QPushButton(self.breakWidget)
         self.break_largeDownButton_hour.setObjectName(u"break_largeDownButton_hour")
         self.break_largeDownButton_hour.setGeometry(QRect(113, 209, 26, 24))
+        self.break_largeDownButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_largeDownButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         icon3 = QIcon()
@@ -285,6 +302,7 @@ class Ui_RoomScreen(object):
         self.break_smallDownButton_minute = QPushButton(self.breakWidget)
         self.break_smallDownButton_minute.setObjectName(u"break_smallDownButton_minute")
         self.break_smallDownButton_minute.setGeometry(QRect(186, 186, 42, 24))
+        self.break_smallDownButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_smallDownButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_smallDownButton_minute.setIcon(icon2)
@@ -292,6 +310,7 @@ class Ui_RoomScreen(object):
         self.break_largeDownButton_minute = QPushButton(self.breakWidget)
         self.break_largeDownButton_minute.setObjectName(u"break_largeDownButton_minute")
         self.break_largeDownButton_minute.setGeometry(QRect(194, 209, 26, 24))
+        self.break_largeDownButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_largeDownButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_largeDownButton_minute.setIcon(icon3)
@@ -299,6 +318,7 @@ class Ui_RoomScreen(object):
         self.break_smallDownButton_second = QPushButton(self.breakWidget)
         self.break_smallDownButton_second.setObjectName(u"break_smallDownButton_second")
         self.break_smallDownButton_second.setGeometry(QRect(267, 186, 42, 24))
+        self.break_smallDownButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_smallDownButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_smallDownButton_second.setIcon(icon2)
@@ -306,6 +326,7 @@ class Ui_RoomScreen(object):
         self.break_largeDownButton_second = QPushButton(self.breakWidget)
         self.break_largeDownButton_second.setObjectName(u"break_largeDownButton_second")
         self.break_largeDownButton_second.setGeometry(QRect(275, 209, 26, 24))
+        self.break_largeDownButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.break_largeDownButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.break_largeDownButton_second.setIcon(icon3)
@@ -331,6 +352,7 @@ class Ui_RoomScreen(object):
         self.timerStartButton = QPushButton(self.timerWidget)
         self.timerStartButton.setObjectName(u"timerStartButton")
         self.timerStartButton.setGeometry(QRect(40, 240, 340, 55))
+        self.timerStartButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.timerStartButton.setStyleSheet(u"QPushButton {\n"
 "	background-color: rgba(0, 100, 150, 0.2);\n"
 "	border-radius: 13px;\n"
@@ -345,6 +367,7 @@ class Ui_RoomScreen(object):
         self.timer_smallUpButton_hour = QPushButton(self.timerWidget)
         self.timer_smallUpButton_hour.setObjectName(u"timer_smallUpButton_hour")
         self.timer_smallUpButton_hour.setGeometry(QRect(105, 106, 42, 24))
+        self.timer_smallUpButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_smallUpButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_smallUpButton_hour.setIcon(icon)
@@ -352,6 +375,7 @@ class Ui_RoomScreen(object):
         self.timer_largeUpButton_hour = QPushButton(self.timerWidget)
         self.timer_largeUpButton_hour.setObjectName(u"timer_largeUpButton_hour")
         self.timer_largeUpButton_hour.setGeometry(QRect(113, 82, 26, 24))
+        self.timer_largeUpButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_largeUpButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_largeUpButton_hour.setIcon(icon1)
@@ -359,6 +383,7 @@ class Ui_RoomScreen(object):
         self.timer_smallUpButton_minute = QPushButton(self.timerWidget)
         self.timer_smallUpButton_minute.setObjectName(u"timer_smallUpButton_minute")
         self.timer_smallUpButton_minute.setGeometry(QRect(186, 106, 42, 24))
+        self.timer_smallUpButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_smallUpButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_smallUpButton_minute.setIcon(icon)
@@ -366,6 +391,7 @@ class Ui_RoomScreen(object):
         self.timer_largeUpButton_minute = QPushButton(self.timerWidget)
         self.timer_largeUpButton_minute.setObjectName(u"timer_largeUpButton_minute")
         self.timer_largeUpButton_minute.setGeometry(QRect(194, 82, 26, 24))
+        self.timer_largeUpButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_largeUpButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_largeUpButton_minute.setIcon(icon1)
@@ -373,6 +399,7 @@ class Ui_RoomScreen(object):
         self.timer_smallUpButton_second = QPushButton(self.timerWidget)
         self.timer_smallUpButton_second.setObjectName(u"timer_smallUpButton_second")
         self.timer_smallUpButton_second.setGeometry(QRect(267, 106, 42, 24))
+        self.timer_smallUpButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_smallUpButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_smallUpButton_second.setIcon(icon)
@@ -380,6 +407,7 @@ class Ui_RoomScreen(object):
         self.timer_largeUpButton_second = QPushButton(self.timerWidget)
         self.timer_largeUpButton_second.setObjectName(u"timer_largeUpButton_second")
         self.timer_largeUpButton_second.setGeometry(QRect(275, 82, 26, 24))
+        self.timer_largeUpButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_largeUpButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_largeUpButton_second.setIcon(icon1)
@@ -387,6 +415,7 @@ class Ui_RoomScreen(object):
         self.timer_smallDownButton_hour = QPushButton(self.timerWidget)
         self.timer_smallDownButton_hour.setObjectName(u"timer_smallDownButton_hour")
         self.timer_smallDownButton_hour.setGeometry(QRect(105, 186, 42, 24))
+        self.timer_smallDownButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_smallDownButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_smallDownButton_hour.setIcon(icon2)
@@ -394,6 +423,7 @@ class Ui_RoomScreen(object):
         self.timer_largeDownButton_hour = QPushButton(self.timerWidget)
         self.timer_largeDownButton_hour.setObjectName(u"timer_largeDownButton_hour")
         self.timer_largeDownButton_hour.setGeometry(QRect(113, 209, 26, 24))
+        self.timer_largeDownButton_hour.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_largeDownButton_hour.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_largeDownButton_hour.setIcon(icon3)
@@ -401,6 +431,7 @@ class Ui_RoomScreen(object):
         self.timer_smallDownButton_minute = QPushButton(self.timerWidget)
         self.timer_smallDownButton_minute.setObjectName(u"timer_smallDownButton_minute")
         self.timer_smallDownButton_minute.setGeometry(QRect(186, 186, 42, 24))
+        self.timer_smallDownButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_smallDownButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_smallDownButton_minute.setIcon(icon2)
@@ -408,6 +439,7 @@ class Ui_RoomScreen(object):
         self.timer_largeDownButton_minute = QPushButton(self.timerWidget)
         self.timer_largeDownButton_minute.setObjectName(u"timer_largeDownButton_minute")
         self.timer_largeDownButton_minute.setGeometry(QRect(194, 209, 26, 24))
+        self.timer_largeDownButton_minute.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_largeDownButton_minute.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_largeDownButton_minute.setIcon(icon3)
@@ -415,6 +447,7 @@ class Ui_RoomScreen(object):
         self.timer_smallDownButton_second = QPushButton(self.timerWidget)
         self.timer_smallDownButton_second.setObjectName(u"timer_smallDownButton_second")
         self.timer_smallDownButton_second.setGeometry(QRect(267, 186, 42, 24))
+        self.timer_smallDownButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_smallDownButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_smallDownButton_second.setIcon(icon2)
@@ -422,6 +455,7 @@ class Ui_RoomScreen(object):
         self.timer_largeDownButton_second = QPushButton(self.timerWidget)
         self.timer_largeDownButton_second.setObjectName(u"timer_largeDownButton_second")
         self.timer_largeDownButton_second.setGeometry(QRect(275, 209, 26, 24))
+        self.timer_largeDownButton_second.setCursor(QCursor(Qt.PointingHandCursor))
         self.timer_largeDownButton_second.setStyleSheet(u"font: 24px \"MS UI Gothic\";\n"
 "background-color: transparent;")
         self.timer_largeDownButton_second.setIcon(icon3)
@@ -438,6 +472,7 @@ class Ui_RoomScreen(object):
         self.smaphoButton = QPushButton(self.centralwidget)
         self.smaphoButton.setObjectName(u"smaphoButton")
         self.smaphoButton.setGeometry(QRect(742, 3, 55, 55))
+        self.smaphoButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.smaphoButton.setStyleSheet(u"background-color: transparent;")
         icon4 = QIcon()
         icon4.addFile(u":/image/images/icons/pink_smapho.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -446,6 +481,7 @@ class Ui_RoomScreen(object):
         self.chromeButton = QPushButton(self.centralwidget)
         self.chromeButton.setObjectName(u"chromeButton")
         self.chromeButton.setGeometry(QRect(742, 61, 55, 55))
+        self.chromeButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.chromeButton.setStyleSheet(u"background-color: transparent;")
         icon5 = QIcon()
         icon5.addFile(u":/image/images/icons/blue_chrome.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -454,11 +490,20 @@ class Ui_RoomScreen(object):
         self.minimizeButton = QPushButton(self.centralwidget)
         self.minimizeButton.setObjectName(u"minimizeButton")
         self.minimizeButton.setGeometry(QRect(742, 119, 55, 55))
+        self.minimizeButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.minimizeButton.setStyleSheet(u"background-color: transparent;")
         icon6 = QIcon()
         icon6.addFile(u":/image/images/icons/minimize.png", QSize(), QIcon.Normal, QIcon.Off)
         self.minimizeButton.setIcon(icon6)
         self.minimizeButton.setIconSize(QSize(51, 51))
+        self.editWebsiteButton = QPushButton(self.centralwidget)
+        self.editWebsiteButton.setObjectName(u"editWebsiteButton")
+        self.editWebsiteButton.setGeometry(QRect(777, 58, 20, 20))
+        self.editWebsiteButton.setCursor(QCursor(Qt.WhatsThisCursor))
+        self.editWebsiteButton.setStyleSheet(u"background-color: transparent;")
+        icon7 = QIcon()
+        icon7.addFile(u":/image/images/icons/edit.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.editWebsiteButton.setIcon(icon7)
         RoomScreen.setCentralWidget(self.centralwidget)
         self.insideRoomLabel.raise_()
         self.blackFrame.raise_()
@@ -489,6 +534,7 @@ class Ui_RoomScreen(object):
         self.smaphoButton.raise_()
         self.chromeButton.raise_()
         self.minimizeButton.raise_()
+        self.editWebsiteButton.raise_()
 
         self.retranslateUi(RoomScreen)
 
@@ -560,5 +606,6 @@ class Ui_RoomScreen(object):
         self.smaphoButton.setText("")
         self.chromeButton.setText("")
         self.minimizeButton.setText("")
+        self.editWebsiteButton.setText("")
     # retranslateUi
 

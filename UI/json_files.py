@@ -14,3 +14,9 @@ class JsonFiles:
 
         with open(json_path+"/choicechat.json", encoding="utf-8_sig") as f:
             self.choicechat = json.load(f)
+
+        with open(json_path+"/tips.json", encoding="utf-8_sig") as f:
+            self.tips = json.load(f)
+
+        with open(json_path+"/osananajimi.json", encoding="utf-8_sig") as f:
+            self.osananajimi = json.load(f)
