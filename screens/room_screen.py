@@ -126,6 +126,12 @@ class RoomScreen(QMainWindow):
                 self.serif = self.osana.play_announcement(str(now.hour))
                 self.show_serif()
 
+        #* 10分サボらなければ、機嫌5回復
+        if self.counter >= 600:
+            self.mood_parameter.change(5)
+            self.change_osananajimi_image()
+            self.counter = 0
+
         self.counter += 1
         self.chat_counter += 1
 
@@ -134,12 +140,14 @@ class RoomScreen(QMainWindow):
         self.show_serif()
         self.mood_parameter.change(-10)
         self.change_osananajimi_image()
+        self.counter = 0
 
     def detected_website(self, detected_website):
         self.serif = self.osana.play_voice(detected_website, self.mood_parameter.mood)
         self.show_serif()
         self.mood_parameter.change(-10)
         self.change_osananajimi_image()
+        self.counter = 0
 
     def do_chat(self):
         #* 次回世間話タイムを設定
