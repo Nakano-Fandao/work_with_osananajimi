@@ -2,7 +2,7 @@ import os
 
 qrc_path = os.path.join(
     os.path.normpath(os.path.dirname(__file__)),
-    "..\\files.qrc"
+    "../../screens/files.qrc"
 )
 file_list = []
 with open(qrc_path, 'r') as f:
@@ -16,7 +16,7 @@ with open(qrc_path, 'r') as f:
         print(file_name)
         file_list.append(file_name)
 
-write_path = os.path.join(os.path.dirname(__file__), "..\json\correspondence.json")
+write_path = os.path.join(os.path.dirname(__file__), "../json/correspondence.json")
 with open(write_path, "w") as f:
     f.write("{\n")
     for line in file_list:

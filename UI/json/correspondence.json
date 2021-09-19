@@ -1,6 +1,9 @@
 {
 	"door_knocking": ":effect/sounds/effects/door_knocking.wav",
 	"paper_flipping": ":effect/sounds/effects/paper_flipping.wav",
+
+	"Good_News_Today": ":bgm/sounds/bgm/Good_News_Today.wav",
+
 	"午前12時だよ、お昼は何食べよっかな～": ":voice/sounds/voices/announcement_12h.wav",
 	"午後3時だよ、おやつはカロリー０だから…": ":voice/sounds/voices/announcement_15h.wav",
 	"午後6時だよ、夜はなにするの？": ":voice/sounds/voices/announcement_18h.wav",
