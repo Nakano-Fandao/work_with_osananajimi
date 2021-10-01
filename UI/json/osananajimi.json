@@ -1,7 +1,8 @@
 {
-    "great": ":/image/images/character/figure_good.png",
-    "good": ":/image/images/character/figure_good.png",
-    "normal": ":/image/images/character/figure_normal.png",
-    "awkward": ":/image/images/character/figure_awkward.png",
-    "bad": ":/image/images/character/figure_bad.png"
+    "great"     : ":/image/images/character/figure_good.png",
+    "good"      : ":/image/images/character/figure_good.png",
+    "normal"    : ":/image/images/character/figure_normal.png",
+    "awkward"   : ":/image/images/character/figure_awkward.png",
+    "bad"       : ":/image/images/character/figure_bad.png",
+    "ashamed"   : ":/image/images/character/figure_ashamed.png"
 }
