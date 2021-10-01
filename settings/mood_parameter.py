@@ -14,6 +14,15 @@ class MoodParameter:
         self.threshold_3 = int(self.max * 0.35)
         self.threshold_4 = int(self.max * 0.10)
 
+        self.ashamed_serif = {
+            "ななな、何言ってんのよ、もう": 3,
+            "そっか、うん、、、そういうのずっちいよ///": 9,
+            "ちょちょっと、まだ別に返事したわけじゃないし、なんなら断るつもりだったし。でも、そんなに焦ってくれるなんてね～ｗちょっと嬉しいかもｗ": 7,
+			"あっ、当たり前じゃん！そんなのに騙される奴なんていないよね": 5,
+            "あんたバカァ？": 2,
+            "そ、そんな///変なこと言わないでよ！": 4
+        }
+
     def set(self, parameter):
         self.parameter = parameter
         self.change(0)
@@ -37,3 +46,8 @@ class MoodParameter:
             return self.osananajimi[self.mood]
         else:
             return self.osananajimi[action]
+
+    def is_ashamed(self, serif):
+        if serif in list(self.ashamed_serif.keys()):
+            return self.ashamed_serif[serif]
+        return 0
