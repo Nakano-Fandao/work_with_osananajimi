@@ -128,7 +128,6 @@ class PlayVoice():
         if mood == "bad": mood = "awkward";
         choicechats = list(self.json.voice["choicechat"][mood].values())
         choicechat = random.choice(choicechats)["ask"]
-        choicechat = "この前さ、同じ部活の先輩に告られたんよね。"
         choicechat_detail = self.json.choicechat[choicechat]
         self.find_and_play(choicechat)
         return choicechat, choicechat_detail
