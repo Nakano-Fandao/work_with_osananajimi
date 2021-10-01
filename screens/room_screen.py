@@ -53,7 +53,7 @@ class RoomScreen(QMainWindow):
         self.mood_parameter = mood_parameter
         self.osana = PlayVoice()
         self.chat_counter = 1
-        self.chat_time = 10*60 #* 15分
+        self.chat_time = 10*60 #* 10分
         #* 検知機能
         self.smapho_detection = smapho_detection
         self.url_list = [
@@ -69,6 +69,15 @@ class RoomScreen(QMainWindow):
         self.miniroom_screen_is_shown = False
         #* 幼馴染の画像
         self.change_osananajimi_image()
+        #* カーソル設定
+        self.open_cur = QCursor()
+        self.open_cur.setShape(Qt.OpenHandCursor)
+        self.closed_cur = QCursor()
+        self.closed_cur.setShape(Qt.ClosedHandCursor)
+        self.pointer_cur = QCursor()
+        self.pointer_cur.setShape(Qt.PointingHandCursor)
+        self.ui.osanaLabel.setCursor(self.open_cur)
+        self.ui.blackFrameButton.setCursor(self.open_cur)
 
         #* REMOVE TITLE BAR
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -107,6 +116,7 @@ class RoomScreen(QMainWindow):
         self.worker.start()
 
     def act_per_second(self):
+
         #* 休憩タイマー使用中
         if self.break_timer_flag:
             self.operate_break_timer();
@@ -115,7 +125,6 @@ class RoomScreen(QMainWindow):
             if self.chat_counter == self.chat_time:
                 chat_functions = [self.do_chat, self.do_choicechat]
                 random.choices(chat_functions)[0]()
-            self.do_choicechat()
 
         #* 勉強タイマー使用中
         if self.study_timer_flag: self.operate_study_timer();
@@ -153,7 +162,6 @@ class RoomScreen(QMainWindow):
         #* 次回世間話タイムを設定
         self.chat_time += random.randint(-240, 240)
         self.chat_counter = 0
-        #* -----------------------------------------------
 
         #* ランダムに世間話を選択し、声だし
         self.serif = self.osana.play_chat_voice(self.mood_parameter.mood)
@@ -163,7 +171,6 @@ class RoomScreen(QMainWindow):
         #* 次回世間話タイムを設定
         self.chat_time += random.randint(-240, 240)
         self.chat_counter = 0
-        #* -----------------------------------------------
 
         #* ランダムに世間話を選択し、声だし
         self.serif, choicechat_detail = self.osana.play_choicechat_ask(self.mood_parameter.mood)
@@ -176,7 +183,6 @@ class RoomScreen(QMainWindow):
         if self.serif == "お腹すいたな～あたしが何か作るよ！なに食べたい？":
             osana_reply_list = (osana_reply_list[0], osana_reply_list[1])[self.mood_parameter.parameter > 55]
             point_list = (point_list[0], point_list[1])[self.mood_parameter.parameter > 55]
-        #* -----------------------------------------------
 
         #* ランダム選択した世間話で、popupを出す
         self.chat_popup = ChatPopup(user_reply_list)
@@ -187,28 +193,43 @@ class RoomScreen(QMainWindow):
 
             #* 世間話popupから返ってくる
             user_reply = self.chat_popup.selected_item
-        #* -----------------------------------------------
 
         #* popupで選択した返答に対し、幼馴染が答える
         index = user_reply_list.index(user_reply)
         self.serif = osana_reply_list[index]
         self.show_serif()
-        #* -----------------------------------------------
 
         #* popupで選択した返答で、機嫌のパラメータが変わる
         point = point_list[index]
         self.osana.play_chat_reply(self.serif)
         self.mood_parameter.change(point)
         self.change_osananajimi_image()
-        #* -----------------------------------------------
 
-    def change_osananajimi_image(self):
-        image = self.mood_parameter.get_osana_image()
-        self.ui.osanaLabel.setPixmap(QPixmap(image))
+        #* 幼馴染が恥ずかしがっているとき
+        ashamed_second = self.mood_parameter.is_ashamed(self.serif)
+        if ashamed_second > 0:
+            self.change_osananajimi_image("ashamed", ashamed_second)
 
-        #* Miniroom Screenが出ているとき
-        if self.miniroom_screen_is_shown:
-            self.miniroom_screen.ui.osanaLabel.setPixmap(QPixmap(image))
+    def change_osananajimi_image(self, action=None, second=None):
+        if action == None:
+            image = self.mood_parameter.get_osana_image()
+            self.ui.osanaLabel.setPixmap(QPixmap(image))
+
+            #* Miniroom Screenが出ているとき
+            if self.miniroom_screen_is_shown:
+                self.miniroom_screen.ui.osanaLabel.setPixmap(QPixmap(image))
+
+        #* 幼馴染が恥ずかしがっているとき
+        else:
+            image = self.mood_parameter.get_osana_image(action)
+            self.ui.osanaLabel.setPixmap(QPixmap(image))
+
+            #* Miniroom Screenが出ているとき
+            if self.miniroom_screen_is_shown:
+                self.miniroom_screen.ui.osanaLabel.setPixmap(QPixmap(image))
+
+            #* 元の顔に戻す
+            QTimer.singleShot(second*1000, lambda: self.change_osananajimi_image())
 
     def show_serif(self):
         #* セリフウィンドウに表示
@@ -300,7 +321,6 @@ class RoomScreen(QMainWindow):
         self.STAGE_NUMBER = 64 # 分割回数（多いほど滑らか）
         interval = 1
         self.set_geometry()
-        #* --------------------------------------
 
         # タイマースタート！
         self.move_counter = 1
@@ -311,7 +331,6 @@ class RoomScreen(QMainWindow):
     def set_geometry(self):
         #* 動かしたいオブジェクトの移動前後の座標・寸法を取得
         self.obj = Geometry(self.func_flag, self.move_flag, self.switching_flag)
-        #* -----------------------------------------------
 
         #* x, y座標のそれぞれの距離と幅・高さそれぞれを分割回数で割り、オブジェクトごとに保存
         self.x, self.y, self.w, self.h = [], [], [], []
@@ -320,23 +339,18 @@ class RoomScreen(QMainWindow):
             self.y.append([(before[1] - after[1]) / self.STAGE_NUMBER, before[1]])
             self.w.append([(before[2] - after[2]) / self.STAGE_NUMBER, before[2]])
             self.h.append([(before[3] - after[3]) / self.STAGE_NUMBER, before[3]])
-        #* ------------------------------------------------------
 
         #* 動かしたいオブジェクトをあらかじめセットしておく
         self.geometryObjects = [self.ui.blackFrame, self.ui.osanaLabel, self.ui.windowLabel, self.ui.osanaText, self.ui.timerButton, self.ui.breakButton, self.ui.logButton, self.ui.finishButton, self.ui.timerLabel, self.ui.breakLabel, self.ui.logLabel, self.ui.finishLabel]
 
         if (self.func_flag == "Timer") | (self.switching_flag == "Timer"):
             self.geometryObjects.extend([self.ui.timerWidget])
-
         if (self.func_flag == "Break") | (self.switching_flag == "Break"):
             self.geometryObjects.extend([self.ui.breakWidget])
-
         if (self.func_flag == "Log") | (self.switching_flag == "Log"):
             self.geometryObjects.extend([self.ui.logView, self.ui.logBackLabel])
-
         if (self.func_flag == "Finish") | (self.switching_flag == "Finish"):
             self.geometryObjects.extend([self.ui.finishYesButton, self.ui.finishNoButton, self.ui.finishBackLabel])
-
         if self.switching_flag:
             self.geometryObjects.pop(2)
             self.geometryObjects.pop(2)
@@ -350,7 +364,6 @@ class RoomScreen(QMainWindow):
         # 		print(f"{name}: \t\t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
         # 	else:
         # 		print(f"{name}: \t{self.obj.geometry_lists[i][0]}\t ---> \t{self.obj.geometry_lists[i][1]}")
-        #* ------------------------------------------------------
 
     def switch_buttons(self, flag):
         if flag:
@@ -730,14 +743,11 @@ class RoomScreen(QMainWindow):
     def raise_objects(self, func):
         if func == "Timer":
             self.ui.timerWidget.raise_()
-
         elif func == "Break":
             self.ui.breakWidget.raise_()
-
         elif func == "Log":
             self.ui.logBackLabel.raise_()
             self.ui.logView.raise_()
-
         elif func == "Finish":
             self.ui.finishBackLabel.raise_()
             self.ui.finishYesButton.raise_()
@@ -747,15 +757,12 @@ class RoomScreen(QMainWindow):
         self.ui.breakLabel.raise_()
         self.ui.logLabel.raise_()
         self.ui.finishLabel.raise_()
-
         self.ui.windowLabel.raise_()
         self.ui.osanaText.raise_()
-
         self.ui.timerButton.raise_()
         self.ui.breakButton.raise_()
         self.ui.logButton.raise_()
         self.ui.finishButton.raise_()
-
         self.ui.smaphoButton.raise_()
         self.ui.chromeButton.raise_()
         self.ui.minimizeButton.raise_()
@@ -766,7 +773,6 @@ class RoomScreen(QMainWindow):
         #* 黒背景の透明度の値代入
         t_val = round(self.h[0][1] - self.h[0][0]*self.move_counter, 2)
         self.geometryObjects[0].setStyleSheet("QFrame {background-color: rgba(0, 0, 0, " + str(t_val) + ");}")
-        #* ------------------------------------------------------
 
         #* オブジェクトの座標・寸法代入（移動前後の内分点を座標・寸法とする）
         for i, object in enumerate(self.geometryObjects):
@@ -777,7 +783,6 @@ class RoomScreen(QMainWindow):
                 int(self.w[i][1] - self.w[i][0]*self.move_counter),
                 int(self.h[i][1] - self.h[i][0]*self.move_counter)
             ))
-        #* ------------------------------------------------------
 
         #* オブジェクトの移動終了後の処理
         if self.move_counter == self.STAGE_NUMBER:
@@ -807,7 +812,6 @@ class RoomScreen(QMainWindow):
 
             self.switch_buttons(True)
             # print(f"takes {time.time() - self.start} s.\n")
-        #* ------------------------------------------------------
 
         self.move_counter += 1
 
@@ -838,7 +842,6 @@ class RoomScreen(QMainWindow):
         self.operate_timer_tab()
 
     def operate_study_timer(self):
-
         if not self.timeout_flag_for_study:
             #* 秒から表示用の時間の文字列を取得して、表示
             try:
@@ -979,3 +982,20 @@ class RoomScreen(QMainWindow):
         QTimer.singleShot(10000, lambda: sys.exit(-1))
         self.osana.play_app_voice("finish", self.mood_parameter.mood)
         self.hide()
+
+    def mousePressEvent(self, event):
+        self.__isDrag = True
+        self.__startPos = event.pos()
+        self.ui.osanaLabel.setCursor(self.closed_cur)
+        self.ui.blackFrameButton.setCursor(self.closed_cur)
+
+    def mouseReleaseEvent(self, event):
+        self.__isDrag = False
+        self.ui.osanaLabel.setCursor(self.open_cur)
+        self.ui.blackFrameButton.setCursor(self.open_cur)
+
+    def mouseMoveEvent(self, event):
+        if self.__isDrag:
+            self.move(self.mapToParent(event.pos() - self.__startPos))
+            self.ui.osanaLabel.setCursor(self.closed_cur)
+            self.ui.blackFrameButton.setCursor(self.closed_cur)
