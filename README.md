@@ -1,5 +1,3 @@
-##work with osananajimi | kazuki-nishimura, aosatomiru
-
 <div align="center">
   <img src="UI/images/logos/title.png" alt="" title="タイトルロゴ">
 </div>
