@@ -41,7 +41,7 @@ App を起動すれば、幼馴染と雑談をしながら作業をやること�
     </td>
     <td align="center">
       <a href="https://twitter.com/87_tkw">
-        <img src="https://pbs.twimg.com/profile_images/1313775182130016257/-z6mhrQ2_400x400.jpg" width="120px;" alt="常盤はなこ"/><br>
+        <img src="https://pbs.twimg.com/profile_images/1534404699377790976/CotUoN1O_400x400.jpg" width="120px;" alt="常盤はなこ"/><br>
       </a>
       <a href="https://twitter.com/87_tkw">常盤はなこ</a>
     </td>
